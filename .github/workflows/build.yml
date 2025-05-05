@@ -54,7 +54,7 @@ jobs:
          FINAL_TAG=$(echo "${VERSION}-${DATE_TAG}-${COMMIT_SHA}" | sed 's/[^a-zA-Z0-9._-]/-/g' | tr '[:upper:]' '[:lower:]')
          echo "DOCKER_TAG=${FINAL_TAG}" >> $GITHUB_ENV
          echo "🔥 Docker tag generated: ${FINAL_TAG}"- name: Generate safe version tag
-        
+
       # 步驟 6：建置並推送到 GHCR (包含快取)
       - name: Build and push Docker image to GHCR
         uses: docker/build-push-action@v5
@@ -107,6 +107,7 @@ jobs:
         run: npm install
 
       # 步驟 4：執行測試 # <--- 新增步驟
+
       - name: Run backend tests
         working-directory: app/backend
         run: npm test
