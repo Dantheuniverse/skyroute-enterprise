@@ -2,10 +2,9 @@
   "name": "skyroute-enterprise-root",
   "version": "1.0.0",
   "description": "Root package for SkyRoute-Enterprise",
-  "main": "index.js", // Or your actual main file for the worker
+  "main": "index.js",
   "scripts": {
-    "test": "jest" // Assuming you have a test script for the worker
-    // Add other scripts if needed, e.g., for deploying the worker
+    "test": "jest"
   },
   "dependencies": {
     "worker": "^0.4.0"
