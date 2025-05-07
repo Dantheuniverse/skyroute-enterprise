@@ -1,24 +1,16 @@
 {
-  "name": "skyroute-enterprise",
+  "name": "skyroute-enterprise-root", // Or your actual root package name
   "version": "1.0.0",
-  "description": "Cloudflare Worker to proxy requests to Raspberry Pi services via Cloudflare Tunnel.",
-  "main": "index.js",
-  "scripts": {
-    "build": "echo 'No build needed for plain JS worker'",
-    "deploy": "npx wrangler deploy",
-    "dev": "npx wrangler dev",
-    "preview": "npx wrangler preview"
-  },
-  "author": "Daniel Dai",
-  "license": "MIT",
+  // ... any other root-level properties like description, main, scripts for the worker ...
   "dependencies": {
     "worker": "^0.4.0"
-  }
+    // ... any other dependencies for the worker itself ...
+  }, // <<<< COMMA IS NEEDED HERE
   "devDependencies": {
-    "jest": "^29.0.0" // Or your specific version
-    // ... other dev dependencies
-  }
+    "jest": "^29.0.0" // Assuming Jest is used to test the worker or root-level utils
+    // ... other devDependencies ...
+  }, // <<<< COMMA IS NEEDED HERE (if "engines" or another property follows)
   "engines": {
     "node": ">=16.0.0"
-  }
+  } // <<<< NO COMMA HERE if this is the last property in the JSON object
 }
