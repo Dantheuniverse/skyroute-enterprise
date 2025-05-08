@@ -5,19 +5,18 @@ FROM node:18-bookworm-slim AS frontend-builder
 
 WORKDIR /var/app/frontend
 
-# 1. 複製相依定義與 lockfile，執行 npm ci（有 lockfile 才用 ci）
+# 1. 複製 package.json（前端無 package-lock.json），安裝依賴
 COPY app/frontend/package*.json ./
-COPY app/frontend/package-lock.json ./
-RUN npm ci
+RUN npm install
 
-# 2. 複製其餘前端程式碼並 build
+# 2. 複製其餘前端程式碼並打包
 COPY app/frontend/ ./
 RUN npm run build
 
 
 
 # --------------------------------------------------
-# 階段 2：最終映像（cloudflared + 前端成果 + 後端）
+# 階段 2：最終映像（含 cloudflared、前端成果、後端）
 # --------------------------------------------------
 FROM node:18-bookworm-slim
 
@@ -38,7 +37,7 @@ EXPOSE ${METRICS_PORT}
 
 WORKDIR /var/app
 
-# 安裝基礎套件
+# 安裝基礎工具
 RUN apt update && apt upgrade -y && apt install -y curl
 
 # 安裝 cloudflared
@@ -50,15 +49,17 @@ RUN if [ "$TARGETVARIANT" = "v7" ]; then \
     curl -L -o cloudflared.deb "$CLOUDFLARED_BASE_URL/$CLOUDFLARED_VERSION/$PKG" && \
     dpkg -i cloudflared.deb && rm cloudflared.deb
 
+# 設定可掛載目錄
 VOLUME /config
 VOLUME /root/.cloudflared
 
-# 前端：複製 build 輸出
+# 複製前端打包成果
 COPY --from=frontend-builder /var/app/frontend/dist /var/app/frontend/dist
 
-# 後端：copy & 安裝
+# 複製並安裝後端
 COPY app/backend /var/app/backend
 WORKDIR /var/app/backend
-RUN npm ci
+RUN npm install
 
+# 啟動後端服務
 ENTRYPOINT ["node", "/var/app/backend/app.js"]
