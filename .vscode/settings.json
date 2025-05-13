@@ -207,7 +207,12 @@
     // 指定遠端 SSH 主機的平台 (來自 HEAD)
     "192.168.31.173": "linux"
   },
-  "githubPullRequests.ignoredPullRequestBranches": ["main"] // 忽略來自 main 分支的 PR 通知 (來自 HEAD)
+  "githubPullRequests.ignoredPullRequestBranches": [
+    "main"
+  ],
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  } // 忽略來自 main 分支的 PR 通知 (來自 HEAD)
 
   // --- 已刪除的設定 ---
   // "vscode-home-assistant.longLivedAccessToken": "..." // 確保敏感資訊 (如 Access Token) 已被移除
