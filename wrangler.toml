@@ -4,8 +4,7 @@ main = "src/index.js"
 compatibility_date = "2025-04-29"
 type = "module"
 
-[triggers]
-crons = ["0 0 * * *"]  # Daily scheduled task at midnight
+# Removed [triggers] section as it is not supported
 
 [env.production.vars]
 CF_ACCOUNT_ID = "4b373ad750503e164fba7edf76322413"
