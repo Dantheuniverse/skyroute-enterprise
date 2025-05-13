@@ -2,7 +2,6 @@ name = "skyroute-enterprise"
 account_id = "4b373ad750503e164fba7edf76322413"
 main = "src/index.js"
 compatibility_date = "2025-04-29"
-type = "module"
 
 # Removed [triggers] section as it is not supported
 
