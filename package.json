@@ -1,18 +1,17 @@
 {
-  "name": "skyroute-enterprise",
+  "name": "skyroute-enterprise-root",
   "version": "1.0.0",
-  "description": "Cloudflare Worker to proxy requests to Raspberry Pi services via Cloudflare Tunnel.",
+  "description": "Root package for SkyRoute-Enterprise",
   "main": "index.js",
   "scripts": {
-    "build": "echo 'No build needed for plain JS worker'",
-    "deploy": "npx wrangler deploy",
-    "dev": "npx wrangler dev",
-    "preview": "npx wrangler preview"
+    "test": "jest"
   },
-  "author": "Daniel Dai",
-  "license": "MIT",
   "dependencies": {
     "worker": "^0.4.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "wrangler": "^3.49.1"
   },
   "engines": {
     "node": ">=16.0.0"
