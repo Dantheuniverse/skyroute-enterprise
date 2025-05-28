@@ -1,11 +1,10 @@
-name = "universal-manager-2025"
-account_id = "你的 Cloudflare 帳號 ID"
-main = "index.js"
-compatibility_date = "2025-04-08"
+name = "skyroute-enterprise"
+account_id = "4b373ad750503e164fba7edf76322413"
+main = "src/index.js"
+compatibility_date = "2025-04-29"
 
-[build]
-command = ""
+# Removed [triggers] section as it is not supported
 
-[vars]
-CF_API_TOKEN = "dummy"
-CF_ACCOUNT_ID = "dummy"
+[env.production.vars]
+CF_ACCOUNT_ID = "4b373ad750503e164fba7edf76322413"
+CLOUDFLARE_API_TOKEN = "rlzFFWd3tM10BWDrVtpECBz_n-zTHvdj9YRj51rx"

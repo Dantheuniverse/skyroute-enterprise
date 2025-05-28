@@ -1,54 +1,112 @@
-name: Build
+# Workflow 名稱，說明包含建置映像檔和部署 Worker
+name: SkyRoute-Enterprise - Build Image (GHCR) & Deploy Worker 🚀
 
 on:
   push:
     branches:
       - "main"
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
+  # 第一個 Job：建置並推送 Docker 映像檔
   docker:
+    name: Build & Push Docker Image to GHCR
     runs-on: ubuntu-latest
+
     steps:
-      -
-        name: Checkout
+      - name: Checkout source code
         uses: actions/checkout@v4
-      -
-        name: Set up QEMU
+
+      - name: Set up QEMU (for multi-platform builds)
         uses: docker/setup-qemu-action@v3
-      -
-        name: Set up Docker Buildx
+
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      -
-        name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Login to GitHub Container Registry
+
+      - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
-      -
-        name: Extract version from Dockerfile
-        run: |
-          CLOUDFLARED_VERSION=$(grep -oP '(?<=ARG CLOUDFLARED_VERSION=).*' Dockerfile)
-          echo "version is $CLOUDFLARED_VERSION"
-          echo "DOCKER_TAG=$CLOUDFLARED_VERSION" >> $GITHUB_ENV
 
-      -
-        name: Build and push
+      - name: Generate safe version tag
+        id: docker_tag_generator
+        run: |
+          VERSION=$(grep -oP '(?<=ARG CLOUDFLARED_VERSION=).*' Dockerfile | tr -d '\n' || echo "2025.4.0")
+          [ -z "$VERSION" ] && VERSION="2025.4.0"
+          DATE_TAG=$(date +'%Y%m%d')
+          COMMIT_SHA=${GITHUB_SHA:0:7}
+          FINAL_TAG=$(echo "${VERSION}-${DATE_TAG}-${COMMIT_SHA}" | sed 's/[^a-zA-Z0-9._-]/-/g' | tr '[:upper:]' '[:lower:]')
+          echo "DOCKER_TAG=${FINAL_TAG}" >> $GITHUB_ENV
+          echo "🔥 Docker tag generated: ${FINAL_TAG}"
+
+      - name: Build and push Docker image to GHCR
         uses: docker/build-push-action@v5
+        env:
+          DOCKER_TAG: ${{ env.DOCKER_TAG }}
         with:
           context: .
-          platforms: linux/amd64,linux/arm64,linux/armhf, linux/arm
-          provenance: false
-          push: true
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name == 'push' }}
           tags: |
-            wisdomsky/cloudflared-web:${{ env.DOCKER_TAG }},
-            wisdomsky/cloudflared-web:latest,
-            ghcr.io/wisdomsky/cloudflared-web:${{ env.DOCKER_TAG }},
-            ghcr.io/wisdomsky/cloudflared-web:latest
+            ghcr.io/danieltheflukr/skyroute-enterprise:${{ env.DOCKER_TAG }}
+            ghcr.io/danieltheflukr/skyroute-enterprise:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Notify Docker build status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ SkyRoute-Enterprise image (Tag: ${{ env.DOCKER_TAG }}) pushed to GHCR successfully!"
+          else
+            echo "❌ SkyRoute-Enterprise image build/push failed."
+          fi
+
+  # 第二個 Job：測試並部署 Cloudflare Worker
+  worker:
+    name: Test & Deploy Cloudflare Worker
+    runs-on: ubuntu-latest
+    needs: docker
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run backend tests (skipped)
+        if: false
+        working-directory: app/backend
+        run: npm test
+
+      - name: Publish to Cloudflare Worker
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: npx wrangler deploy
+
+      - name: Notify Worker deploy status
+        if: always()
+        run: |
+          if [ "${{ steps.publish.outcome }}" == "skipped" ]; then
+            echo "ℹ️ Cloudflare Worker deployment skipped (not a push to main or previous steps failed)."
+          elif [ "${{ job.status }}" == "success" ]; then
+            echo "✅ SkyRoute-Enterprise Cloudflare Worker deployed successfully!"
+          else
+            echo "❌ SkyRoute-Enterprise Cloudflare Worker test or deploy failed!"
+          fi

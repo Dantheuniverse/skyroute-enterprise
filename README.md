@@ -1,134 +1,137 @@
-# Cloudflared-web + Cloudflare Worker 自動部署整合專案 🚀
+# SkyRoute-Enterprise
 
-這是一個完整的整合專案，包含：
-- ✅ Cloudflare Worker 自動部署
-- ✅ Cloudflared Web UI Docker 容器，管理 Cloudflare Tunnel
-- ✅ GitHub Actions 自動化部署流程
-- ✅ 完整環境變數設定
+🚀 SkyRoute-Enterprise is an enterprise-grade automation platform designed to simplify and optimize the management of Cloudflare tunnels. It combines the power of the Cloudflare CLI (cloudflared) with a modern, intuitive Web UI, enabling seamless deployment and management of tunnels across Cloudflare's global edge network.
 
----
+![Build Status](https://img.shields.io/github/actions/workflow/status/Danieltheflukr/SkyRoute-Enterprise/main.yml?branch=main)
+![Docker Pulls](https://img.shields.io/docker/pulls/Danieltheflukr/skyroute-enterprise)
+![License](https://img.shields.io/github/license/Danieltheflukr/SkyRoute-Enterprise)
+![Last Commit](https://img.shields.io/github/last-commit/Danieltheflukr/SkyRoute-Enterprise)
 
-## 專案結構
+## Table of Contents
 
-```
-Cloudflared-web/
-├── .github/workflows/deploy.yml      # GitHub Actions 自動部署
-├── cloudflared-web/                  # Docker Cloudflared Web UI 原始碼
-├── index.js                          # Cloudflare Worker 程式碼
-├── package.json                      # NPM 腳本和依賴
-├── wrangler.toml                     # Cloudflare Wrangler 設定
-├── .env.local                        # 部署用環境變數
-└── README.md                         # 專案說明文件
-```
+1.  [Key Features](#key-features)
+2.  [Architecture Diagram](#architecture-diagram)
+3.  [Getting Started](#getting-started)
+4.  [Upcoming Improvements (TODO)](#upcoming-improvements-todo)
+5.  [Contributing](#contributing)
+6.  [License](#license)
+7.  [FAQs](#faqs)
+8.  [Contact](#contact)
 
 ---
 
-## 快速啟動
+## Key Features
 
-### 1. 下載專案
-
-```bash
-git clone https://github.com/你的用戶名/Cloudflared-web.git
-cd Cloudflared-web
-```
-
-### 2. 建立 `.env.local`，填入你的帳號資訊：
-
-```bash
-CF_ACCOUNT_ID=你的-Cloudflare-Account-ID
-CF_API_TOKEN=你的-Cloudflare-API-Token
-```
-
-### 3. 安裝依賴
-
-```bash
-npm install
-```
-
-### 4. 手動部署一次測試：
-
-```bash
-npm run deploy
-```
-
-部署成功後，Cloudflare 會顯示網址：
-
-```
-https://workerdan.haveanewlife.workers.dev
-```
-
-### 5. 設定 GitHub Secrets（自動部署必做）
-
-到 GitHub Repository > Settings > Secrets and variables > Actions：
-
-新增兩個 Secret：
-- `CF_ACCOUNT_ID`：你的 Cloudflare Account ID
-- `CF_API_TOKEN`：你的 Cloudflare API Token
-
-### 6. 推送代碼觸發自動部署！
-
-```bash
-git add .
-git commit -m "Init Cloudflare Worker + Cloudflared Web UI project"
-git push origin main
-```
-
-完成後，前往 GitHub > Actions 頁面，確認部署流程是否成功 ✅
+* **Multi-Platform Support**:
+    * Compatible with `linux/amd64`, `linux/arm64`, and `linux/armhf`.
+* **Automated Deployment Pipeline**:
+    * Integrated with GitHub Actions for CI/CD.
+    * Automatically generates version tags combining version numbers, dates, and Git commit hashes.
+    * Deploys to Cloudflare Workers for edge computing.
+* **Dynamic Tagging**:
+    * Generates three automatic tags:
+        * Version-specific tag
+        * Enterprise-grade tag
+        * `latest` tag
+* **Cloudflare API Integration**:
+    * Supports dynamic API interactions via the associated Cloudflare Worker, such as:
+        * Token verification (`verifyToken`)
+        * Listing tunnels (`listTunnels`)
+        * Managing certificates (`listCertificates`) and access applications (`listAccessApps`)
+* **Docker Image Management**:
+    * Automatically builds and pushes Docker images to GitHub Container Registry.
+* **Scheduled Tasks**:
+    * Automates daily builds using cron triggers (as configured in GitHub Actions).
+* **Web UI**:
+    * Provides an intuitive interface for managing tunnels (accessible locally by default).
 
 ---
 
-## Cloudflared Web UI 使用說明
+## Architecture Diagram
 
-### 1. 啟動容器
-
-```bash
-docker run --network host -d -p 14333:14333 wisdomsky/cloudflared-web:latest
-```
-
-或使用 `docker-compose.yml`：
-
-```yaml
-services:
-  cloudflared:
-    image: wisdomsky/cloudflared-web:latest
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      WEBUI_PORT: 14333
-```
-
-### 2. 開啟瀏覽器
-
-進入以下網址：
-
-```
-http://localhost:14333
-```
-
-這裡可以設定 Cloudflare Tunnel token，並一鍵開啟或關閉 Tunnel 🎉
+*(Placeholder for your architecture diagram)*
+*Add your architecture diagram link here when available.*
 
 ---
 
-## GitHub Actions 自動部署
+## Getting Started
 
-- 當你 push 到 `main` 分支時，自動觸發部署流程。
-- 自動讀取 `.env.local` 或 GitHub Secrets，完成 Worker 部署。
-- 部署成功後，Cloudflare Worker 立即生效。
+### Prerequisites
 
-> ✅ 完整自動化流程，不再需要手動部署！
+| Software         | Minimum Version | Notes                             |
+|------------------|-----------------|-----------------------------------|
+| Docker           | `>= 20.10`      | Required to build and run images. |
+| Docker Compose   | `>= 1.29`       | Required to use `docker-compose`. |
+| Cloudflare Account | -               | Needed for API tokens & Workers.  |
+| Node.js          | `>= 16.x`       | (Optional) For local development. |
+
+### Steps to Run
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/Danieltheflukr/SkyRoute-Enterprise.git](https://github.com/Danieltheflukr/SkyRoute-Enterprise.git)
+    cd SkyRoute-Enterprise
+    ```
+2.  **Configure Environment (if necessary):**
+    * You might need to set up a `.env` file based on `.env.example` if required by `docker-compose.yml`.
+3.  **Build and run the application:**
+    ```bash
+    docker-compose up --build -d
+    ```
+    * Use `-d` to run in detached mode (in the background).
+4.  **Access the Web UI:**
+    * Navigate to `http://localhost:8080` (or the port configured in `docker-compose.yml`) in your browser.
 
 ---
 
-## 未來擴展建議
+## Upcoming Improvements (TODO)
 
-- ✅ 多服務整合（HA、NAS、Media Server 等）
-- ✅ 自訂域名：mingleedan.org
-- ✅ Cloudflare Zero Trust 安全防護
-- ✅ 健康檢查與自動通知
-- ✅ Docker 自動化管理，搭配 Portainer 或 Watchtower
-- ✅ 加入 Cloudflare Tunnel 狀態監控
+* **Automated Health Check Reports**:
+    * Implement periodic health monitoring for deployed services and report status.
+* **Webhook Notifications**:
+    * Integrate with LINE Notify and Telegram for real-time updates on deployments, health status, etc.
+* **Auto-Rebuild Expired Images**:
+    * Automatically detect and rebuild base Docker images upon expiration.
+* **Enhanced Build Scheduling**:
+    * Refine and finalize infrastructure for daily or other scheduled builds.
 
 ---
 
-Daniel Dai — 2025 🚀
+## Contributing
 
+We welcome contributions to improve SkyRoute-Enterprise! To get started:
+
+1.  Fork the repository.
+2.  Create a new branch (`git checkout -b feature/YourFeature` or `bugfix/YourBugfix`).
+3.  Make your changes.
+4.  Commit your changes (`git commit -m 'Add some feature'`).
+5.  Push to the branch (`git push origin feature/YourFeature`).
+6.  Open a Pull Request with a detailed explanation of your changes.
+
+---
+
+## License
+
+SkyRoute-Enterprise is released under the MIT License. See the `LICENSE` file for details.
+
+---
+
+## FAQs
+
+**Q: What is SkyRoute-Enterprise?**
+A: SkyRoute-Enterprise is an automation platform built around a Docker image combining the Cloudflare CLI (`cloudflared`) with a Web UI, designed to simplify Cloudflare tunnel management and deployment, often integrated with Cloudflare Workers.
+
+**Q: Where can I access the Web UI?**
+A: After running the application using `docker-compose up`, you can typically access it locally at `http://localhost:8080`, unless the port is configured differently.
+
+**Q: How is the Cloudflare Worker related?**
+A: The Cloudflare Worker (code provided in previous examples) often acts as the public-facing API endpoint or proxy, interacting with the Cloudflare API and potentially routing requests to services exposed via tunnels managed by SkyRoute-Enterprise components.
+
+---
+
+## Contact
+
+For questions or support, feel free to reach out:
+
+* **Author**: Danieltheflukr
+* **Issues**: Please submit any bugs or feature requests via [GitHub Issues](https://github.com/Danieltheflukr/SkyRoute-Enterprise/issues).

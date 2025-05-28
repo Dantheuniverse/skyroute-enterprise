@@ -1,0 +1,219 @@
+{
+  // --- Home Assistant Extension Settings ---
+  "vscode-home-assistant.hostUrl": "https://home.mingleedan.org",
+
+  // --- HTML Formatting ---
+  "html.format.indentHandlebars": true,
+  "html.format.enable": true,
+  "html.format.unformatted": "script,style,source",
+  "html.format.wrapAttributes": "auto",
+  "html.validate.scripts": true,
+  "html.format.indentInnerHtml": true,
+  "html.format.templating": true,
+
+  // --- Editor Behavior ---
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "diffEditor.hideUnchangedRegions.enabled": true,
+  "diffEditor.renderSideBySide": false,
+  "workbench.editor.enablePreview": false, // 禁用預覽模式，直接開啟檔案
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // <-- 全域預設格式化工具
+  "editor.formatOnSave": true, // <-- 啟用儲存時格式化
+  "files.trimTrailingWhitespace": true, // <-- 啟用自動移除結尾空白 (來自 951a09f)
+
+  // --- TypeScript / JavaScript ---
+  "typescript.suggest.autoImports": true,
+  "typescript.suggest.completeFunctionCalls": true,
+  "typescript.suggest.autoImportsSuggestions.enabled": true,
+  "debug.javascript.autoAttachFilter": "always",
+  "typescript.tsdk": "node_modules/typescript/lib", // 指定 TypeScript SDK 路徑
+  "typescript.enablePromptUseWorkspaceTsdk": true, // 啟用提示使用工作區的 TypeScript SDK
+
+  // --- ESLint ---
+  "eslint.alwaysShowRuleFailuresAsWarnings": false,
+  "eslint.runtime": "node", // 指定 ESLint 執行環境 (來自 HEAD)
+  "eslint.workingDirectories": [
+    // 指定 ESLint 的工作目錄設定 (來自 HEAD)
+    {
+      "mode": "auto"
+    }
+  ],
+
+  // --- Language Specific Settings ---
+  "[home-assistant]": {
+    "breadcrumbs.showArrays": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    },
+    "editor.autoIndent": "advanced"
+  },
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "keep",
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    }
+  },
+  "[markdown]": {
+    "diffEditor.ignoreTrimWhitespace": true
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // HTML 檔案的預設格式化工具 (來自 HEAD)
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // TypeScript 檔案的預設格式化工具 (來自 HEAD)
+  },
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format" // .ignore 檔案的預設格式化工具 (來自 HEAD)
+  },
+
+  // --- File Associations ---
+  "files.associations": {
+    "*.py": "python",
+    "api-extractor.json": "jsonc",
+    "CODEOWNERS": "plaintext",
+    "*.template": "javascript",
+    "wrangler.json": "jsonc"
+  },
+
+  // --- Spell Checking (cSpell Extension) ---
+  "cSpell.words": [
+    // cSpell 字典，加入這些字詞避免被標記為拼寫錯誤 (來自 HEAD)
+    "Abortable",
+    "assetsignore",
+    "astro",
+    "cf-typegen",
+    "cfetch",
+    "chatgpt",
+    "clipboardy",
+    "cloudflareaccess",
+    "cloudflared",
+    "Codespaces",
+    "esbuild",
+    "eslintcache",
+    "execa",
+    "filestat",
+    "haikunate",
+    "haikunator",
+    "Hono",
+    "httplogs",
+    "iarna",
+    "isolinear",
+    "keyvalue",
+    "logfwdr",
+    "metafile",
+    "middlewares",
+    "Miniflare",
+    "mockpm",
+    "mrbbot",
+    "mtls",
+    "nodeless",
+    "Nuxt",
+    "outdir",
+    "outfile",
+    "pgrep",
+    "PKCE",
+    "Positionals",
+    "qwik",
+    "Redistributable",
+    "reinitialise",
+    "scandir",
+    "selfsigned",
+    "textfile",
+    "tsbuildinfo",
+    "turborepo",
+    "undici",
+    "unenv",
+    "unrevoke",
+    "Untriaged",
+    "userconfig",
+    "versionless",
+    "wasmvalue",
+    "weakmap",
+    "weakset",
+    "webassemblymemory",
+    "websockets",
+    "workerd",
+    "xxhash",
+    "zjcompt"
+  ],
+  "cSpell.ignoreWords": [
+    // cSpell 忽略檢查的字詞 (來自 HEAD)
+    "TESTTEXTBLOBNAME",
+    "TESTWASMNAME",
+    "extensionless",
+    "webcontainer",
+    "yxxx"
+  ],
+
+  // --- Red Hat Telemetry ---
+  "redhat.telemetry.enabled": true, // 啟用 Red Hat 擴充套件的遙測資料收集
+
+  // --- YAML Extension Settings ---
+  "yaml.trace.server": "verbose", // YAML 擴充套件的詳細追蹤記錄
+
+  // --- Kubernetes Extension Settings ---
+  "vs-kubernetes": {
+    "vscode-kubernetes.helm-path-windows": "C:\\Users\\havea\\.vs-kubernetes\\tools\\helm\\windows-amd64\\helm.exe",
+    "vscode-kubernetes.minikube-path-windows": "C:\\Users\\havea\\.vs-kubernetes\\tools\\minikube\\windows-amd64\\minikube.exe",
+    "vs-kubernetes.minikube-show-information-expiration": "2025-03-10T03:14:47.419Z",
+    "vscode-kubernetes.kubectl-path-windows": "C:\\Users\\havea\\.vs-kubernetes\\tools\\kubectl\\kubectl.exe"
+  },
+
+  // --- Security & Trust ---
+  "security.workspace.trust.untrustedFiles": "open", // 自動開啟不受信任的檔案
+  "security.workspace.trust.banner": "always", // 總是顯示工作區信任的橫幅
+
+  // --- Settings Sync / Profiles ---
+  "workbench.settings.applyToAllProfiles": [
+    // 這些設定會套用到所有設定檔 (來自 HEAD)
+    "vscode-home-assistant.hostUrl"
+    // 注意： longLivedAccessToken 已被移除 (來自 HEAD)
+  ],
+
+  // --- Build System Integration ---
+  "makefile.configureOnOpen": true, // 開啟時自動設定 Makefile 專案
+  "cmake.configureOnOpen": true, // 開啟時自動設定 CMake 專案
+  "cmake.pinnedCommands": [],
+  "cmake.showOptionsMovedNotification": false,
+
+  // --- Git & GitLens ---
+  "git.autofetch": true, // 自動抓取遠端變更
+  "git.confirmSync": false, // 同步 (sync) 前不需確認
+  "gitlens.advanced.messages": {
+    "suppressCommitHasNoPreviousCommitWarning": true // 抑制 "Commit 沒有上一個 Commit" 的警告
+  },
+  "gitlens.graph.minimap.enabled": false, // 停用 GitLens 圖譜的迷你地圖
+  "gitlens.launchpad.indicator.enabled": false, // 停用 GitLens Launchpad 指示器
+  "gitlens.ai.model": "openai:gpt-4o", // 設定 GitLens AI 使用的模型
+
+  // --- Project Manager Extension ---
+  "projectManager.git.baseFolders": ["D:\\"], // Project Manager 掃描 Git 專案的基礎資料夾
+
+  // --- Other Extensions ---
+  "genieai.promptPrefix.customPrompt1-enabled": true,
+  "genieai.response.showNotification": true,
+
+  // --- Remote Development ---
+  "remote.SSH.remotePlatform": {
+    // 指定遠端 SSH 主機的平台 (來自 HEAD)
+    "192.168.31.173": "linux"
+  },
+  "githubPullRequests.ignoredPullRequestBranches": [
+    "main"
+  ],
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  } // 忽略來自 main 分支的 PR 通知 (來自 HEAD)
+
+  // --- 已刪除的設定 ---
+  // "vscode-home-assistant.longLivedAccessToken": "..." // 確保敏感資訊 (如 Access Token) 已被移除
+}
