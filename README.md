@@ -4,7 +4,7 @@
 
 ![Build Status](https://img.shields.io/github/actions/workflow/status/Danieltheflukr/SkyRoute-Enterprise/main.yml?branch=main)
 ![Docker Pulls](https://img.shields.io/docker/pulls/Danieltheflukr/skyroute-enterprise)
-![License](https://img.shields.io/github/license/Danieltheflukr/SkyRoute-Enterprise)
+![GPL-2.0 License](https://img.shields.io/github/license/Danieltheflukr/SkyRoute-Enterprise)
 ![Last Commit](https://img.shields.io/github/last-commit/Danieltheflukr/SkyRoute-Enterprise)
 
 ## Table of Contents
@@ -112,7 +112,7 @@ We welcome contributions to improve SkyRoute-Enterprise! To get started:
 
 ## License
 
-SkyRoute-Enterprise is released under the MIT License. See the `LICENSE` file for details.
+SkyRoute-Enterprise is released under the GNU General Public License v2.0. See the `LICENSE` file for details.
 
 ---
 
