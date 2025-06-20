@@ -1,10 +1,13 @@
 name = "skyroute-enterprise"
-account_id = "4b373ad750503e164fba7edf76322413"
 main = "src/index.js"
 compatibility_date = "2025-04-29"
 
+# Wrangler will use the `CLOUDFLARE_ACCOUNT_ID` environment variable
+# when deploying. Set this along with the vars below.
+
 # Removed [triggers] section as it is not supported
+# Sensitive values are now loaded from environment variables
 
 [env.production.vars]
-CF_ACCOUNT_ID = "4b373ad750503e164fba7edf76322413"
-CLOUDFLARE_API_TOKEN = "rlzFFWd3tM10BWDrVtpECBz_n-zTHvdj9YRj51rx"
+CF_ACCOUNT_ID = "$CF_ACCOUNT_ID"
+CF_API_TOKEN = "$CF_API_TOKEN"

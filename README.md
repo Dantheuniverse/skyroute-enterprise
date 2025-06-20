@@ -73,7 +73,10 @@
     cd SkyRoute-Enterprise
     ```
 2.  **Configure Environment (if necessary):**
-    * You might need to set up a `.env` file based on `.env.example` if required by `docker-compose.yml`.
+    * Copy `.env.example` to `.env.local` and fill in your `CF_ACCOUNT_ID` and
+      `CF_API_TOKEN` values.
+    * `wrangler` reads these variables (and `CLOUDFLARE_ACCOUNT_ID`) at deploy
+      time so they should not be committed to version control.
 3.  **Build and run the application:**
     ```bash
     docker-compose up --build -d
