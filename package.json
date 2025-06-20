@@ -4,15 +4,23 @@
   "description": "Root package for SkyRoute-Enterprise",
   "main": "index.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests tests/backend"
   },
   "dependencies": {
+    "body-parser": "^2.2.0",
+    "command-exists": "^1.2.9",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-basic-auth": "^1.2.1",
+    "tmp": "^0.2.3",
     "worker": "^0.4.0"
   },
   "engines": {
     "node": ">=16.0.0"
   },
   "devDependencies": {
+    "jest": "^30.0.2",
+    "supertest": "^7.1.1",
     "wrangler": "^4.14.4"
   },
   "type": "module"
