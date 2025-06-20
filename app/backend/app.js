@@ -150,17 +150,19 @@ app.post('/advanced/config/local', (req, res) => {
 })
 
 
-app.listen(port, () => {
-  console.log(`WebUI running on port ${port}`);
-  let config = getConfig();
-  if (config.start) {
-    console.log('Restarting cloudflare tunnel.');
-    init({start: false});
-    setTimeout(() => {
-      init(config);
-    }, 2000);
-  }
-})
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`WebUI running on port ${port}`);
+    let config = getConfig();
+    if (config.start) {
+      console.log('Restarting cloudflare tunnel.');
+      init({start: false});
+      setTimeout(() => {
+        init(config);
+      }, 2000);
+    }
+  })
+}
 
 
 function getConfig() {
@@ -238,3 +240,5 @@ function init(config, res) {
 function saveConfig(config) {
   fs.writeFileSync(configpath, JSON.stringify(config, null, 2) + "\n");
 }
+
+module.exports = app;
