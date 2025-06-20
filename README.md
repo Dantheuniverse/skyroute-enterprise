@@ -87,11 +87,9 @@ flowchart TD
     git clone [https://github.com/Danieltheflukr/SkyRoute-Enterprise.git](https://github.com/Danieltheflukr/SkyRoute-Enterprise.git)
     cd SkyRoute-Enterprise
     ```
-2.  **Configure Environment (if necessary):**
-    * Copy `.env.example` to `.env.local` and fill in your `CF_ACCOUNT_ID` and
-      `CF_API_TOKEN` values.
-    * `wrangler` reads these variables (and `CLOUDFLARE_ACCOUNT_ID`) at deploy
-      time so they should not be committed to version control.
+2.  **Configure Environment:**
+    * Copy `.env.example` to `.env.local` and fill in your Cloudflare credentials.
+    * The repository's `.gitignore` already excludes `.env.local`, so keep this file only on your machine.
 3.  **Build and run the application:**
     ```bash
     docker-compose up --build -d

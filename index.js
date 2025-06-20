@@ -193,10 +193,10 @@ export default {
       const targetPort = env.HA_PORT; // 例如: 8123 (通常 HA 不需要 port，因為 tunnel 會處理)
       const targetProtocol = env.HA_PROTO || 'http'; // 本地 HA 通常是 http
 
-if (!targetHost) { // HA_PORT 可以是空的，如果 targetHost 包含 port
+      if (!targetHost) { // HA_PORT 可以是空的，如果 targetHost 包含 port
         return new Response("HA_HOST environment variable not set.", { status: 503, headers: getCorsHeaders() });
       }
-      }
+
       const basePath = url.pathname.startsWith("/ha") ? "/ha" : "/";
       return proxyRequest(request, env, targetHost, targetPort || '', basePath, targetProtocol);
     }
