@@ -53,7 +53,7 @@
 flowchart TD
     Dev[Developer] -->|Push code| Repo[GitHub Repository]
     Repo -->|Trigger Actions| CI[GitHub Actions Workflow]
-    CI -->|Read Secrets| CF_API[Cloudflare API]
+    CI -->|Calls API using Secrets| CF_API[Cloudflare API]
     CF_API -->|Deploy Worker| Worker[Cloudflare Workers]
 
     Worker -->|Serve traffic| Visitors[Users]
