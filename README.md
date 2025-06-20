@@ -124,6 +124,13 @@ services:
       WEBUI_PORT: 1111
 ```
 
+## Architecture Diagram
+
+```mermaid
+graph TD
+    CI -->|Calls API using Secrets| CF_API[Cloudflare API]
+```
+
 ## Screenshots
 
 ![Screenshot 1](https://raw.githubusercontent.com/WisdomSky/Cloudflared-web/main/screenshot-1.png)
