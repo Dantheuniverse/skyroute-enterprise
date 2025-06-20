@@ -49,8 +49,23 @@
 
 ## Architecture Diagram
 
-*(Placeholder for your architecture diagram)*
-*Add your architecture diagram link here when available.*
+```mermaid
+flowchart TD
+    Dev[Developer] -->|Push code| Repo[GitHub Repository]
+    Repo -->|Trigger Actions| CI[GitHub Actions Workflow]
+    CI -->|Read Secrets| CF_API[Cloudflare API]
+    CF_API -->|Deploy Worker| Worker[Cloudflare Workers]
+
+    Worker -->|Serve traffic| Visitors[Users]
+
+    subgraph Tunnel Management
+        UI[Cloudflared Web UI] -->|Configure Token| Tunnel[Cloudflare Tunnel]
+        Tunnel -->|Secure connection| Local[Raspberry Pi Services]
+        Local --> Home[Home Assistant / NAS / Media Server]
+    end
+
+    Worker -->|Proxy traffic| Tunnel
+```
 
 ---
 
