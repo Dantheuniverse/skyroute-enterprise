@@ -82,6 +82,13 @@
 4.  **Access the Web UI:**
     * Navigate to `http://localhost:14333` in your browser. This is the default port and can be overridden via the `WEBUI_PORT` environment variable or in `docker-compose.yml`.
 
+### Configure GitHub Actions Secret
+
+To enable automated deployments, add your Cloudflare API token as a secret:
+
+1.  In your GitHub repository, open **Settings** ➔ **Secrets and variables** ➔ **Actions**.
+2.  Click **New repository secret** and create `CF_API_TOKEN` with your token.
+
 ---
 
 ## Upcoming Improvements (TODO)
