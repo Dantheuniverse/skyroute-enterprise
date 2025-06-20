@@ -89,8 +89,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run backend tests (skipped)
-        if: false
+      - name: Run backend tests
         working-directory: app/backend
         run: npm test
 
