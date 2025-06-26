@@ -15,7 +15,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: SSH to server and deploy
+
+      - name: Install SSH client
+        run: sudo apt-get update && sudo apt-get install -y openssh-client
+
+      - name: Upload config.yml to server via scp
+        run: |
+          echo "${{ secrets.SERVER_SSH_KEY }}" > private_key
+          chmod 600 private_key
+          scp -i private_key -o StrictHostKeyChecking=no cloudflared/config.yml ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/cloudflared/config.yml
+
+      - name: SSH to server and restart cloudflared
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -23,16 +33,15 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             mkdir -p ~/cloudflared
-            cat <<'CONFIG' > ~/cloudflared/config.yml
-${{ toJSON(fromJSON(file('cloudflared/config.yml'))) }}
-CONFIG
+
             if [ "$(docker ps -q -f name=cloudflared-tunnel)" ]; then
-                echo "Stopping and removing existing cloudflared container..."
-                docker stop cloudflared-tunnel
-                docker rm cloudflared-tunnel
+              echo "Stopping and removing existing cloudflared container..."
+              docker stop cloudflared-tunnel
+              docker rm cloudflared-tunnel
             fi
+
             echo "Starting new cloudflared container..."
             docker run -d --name cloudflared-tunnel --restart unless-stopped \
               --network host \
-              cloudflare/cloudflared:latest tunnel --no-autoupdate run --token ${{ secrets.CF_TUNNEL_TOKEN }}
-
+              -v ~/cloudflared:/etc/cloudflared \
+              cloudflare/cloudflared:latest tunnel --no-autoupdate --config /etc/cloudflared/config.yml run --token ${{ secrets.CF_TUNNEL_TOKEN }}
