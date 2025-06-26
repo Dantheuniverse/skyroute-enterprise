@@ -3,6 +3,6 @@
 # The hostname values must be CNAME records in Cloudflare DNS pointing to the tunnel ID
 ingress:
   - hostname: home.mingleedan.org
-    service: http://localhost:8123
+    service: https://localhost:8123
   # Default rule
   - service: http_status:404
