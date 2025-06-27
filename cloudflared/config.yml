@@ -1,8 +1,5 @@
-# Cloudflared tunnel configuration for local services
-
-# The hostname values must be CNAME records in Cloudflare DNS pointing to the tunnel ID
 ingress:
   - hostname: home.mingleedan.org
-    service: https://localhost:8123
-  # Default rule
+    service: https://localhost:8123  # Home Assistant 內部使用 HTTPS
+    noTLSVerify: true              # <-- 新增這一行：告訴 cloudflared 忽略憑證驗證
   - service: http_status:404
