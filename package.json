@@ -7,12 +7,14 @@
     "build": "echo 'No build needed for plain JS worker'",
     "deploy": "npx wrangler deploy",
     "dev": "npx wrangler dev",
-    "preview": "npx wrangler preview"
+    "preview": "npx wrangler preview",
+    "test": "jest"
   },
   "author": "Daniel Dai",
   "license": "MIT",
-  "devDependencies": {},
-  "dependencies": {},
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
   "engines": {
     "node": ">=16.0.0"
   }
