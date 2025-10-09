@@ -10,5 +10,4 @@ async function fetch(request) {
 const worker = { fetch };
 
 module.exports = worker;
-module.exports.fetch = fetch;
 module.exports.default = worker;
