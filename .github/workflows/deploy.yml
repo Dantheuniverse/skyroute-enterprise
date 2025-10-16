@@ -21,7 +21,7 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-${{ secrets.CLOUDFLARE_API_TOKEN }}
+      
     - name: Install Wrangler CLI
       run: npm install -g wrangler
 
