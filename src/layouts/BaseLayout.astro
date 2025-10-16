@@ -1,0 +1,74 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const { title = 'Skyroute Enterprise', description = 'Video portfolio showcasing immersive media projects.', ogImage = '/videos/og-placeholder.svg' } = Astro.props;
+const siteTitle = `${title} | Skyroute Enterprise`;
+---
+<!DOCTYPE html>
+<html lang="en" class="min-h-full bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{siteTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="Skyroute Enterprise" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="flex min-h-screen flex-col transition-colors">
+    <!-- Sticky navigation with theme toggle -->
+    <header class="border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80">
+      <div class="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4">
+        <a href="/" class="text-lg font-semibold tracking-tight">Skyroute Enterprise</a>
+        <nav class="flex items-center gap-6 text-sm font-medium">
+          <a href="/" class="hover:text-sky-500">Home</a>
+          <a href="/about" class="hover:text-sky-500">About</a>
+          <a href="/blog" class="hover:text-sky-500">Blog</a>
+          <button type="button" class="inline-flex items-center gap-2 rounded-full border border-slate-300 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-slate-700 transition hover:border-slate-400 dark:border-slate-700 dark:text-slate-200 dark:hover:border-slate-500" id="theme-toggle">
+            <span aria-hidden="true" class="icon">🌗</span>
+            <span class="sr-only">Toggle theme</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+    <main class="flex-1">
+      <slot />
+    </main>
+    <!-- Footer with social link placeholder -->
+    <footer class="border-t border-slate-200 bg-slate-100 py-8 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-400">
+      <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row">
+        <p>&copy; {new Date().getFullYear()} Skyroute Enterprise. Crafted for immersive storytellers.</p>
+        <a href="https://github.com/your-org" class="hover:text-sky-500">GitHub</a>
+      </div>
+    </footer>
+    <script>
+      const toggle = document.getElementById('theme-toggle');
+      const root = document.documentElement;
+      const themeKey = 'skyroute-theme';
+      const applyTheme = (mode) => {
+        root.classList.toggle('dark', mode === 'dark');
+        root.dataset.theme = mode;
+      };
+      const currentTheme = localStorage.getItem(themeKey) ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      applyTheme(currentTheme);
+      toggle?.addEventListener('click', () => {
+        const next = root.classList.contains('dark') ? 'light' : 'dark';
+        applyTheme(next);
+        localStorage.setItem(themeKey, next);
+      });
+    </script>
+  </body>
+</html>

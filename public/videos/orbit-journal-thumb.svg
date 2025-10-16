@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <defs>
+    <linearGradient id="grad" x1="0" y1="360" x2="640" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1D4ED8" />
+      <stop offset="1" stop-color="#020617" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="40" fill="url(#grad)" />
+  <circle cx="200" cy="160" r="48" stroke="#BFDBFE" stroke-width="12" opacity="0.8" />
+  <circle cx="420" cy="220" r="32" stroke="#BFDBFE" stroke-width="8" opacity="0.6" />
+  <path d="M160 80c120 60 200 180 320 220" stroke="#60A5FA" stroke-width="6" stroke-linecap="round" opacity="0.7" />
+  <text x="40" y="320" fill="#DBEAFE" font-family="'Inter', 'Segoe UI', sans-serif" font-size="32" font-weight="600">Orbit Journal</text>
+</svg>
