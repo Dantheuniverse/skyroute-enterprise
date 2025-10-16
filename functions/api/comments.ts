@@ -20,7 +20,34 @@ interface Env {
   COMMENTS_KV: KVNamespace;
 }
 
-const buildKey = (postId: string) => `comments:${postId}`;
+const COMMENT_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
+const buildPrefix = (postId: string) => `comments:${postId}:`;
+const buildLegacyKey = (postId: string) => `comments:${postId}`;
+
+const readComments = async (env: Env, postId: string): Promise<StoredComment[]> => {
+  const prefix = buildPrefix(postId);
+  const list = await env.COMMENTS_KV.list({ prefix, limit: 1000 });
+
+  const comments = await Promise.all(
+    list.keys.map((entry) => env.COMMENTS_KV.get(entry.name, { type: 'json' }) as Promise<StoredComment | null>)
+  );
+
+  const filtered = comments.filter((value): value is StoredComment => Boolean(value));
+
+  if (filtered.length > 0) {
+    return filtered.sort(
+      (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    );
+  }
+
+  // Backward compatibility: load legacy aggregated array if present.
+  const legacy = (await env.COMMENTS_KV.get(buildLegacyKey(postId), { type: 'json' })) as StoredComment[] | null;
+  if (Array.isArray(legacy)) {
+    return legacy;
+  }
+
+  return [];
+};
 
 const jsonResponse = (data: unknown, init?: ResponseInit) =>
   new Response(JSON.stringify(data, null, 2), {
@@ -39,7 +66,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
     return jsonResponse({ error: 'Missing "postId" query parameter.' }, { status: 400 });
   }
 
-  const comments = ((await env.COMMENTS_KV.get(buildKey(postId), { type: 'json' })) as StoredComment[] | null) ?? [];
+  const comments = await readComments(env, postId);
 
   return jsonResponse({ postId, comments });
 };
@@ -55,10 +82,15 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   const postId = payload.postId?.trim();
   const content = payload.content?.trim();
-  const author = payload.author?.toString().trim() || 'Anonymous';
+  const rawAuthor = payload.author?.toString().trim() ?? '';
+  const author = rawAuthor.length === 0 ? 'Anonymous' : rawAuthor;
 
   if (!postId || !content) {
     return jsonResponse({ error: 'Both "postId" and "content" are required.' }, { status: 400 });
+  }
+
+  if (author !== 'Anonymous' && author.length < 2) {
+    return jsonResponse({ error: 'Author name must contain at least 2 characters.' }, { status: 422 });
   }
 
   if (content.length > 2000) {
@@ -74,13 +106,13 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     createdAt: now
   };
 
-  const key = buildKey(postId);
-  const existingComments = ((await env.COMMENTS_KV.get(key, { type: 'json' })) as StoredComment[] | null) ?? [];
-  const updated = [...existingComments, newComment];
-
-  await env.COMMENTS_KV.put(key, JSON.stringify(updated), {
-    expirationTtl: 60 * 60 * 24 * 30 // expire after 30 days; adjust as needed
+  const storageKey = `${buildPrefix(postId)}${newComment.id}`;
+  await env.COMMENTS_KV.put(storageKey, JSON.stringify(newComment), {
+    expirationTtl: COMMENT_TTL_SECONDS
   });
+
+  // Remove legacy aggregated entry if it exists to avoid future inconsistencies.
+  await env.COMMENTS_KV.delete(buildLegacyKey(postId));
 
   return jsonResponse({ postId, comment: newComment }, { status: 201 });
 };

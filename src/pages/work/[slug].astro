@@ -7,7 +7,7 @@ const { slug } = Astro.params;
 const work = slug ? getWorkBySlug(slug) : undefined;
 
 if (!work) {
-  throw new Error(`Workpiece for slug "${slug}" not found`);
+  return new Response(null, { status: 404, statusText: 'Not Found' });
 }
 ---
 <BaseLayout title={work.title} description={work.summary} ogImage={work.thumbnail}>
