@@ -1,151 +1,109 @@
-Cloudflare Worker - workerdanver1
+# Skyroute Enterprise Video Portfolio
 
-🚀 Cloudflare Worker 自動部署 & 測試專案
+A production-ready Astro starter tailored for Cloudflare Pages. The site showcases immersive video work, serves dynamic comments through a Cloudflare Worker, and ships with Tailwind CSS styling plus TypeScript-first tooling.
 
-目前專案已整合：
+## Folder structure
 
-✅ GitHub Actions 自動部署
-
-✅ 基礎路由處理（含主頁 / 路由）
-
-✅ Cloudflare 全球邊緣網路部署
-
-
-🌟 功能說明
-
-路由結構：
-
-📦 安裝與部署
-
-1. 克隆此存放庫：
-
-
-
-git clone https://github.com/你的帳號/Cloudflared-web.git
-cd Cloudflared-web
-
-2. 修改程式碼：
-
-
-
-編輯 index.js 增加功能或修改路由
-
-
-3. 推送變更：
-
-
-
-git add .
-git commit -m "feat: update routes and readme"
-git push origin main
-
-4. 部署自動觸發 🎉
-
-
-
-GitHub Actions 會自動部署到 Cloudflare Workers
-
-完成後即可訪問：https://workerdanver1.haveanewlife.workers.dev/
-
-
-🛠️ TODO 計劃
-
-[ ] 加入自動健康檢查回報
-
-[ ] 整合 webhook 通知（如：LINE Notify、Telegram）
-
-[ ] 批量 API 路由與引數處理
-
-[ ] 測試自動化部署完成提示
-
-
-🤝 貢獻
-
-歡迎提出 issue 或 Pull Request，共同優化此專案！
-
-📄 授權
-
-MIT License
-
-
----
-
-🔗 Cloudflare Worker 頁面： 前往查看
-
-📝 記得： 更新完程式後，記得同步 README.md，保持專案文件清晰明瞭！
-
-<<<<<<< HEAD
-=======
-
-example `docker-compose.yaml`:
-```yaml
-services:
-  cloudflared:
-    image: wisdomsky/cloudflared-web:latest
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      WEBUI_PORT: 1111
-      PROTOCOL: http2
+```
+.
+├── astro.config.mjs
+├── functions/
+│   └── api/
+│       └── comments.ts         # Cloudflare Worker for GET/POST comments with KV
+├── public/
+│   └── videos/                 # Video assets, thumbnails, and metadata
+├── src/
+│   ├── components/
+│   │   ├── CommentBox.astro    # Interactive comments widget consuming the worker API
+│   │   └── VideoCard.astro     # Card UI for featured workpieces
+│   ├── layouts/
+│   │   └── BaseLayout.astro    # Site-wide meta tags, navigation, and theming
+│   ├── lib/
+│   │   └── works.ts            # Demo content for the video portfolio
+│   ├── pages/
+│   │   ├── about.astro
+│   │   ├── blog/index.astro
+│   │   ├── index.astro
+│   │   └── work/[slug].astro   # Dynamic route for individual workpieces + lazy video loading
+│   ├── styles/
+│   │   └── global.css
+│   └── env.d.ts
+└── wrangler.toml
 ```
 
+## Key configuration
 
-### Volume
-| Container Path | Required or Optional | Description |
-|---|---|---|
-| /config | _Optional_ | The path to the directory where the `config.json` file containing the Cloudflare token and start status will be saved.  |
+- **Astro** is configured to output server code for Cloudflare via `@astrojs/cloudflare` (`astro.config.mjs`).
+- **Tailwind CSS** integration is enabled with a custom Tailwind config and PostCSS pipeline.
+- **Cloudflare Worker** lives in `functions/api/comments.ts`, binding to the `COMMENTS_KV` namespace declared in `wrangler.toml`.
+- **TypeScript paths** are configured in `tsconfig.json` for ergonomic imports (`@components/*`, `@layouts/*`, etc.).
 
-example `docker-compose.yaml`:
-```yaml
-services:
-  cloudflared:
-    image: wisdomsky/cloudflared-web:latest
-    restart: unless-stopped
-    network_mode: host
-    volumes:
-      - /mnt/storage/cloudflared/config:/config
+## Environment setup
+
+Install dependencies:
+
+```bash
+npm install
 ```
 
-## Using Networks
+Populate your KV namespace IDs inside `wrangler.toml` and optionally provide additional environment variables under the `[vars]` block.
 
-You can use docker `networks` for a more fine-grained control of which containers/services your cloudflared-web container has access to.
+## Local development
 
-```yaml
-services:
-  cloudflared:
-    image: wisdomsky/cloudflared-web:latest
-    restart: unless-stopped
-    networks:
-      - mynetwork
-    environment:
-      WEBUI_PORT: 1111
+```bash
+npm run dev
 ```
 
-## Architecture Diagram
+Astro will run locally at `http://localhost:4321` with hot module reloading.
 
-```mermaid
-graph TD
-    CI -->|Calls API using Secrets| CF_API[Cloudflare API]
+To emulate the Cloudflare Worker locally, run:
+
+```bash
+npm run dev -- --experimental-integrations
 ```
 
-## Screenshots
+and, in a separate terminal, you can also run `wrangler dev` to exercise just the API function if needed.
 
-![Screenshot 1](https://raw.githubusercontent.com/WisdomSky/Cloudflared-web/main/screenshot-1.png)
+## Build & deploy
 
-![Screenshot 2](https://raw.githubusercontent.com/WisdomSky/Cloudflared-web/main/screenshot-2.png)
+1. Generate a production build:
+   ```bash
+   npm run build
+   ```
+2. Preview the built output locally:
+   ```bash
+   npm run preview
+   ```
+3. Publish to Cloudflare Pages (assuming the project is connected):
+   ```bash
+   wrangler pages deploy ./dist
+   ```
+   or, for Wrangler deployments to Workers:
+   ```bash
+   wrangler deploy
+   ```
 
----
+The build step outputs:
 
-## Issues
+- `dist/client` – static assets for Cloudflare Pages.
+- `dist/worker.mjs` – server entry consumed by the Cloudflare adapter.
 
-For any problems experienced while using the docker image, please [create a new issue](https://github.com/WisdomSky/Cloudflared-web/issues).
+## Comments KV quick start
 
---- 
+Create a KV namespace and bind it:
 
-## Contribute
+```bash
+wrangler kv:namespace create "COMMENTS_KV"
+wrangler kv:namespace create "COMMENTS_KV" --preview
+```
 
+Copy the resulting IDs into the `wrangler.toml` file under the `[[kv_namespaces]]` section. The comment worker stores all comments under keys in the form `comments:<postId>`.
 
-### Adding A Language Translation
+## Deployment notes
 
-See [Localization](https://github.com/WisdomSky/Cloudflared-web/wiki/Localization).
->>>>>>> 92085110db7ee01f446928f6b3c3c82efc1edec1
+- The `VideoCard` and `CommentBox` components are ready to be expanded with real production data.
+- Replace placeholder SVG thumbnails in `public/videos/` with optimized imagery for your work.
+- Large video files should be delivered from an external CDN (update the URLs in `src/lib/works.ts`).
+- The layout ships with SEO-friendly `<meta>` and OpenGraph tags plus a dark/light mode toggle persisted in `localStorage`.
+
+Happy launching!

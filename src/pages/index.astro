@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import VideoCard from '@components/VideoCard.astro';
+import { workpieces } from '@lib/works';
+
+const featured = workpieces.slice(0, 3);
+---
+<BaseLayout title="Immersive Video Portfolio" description="A curated selection of immersive films, installations, and projection stories crafted by Skyroute Enterprise." ogImage="/videos/og-placeholder.svg">
+  <!-- Hero block introducing the studio -->
+  <section class="relative isolate overflow-hidden bg-slate-900 py-24 text-white">
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_#38bdf8,_transparent_60%)] opacity-50"></div>
+    <div class="mx-auto flex max-w-5xl flex-col gap-8 px-6 text-center">
+      <p class="text-sm uppercase tracking-[0.3em] text-sky-200">Skyroute Enterprise</p>
+      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">Immersive video stories for the new frontier</h1>
+      <p class="mx-auto max-w-2xl text-base text-slate-200">
+        We craft cinematic experiences for visionary brands, blending volumetric capture, projection mapping, and narrative design into unforgettable media journeys.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#portfolio" class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-sky-100">
+          Explore portfolio
+        </a>
+        <a href="/about" class="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:border-white">
+          Meet the team
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Responsive grid showcasing highlighted workpieces -->
+  <section id="portfolio" class="mx-auto max-w-6xl px-6 py-20">
+    <header class="flex flex-col gap-4 text-center">
+      <p class="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Featured Works</p>
+      <h2 class="text-3xl font-semibold text-slate-900 dark:text-slate-100">Cinematic experiences we are proud of</h2>
+      <p class="mx-auto max-w-2xl text-base text-slate-600 dark:text-slate-400">
+        Each workpiece pairs strategic storytelling with technical artistry. Explore the projects below to see how we translate complex ideas into immersive media.
+      </p>
+    </header>
+    <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {featured.map((work) => (
+        <VideoCard {...work} />
+      ))}
+    </div>
+  </section>
+
+  <!-- Contact call-to-action encouraging bookings -->
+  <section class="bg-slate-100 py-20 dark:bg-slate-900/60">
+    <div class="mx-auto flex max-w-5xl flex-col gap-8 px-6 text-center">
+      <h2 class="text-3xl font-semibold text-slate-900 dark:text-slate-100">Ready to bring your story to life?</h2>
+      <p class="mx-auto max-w-2xl text-base text-slate-600 dark:text-slate-400">
+        From pitch to post-production, we partner with clients to design experiences that resonate across physical and digital worlds. Contact us to start planning your next launch.
+      </p>
+      <a href="mailto:hello@skyrouteenterprise.com" class="mx-auto inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-sky-500">
+        Book a discovery call
+      </a>
+    </div>
+  </section>
+</BaseLayout>

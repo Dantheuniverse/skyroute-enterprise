@@ -1,17 +1,20 @@
 name = "skyroute-enterprise"
-account_id = "4b373ad750503e164fba7edf76322413"
-main = "index.js"
-compatibility_date = "2025-04-08"
+main = "dist/worker.mjs"
+compatibility_date = "2024-04-08"
+compatibility_flags = ["nodejs_compat"]
+
+[site]
+# Astro will output static assets into this directory during `astro build`.
+ bucket = "dist/client"
 
 [build]
-command = ""
+command = "npm run build"
+
+[[kv_namespaces]]
+binding = "COMMENTS_KV"
+id = "00000000000000000000000000000000" # replace with your production KV namespace id
+preview_id = "11111111111111111111111111111111" # optional: preview namespace for local dev
 
 [vars]
-CF_API_TOKEN = "jg11AX2Jcm1ip3eG2erfEzOMWbrJtt3F8T55ngrp"
-CLOUDFLARE_API_TOKEN = "jg11AX2Jcm1ip3eG2erfEzOMWbrJtt3F8T55ngrp"
-CF_ACCOUNT_ID = "4b373ad750503e164fba7edf76322413"
-PROXY_AUTH_TOKEN = "k4f8ad9fg4k8j3fa87f9"
-
-
-[observability.logs]
-enabled = true
+# Example of configuring analytics or other environment variables.
+SITE_NAME = "Skyroute Enterprise Portfolio"
