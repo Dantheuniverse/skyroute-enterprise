@@ -248,7 +248,7 @@ async def main() -> None:
             "command": "npx",
             "args": ["-y", "codex", "mcp"],
         },
-        client_session_timeout_seconds=360000,
+        client_session_timeout_seconds=3600,
     ) as codex_mcp_server:
         print("Codex MCP server started.")
         # More logic coming in the next sections.
