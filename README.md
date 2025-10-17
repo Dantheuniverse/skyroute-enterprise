@@ -374,7 +374,7 @@ async def main() -> None:
                 "- design_spec.md – a single page describing the UI/UX layout, main screens, and key visual notes as requested in AGENT_TASKS.md.\n"
                 "- wireframe.md – a simple text or ASCII wireframe if specified.\n\n"
                 "Keep the output short and implementation-friendly.\n"
-                "When complete, handoff to the Project Manager with transfer_to_project_manager."
+                "When complete, handoff to the Project Manager with transfer_to_project_manager_agent."
                 "When creating files, call Codex MCP with {\"approval-policy\":\"never\",\"sandbox\":\"workspace-write\"}."
             ),
             model="gpt-5",
