@@ -2,6 +2,14 @@
 
 A production-ready Astro starter tailored for Cloudflare Pages. The site showcases immersive video work, serves dynamic comments through a Cloudflare Worker, and ships with Tailwind CSS styling plus TypeScript-first tooling.
 
+## Table of contents
+- [Folder structure](#folder-structure)
+- [Key configuration](#key-configuration)
+- [Environment setup](#environment-setup)
+- [Local development](#local-development)
+- [Build & deploy](#build--deploy)
+- [Extended Codex documentation](#extended-codex-documentation)
+
 ## Folder structure
 
 ```
@@ -83,27 +91,12 @@ and, in a separate terminal, you can also run `wrangler dev` to exercise just th
    wrangler deploy
    ```
 
-The build step outputs:
+## Extended Codex documentation
 
-- `dist/client` – static assets for Cloudflare Pages.
-- `dist/worker.mjs` – server entry consumed by the Cloudflare adapter.
+Detailed Codex workflows have moved into dedicated guides:
 
-## Comments KV quick start
+- [Codex cloud environments](docs/codex-cloud.md) – setup scripts, caching, code reviews, and internet-access controls for running this repo in Codex.
+- [Codex + Agents SDK workflows](docs/agents-sdk.md) – step-by-step instructions for MCP-backed single- and multi-agent pipelines.
+- [Model Context Protocol integration](docs/mcp.md) – configuring MCP servers in Codex, popular server examples, and running Codex itself as an MCP server.
 
-Create a KV namespace and bind it:
-
-```bash
-wrangler kv:namespace create "COMMENTS_KV"
-wrangler kv:namespace create "COMMENTS_KV" --preview
-```
-
-Copy the resulting IDs into the `wrangler.toml` file under the `[[kv_namespaces]]` section. The comment worker stores all comments under keys in the form `comments:<postId>`.
-
-## Deployment notes
-
-- The `VideoCard` and `CommentBox` components are ready to be expanded with real production data.
-- Replace placeholder SVG thumbnails in `public/videos/` with optimized imagery for your work.
-- Large video files should be delivered from an external CDN (update the URLs in `src/lib/works.ts`).
-- The layout ships with SEO-friendly `<meta>` and OpenGraph tags plus a dark/light mode toggle persisted in `localStorage`.
-
-Happy launching!
+These documents keep the README focused on the portfolio project while preserving the in-depth Codex references for teams that rely on automated workflows.
