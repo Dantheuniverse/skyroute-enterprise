@@ -656,7 +656,7 @@ Use the inspector and the Codex MCP server to build a quick tic-tac-toe game. Su
 | --- | --- |
 | `approval-policy` | `never` |
 | `sandbox` | `workspace-write` |
-| `prompt` | `Implement a simple tic-tac-toe game with HTML, Javascript, and CSS. Write the game in a single file called index.html.` |
+| `prompt` | `Implement a simple tic-tac-toe game with HTML, JavaScript, and CSS. Write the game in a single file called index.html.` |
 
 Codex streams back events as it writes `index.html`. Adjust the prompt or configuration to explore other workflows.
 
