@@ -428,7 +428,7 @@ async def main() -> None:
                 "- TEST_PLAN.md – bullet list of manual checks or automated steps as requested\n"
                 "- test.sh or a simple automated script if specified\n\n"
                 "Keep it minimal and easy to run.\n\n"
-                "When complete, handoff to the Project Manager with transfer_to_project_manager."
+                "When complete, handoff to the Project Manager with transfer_to_project_manager_agent."
                 "When creating files, call Codex MCP with {\"approval-policy\":\"never\",\"sandbox\":\"workspace-write\"}."
             ),
             model="gpt-5",
