@@ -590,14 +590,14 @@ For finer control, edit `~/.codex/config.toml` directly. Each STDIO server uses 
 optional `args` and `env` settings. HTTP-based servers instead declare a `url` plus optional `bearer_token`:
 
 ```toml
+experimental_use_rmcp_client = true
+
 [mcp_servers.context7]
 command = "npx"
 args = ["-y", "@upstash/context7-mcp"]
 
 [mcp_servers.context7.env]
 MY_ENV_VAR = "MY_ENV_VALUE"
-
-experimental_use_rmcp_client = true
 
 [mcp_servers.figma]
 url = "https://mcp.figma.com/mcp"
