@@ -43,7 +43,7 @@ async def main() -> None:
         name="Codex CLI",
         params={
             "command": "npx",
-            "args": ["-y", "codex", "mcp"],
+            "args": ["-y", "codex", "mcp-server"],
         },
         client_session_timeout_seconds=360000,
     ) as codex_mcp_server:
@@ -86,7 +86,7 @@ async def main() -> None:
         name="Codex CLI",
         params={
             "command": "npx",
-            "args": ["-y", "codex", "mcp"],
+            "args": ["-y", "codex", "mcp-server"],
         },
         client_session_timeout_seconds=360000,
     ) as codex_mcp_server:
@@ -154,7 +154,7 @@ set_default_openai_api(os.getenv("OPENAI_API_KEY"))
 async def main() -> None:
     async with MCPServerStdio(
         name="Codex CLI",
-        params={"command": "npx", "args": ["-y", "codex", "mcp"]},
+        params={"command": "npx", "args": ["-y", "codex", "mcp-server"]},
         client_session_timeout_seconds=360000,
     ) as codex_mcp_server:
         designer_agent = Agent(
