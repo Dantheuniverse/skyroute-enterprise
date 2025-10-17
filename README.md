@@ -309,7 +309,7 @@ async def main() -> None:
             instructions=(
                 "You are an indie game connoisseur. Come up with an idea for a single page html + css + javascript game that a "
                 "developer could build in about 50 lines of code. "
-                "Format your request as a 3 sentence design brief for a game developer and call the Game Developer coder with your idea."
+                "Format your request as a 3 sentence design brief for a game developer and call the Game Developer agent with your idea."
             ),
             model="gpt-5",
             handoffs=[developer_agent],
