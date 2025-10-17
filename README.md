@@ -237,7 +237,7 @@ following contents:
 ```python
 import asyncio
 
-from agents import Agent, Runner
+# from agents import Agent, Runner
 from agents.mcp import MCPServerStdio
 
 
