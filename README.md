@@ -1,95 +1,110 @@
-# Skyroute Enterprise Video Portfolio
+# Skyroute Enterprise Deployment Guide
 
-A production-ready Astro starter tailored for Cloudflare Pages. The site showcases immersive video work, serves dynamic comments through a Cloudflare Worker, and ships with Tailwind CSS styling plus TypeScript-first tooling.
+This repository packages a production-ready Astro site that proxies requests through a Cloudflare Worker and exposes
+self-hosted services via Cloudflare Tunnel. The README consolidates every deployment document in the repo so the
+application can be deployed, operated, and upgraded with confidence.
 
-## Table of contents
-- [Folder structure](#folder-structure)
-- [Key configuration](#key-configuration)
-- [Environment setup](#environment-setup)
-- [Local development](#local-development)
-- [Build & deploy](#build--deploy)
-- [Extended Codex documentation](#extended-codex-documentation)
 
-## Folder structure
+## System architecture
+
+```mermaid
+flowchart TD
+    A[Developer] -->|Push code| B[GitHub Repository]
+    B -->|Trigger pipeline| C[GitHub Actions]
+    C -->|Use secrets| D[Cloudflare API]
+    D -->|Deploy| E[Cloudflare Workers]
+
+    E -->|Serve traffic| F[Visitors]
+    F -->|Access via| G[workers.dev or custom domain]
+
+    subgraph Cloudflare Tunnel
+      H[Cloudflared Web UI (Docker)] -->|Configure token| I[Cloudflare Tunnel]
+      I -->|Secure connection| J[Self-hosted services]
+      J --> K[Home Assistant / NAS / Media Server]
+    end
+
+    E -->|Reverse proxy| I
+```
+
+## Repository layout
 
 ```
 .
-├── astro.config.mjs
-├── functions/
-│   └── api/
-│       └── comments.ts         # Cloudflare Worker for GET/POST comments with KV
-├── public/
-│   └── videos/                 # Video assets, thumbnails, and metadata
-├── src/
-│   ├── components/
-│   │   ├── CommentBox.astro    # Interactive comments widget consuming the worker API
-│   │   └── VideoCard.astro     # Card UI for featured workpieces
-│   ├── layouts/
-│   │   └── BaseLayout.astro    # Site-wide meta tags, navigation, and theming
-│   ├── lib/
-│   │   └── works.ts            # Demo content for the video portfolio
-│   ├── pages/
-│   │   ├── about.astro
-│   │   ├── blog/index.astro
-│   │   ├── index.astro
-│   │   └── work/[slug].astro   # Dynamic route for individual workpieces + lazy video loading
-│   ├── styles/
-│   │   └── global.css
-│   └── env.d.ts
-└── wrangler.toml
+├── astro.config.mjs              # Astro configured for the Cloudflare adapter
+├── functions/api/comments.ts     # Worker endpoint powering the comment widget
+├── public/videos/                # Static assets and portfolio videos
+├── src/                          # Pages, components, layouts, and styles
+├── wrangler.toml                 # Wrangler bindings (KV, vars) for the Worker
+├── Dockerfile                    # Optional container for Cloudflared Web UI
+├── 操作流程圖                     # Flowchart reference (in Traditional Chinese)
+└── 從部署到日常維運、異常排查到自動化升級   # Operations playbook (in Traditional Chinese)
 ```
 
-## Key configuration
+## Required accounts & tools
 
-- **Astro** is configured to output server code for Cloudflare via `@astrojs/cloudflare` (`astro.config.mjs`).
-- **Tailwind CSS** integration is enabled with a custom Tailwind config and PostCSS pipeline.
-- **Cloudflare Worker** lives in `functions/api/comments.ts`, binding to the `COMMENTS_KV` namespace declared in `wrangler.toml`.
-- **TypeScript paths** are configured in `tsconfig.json` for ergonomic imports (`@components/*`, `@layouts/*`, etc.).
+| Purpose | Tool | Notes |
+|---------|------|-------|
+| Static site build | Node.js 18+, npm | Run Astro builds locally or inside CI |
+| Worker & tunnel hosting | Cloudflare account | Needs Workers, KV, and Tunnel privileges |
+| Automation | GitHub Actions | Stores secrets and runs `wrangler deploy` |
+| Tunnel dashboard | Docker Engine | Hosts the Cloudflared Web UI container |
 
-## Environment setup
+## Secrets and configuration
 
-Install dependencies:
+> :lock: **Keep all credentials inside GitHub Secrets**. `.env.local` is for local experiments only and should stay git-ignored.
 
-```bash
-npm install
-```
+| Secret | Description | Where it is used |
+|--------|-------------|------------------|
+| `CF_ACCOUNT_ID` | Cloudflare account identifier | GitHub Actions `wrangler deploy` workflow |
+| `CF_API_TOKEN` | API token with Worker/Tunnel permissions | GitHub Actions | 
+| `TUNNEL_HOSTNAME` | Domain routed through the tunnel (e.g. `example.com`) | Worker runtime to build proxied URLs |
+| `COMMENTS_KV_ID` | KV namespace for storing blog comments | `wrangler.toml` + Worker bindings |
 
-Populate your KV namespace IDs inside `wrangler.toml` and optionally provide additional environment variables under the `[vars]` block.
+Add Cloudflare bindings in `wrangler.toml` under `[vars]` and `[kv_namespaces]` to match your account.
 
 ## Local development
 
+1. Install dependencies
+   ```bash
+   npm install
+   ```
+2. Launch Astro with the Cloudflare adapter
+   ```bash
+   npm run dev
+   ```
+   The site becomes available at <http://localhost:4321>. Use `npm run dev -- --experimental-integrations` to emulate the
+   Worker locally and `wrangler dev` for isolated API testing.
+
+## Deployment pipeline
+
+1. Push to the default branch. GitHub Actions runs the deployment workflow and loads secrets securely.
+2. The workflow executes `wrangler deploy` to publish the Worker and any static assets.
+3. Visitors reach the Worker via `workers.dev` or a custom domain. Requests for self-hosted services are routed through
+   Cloudflare Tunnel managed by the Dockerized Cloudflared Web UI.
+
+### Manual deployment commands
+
+Run locally if you need to bypass CI:
+
 ```bash
-npm run dev
+npm run build
+wrangler deploy
 ```
 
-Astro will run locally at `http://localhost:4321` with hot module reloading.
-
-To emulate the Cloudflare Worker locally, run:
+For Cloudflare Pages deployments:
 
 ```bash
-npm run dev -- --experimental-integrations
+wrangler pages deploy ./dist
 ```
 
-and, in a separate terminal, you can also run `wrangler dev` to exercise just the API function if needed.
+## Operating the stack
 
-## Build & deploy
+### Daily checklist
 
-1. Generate a production build:
-   ```bash
-   npm run build
-   ```
-2. Preview the built output locally:
-   ```bash
-   npm run preview
-   ```
-3. Publish to Cloudflare Pages (assuming the project is connected):
-   ```bash
-   wrangler pages deploy ./dist
-   ```
-   or, for Wrangler deployments to Workers:
-   ```bash
-   wrangler deploy
-   ```
+- [ ] Confirm the Cloudflared Tunnel is online in the Web UI (`http://localhost:14333`).
+- [ ] Ensure the Worker endpoint responds via its public domain.
+- [ ] Review GitHub Actions runs for deployment status.
+- [ ] Rotate GitHub Secrets regularly and invalidate old tokens.
 
 ## Extended Codex documentation
 
@@ -100,3 +115,39 @@ Detailed Codex workflows have moved into dedicated guides:
 - [Model Context Protocol integration](docs/mcp.md) – configuring MCP servers in Codex, popular server examples, and running Codex itself as an MCP server.
 
 These documents keep the README focused on the portfolio project while preserving the in-depth Codex references for teams that rely on automated workflows.
+### Routine commands
+
+| Command | Purpose |
+|---------|---------|
+| `docker ps` | Inspect the Cloudflared Web UI container state |
+| `docker restart cloudflared` | Restart the Tunnel dashboard |
+| `docker logs cloudflared` | Review tunnel diagnostics |
+| `git push origin main` | Trigger automated deployment |
+| `npm run deploy` | Manual Worker deployment alias (configure in `package.json` if needed) |
+
+## Troubleshooting
+
+| Symptom | Investigation steps |
+|---------|--------------------|
+| Worker URL returns errors | Check GitHub Actions logs, confirm Worker routes in the Cloudflare dashboard |
+| Tunnel offline / 502 errors | Verify tunnel status in the Web UI, ensure the backend service (Home Assistant/NAS/etc.) is running |
+| Deployments fail | Refresh `CF_API_TOKEN` and `CF_ACCOUNT_ID` secrets, inspect workflow logs |
+| New code not visible | Make sure a deployment ran, then hard-refresh the browser cache |
+
+## Automation ideas
+
+- Enable [Watchtower](https://containrrr.dev/watchtower/) to auto-update the Cloudflared Web UI container.
+- Integrate notifications (Slack, LINE, Telegram) with GitHub Actions for deployment outcomes.
+- Add uptime monitors such as UptimeRobot or Healthchecks.io to track Worker and tunnel health.
+- Layer Cloudflare Zero Trust policies on the tunnel for fine-grained access control.
+
+## Advanced automations
+
+- **Codex & Agents SDK workflow guide** – Optional cloud and multi-agent automation playbooks have moved to [`CODEX_GUIDE.md`](CODEX_GUIDE.md) so the main README can stay focused on the core project.
+
+## Additional references (Traditional Chinese)
+
+- **操作流程圖**：Mermaid flowchart covering developer-to-deployment stages and tunnel topology.
+- **從部署到日常維運、異常排查到自動化升級**：Runbook for daily operations, troubleshooting, and automation upgrades.
+
+These files remain in the repository root for quick sharing with Mandarin-speaking collaborators.
