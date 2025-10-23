@@ -131,6 +131,10 @@ wrangler pages deploy ./dist
 - Add uptime monitors such as UptimeRobot or Healthchecks.io to track Worker and tunnel health.
 - Layer Cloudflare Zero Trust policies on the tunnel for fine-grained access control.
 
+## Advanced automations
+
+- **Codex & Agents SDK workflow guide** – Optional cloud and multi-agent automation playbooks have moved to [`CODEX_GUIDE.md`](CODEX_GUIDE.md) so the main README can stay focused on the core project.
+
 ## Additional references (Traditional Chinese)
 
 - **操作流程圖**：Mermaid flowchart covering developer-to-deployment stages and tunnel topology.
