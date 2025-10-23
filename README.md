@@ -4,6 +4,7 @@ This repository packages a production-ready Astro site that proxies requests thr
 self-hosted services via Cloudflare Tunnel. The README consolidates every deployment document in the repo so the
 application can be deployed, operated, and upgraded with confidence.
 
+
 ## System architecture
 
 ```mermaid
@@ -105,6 +106,15 @@ wrangler pages deploy ./dist
 - [ ] Review GitHub Actions runs for deployment status.
 - [ ] Rotate GitHub Secrets regularly and invalidate old tokens.
 
+## Extended Codex documentation
+
+Detailed Codex workflows have moved into dedicated guides:
+
+- [Codex cloud environments](docs/codex-cloud.md) – setup scripts, caching, code reviews, and internet-access controls for running this repo in Codex.
+- [Codex + Agents SDK workflows](docs/agents-sdk.md) – step-by-step instructions for MCP-backed single- and multi-agent pipelines.
+- [Model Context Protocol integration](docs/mcp.md) – configuring MCP servers in Codex, popular server examples, and running Codex itself as an MCP server.
+
+These documents keep the README focused on the portfolio project while preserving the in-depth Codex references for teams that rely on automated workflows.
 ### Routine commands
 
 | Command | Purpose |
