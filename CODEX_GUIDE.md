@@ -253,12 +253,12 @@ async def main() -> None:
                 "You are the Designer.\n"
                 "Your only source of truth is AGENT_TASKS.md and REQUIREMENTS.md from the Project Manager.\n"
                 "Do not assume anything that is not written there.\n\n"
-                "You may use the internet for additional guidance or research."
+                "You may use the internet for additional guidance or research.\n"
                 "Deliverables (write to /design):\n"
                 "- design_spec.md – a single page describing the UI/UX layout, main screens, and key visual notes as requested in AGENT_TASKS.md.\n"
                 "- wireframe.md – a simple text or ASCII wireframe if specified.\n\n"
                 "Keep the output short and implementation-friendly.\n"
-                "When complete, handoff to the Project Manager with transfer_to_project_manager_agent."
+                "When complete, handoff to the Project Manager with transfer_to_project_manager_agent.\n"
                 "When creating files, call Codex MCP with {\"approval-policy\":\"never\",\"sandbox\":\"workspace-write\"}."
             ),
             model="gpt-5",
