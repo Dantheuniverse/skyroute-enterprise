@@ -1,11 +1,11 @@
 name = "skyroute-enterprise"
-main = "dist/_worker.js"
+main = "dist/_worker.js/index.js"
 compatibility_date = "2024-04-08"
 compatibility_flags = ["nodejs_compat"]
 
 [site]
 # Astro will output static assets into this directory during `astro build`.
- bucket = "dist/client"
+ bucket = "dist"
 
 [build]
 command = "npm run build"
