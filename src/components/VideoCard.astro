@@ -10,9 +10,8 @@ export interface Props {
 
 const { slug, title, summary, thumbnail, duration, tags = [] } = Astro.props;
 ---
-<!-- Presentational card for portfolio entries -->
-<article class="group flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
-  <a href={`/work/${slug}`} class="relative block aspect-video overflow-hidden">
+<article class="group flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-2 backdrop-blur transition hover:-translate-y-1 hover:border-white/30 hover:bg-white/10">
+  <a href={`/work/${slug}`} class="relative block overflow-hidden rounded-2xl">
     <img
       src={thumbnail}
       alt={`Poster frame for ${title}`}
@@ -25,17 +24,17 @@ const { slug, title, summary, thumbnail, duration, tags = [] } = Astro.props;
       </span>
     )}
   </a>
-  <div class="flex flex-1 flex-col gap-4 p-6">
+  <div class="flex flex-1 flex-col gap-4 p-5 text-white">
     <header class="flex flex-col gap-2">
-      <h3 class="text-xl font-semibold text-slate-900 transition group-hover:text-sky-500 dark:text-slate-100">
+      <h3 class="text-xl font-semibold text-white transition group-hover:text-[#ff9fb0]">
         <a href={`/work/${slug}`}>{title}</a>
       </h3>
-      <p class="text-sm text-slate-600 dark:text-slate-400">{summary}</p>
+      <p class="text-sm text-slate-300">{summary}</p>
     </header>
     {tags.length > 0 && (
-      <ul class="mt-auto flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+      <ul class="mt-auto flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
         {tags.map((tag) => (
-          <li class="rounded-full border border-slate-200 px-3 py-1 dark:border-slate-700" data-tag={tag}>
+          <li class="rounded-full border border-white/20 px-3 py-1" data-tag={tag}>
             {tag}
           </li>
         ))}

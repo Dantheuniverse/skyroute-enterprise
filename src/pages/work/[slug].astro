@@ -11,24 +11,25 @@ if (!work) {
 }
 ---
 <BaseLayout title={work.title} description={work.summary} ogImage={work.thumbnail}>
-  <article class="mx-auto max-w-5xl px-6 py-16">
-    <!-- Project metadata -->
+  <article class="mx-auto max-w-4xl px-6 py-16 text-white">
     <header class="space-y-4">
-      <p class="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">{new Date(work.publishedAt).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</p>
-      <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100">{work.title}</h1>
-      <div class="flex flex-wrap items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
-        <span>Duration: {work.duration}</span>
-        {work.client && <span>Client: {work.client}</span>}
+      <span data-pill>{new Date(work.publishedAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</span>
+      <h1 class="text-4xl font-bold leading-tight sm:text-5xl">{work.title}</h1>
+      <p class="text-base text-slate-300">{work.summary}</p>
+      <div class="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
+        <span>Duration {work.duration}</span>
+        {work.client && <span>Client {work.client}</span>}
       </div>
-      <ul class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+      <ul class="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
         {work.tags.map((tag) => (
-          <li class="rounded-full border border-slate-200 px-3 py-1 dark:border-slate-700" data-tag={tag}>{tag}</li>
+          <li class="rounded-full border border-white/20 px-3 py-1" data-tag={tag}>
+            {tag}
+          </li>
         ))}
       </ul>
     </header>
 
-    <!-- Lazy-loaded video player with poster -->
-    <div class="mt-10 overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 shadow-lg dark:border-slate-800">
+    <div class="mt-10 overflow-hidden rounded-3xl border border-white/10 bg-black/40 shadow-2xl">
       <video
         class="lazy-video h-full w-full"
         controls
@@ -42,8 +43,7 @@ if (!work) {
       </video>
     </div>
 
-    <!-- Long-form project description -->
-    <div class="prose prose-slate mt-10 max-w-none dark:prose-invert">
+    <div class="prose prose-invert prose-p:text-slate-300 mt-10 max-w-none">
       <p>{work.description}</p>
     </div>
 
