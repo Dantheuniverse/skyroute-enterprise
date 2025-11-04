@@ -1,45 +1,79 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 ---
-<BaseLayout title="About" description="Learn about Skyroute Enterprise's approach to immersive video, projection, and experiential storytelling." ogImage="/videos/og-placeholder.svg">
-  <!-- Company story and positioning -->
-  <section class="mx-auto flex max-w-4xl flex-col gap-8 px-6 py-20">
-    <header class="space-y-4">
-      <p class="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">About Skyroute Enterprise</p>
-      <h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100">We build cinematic experiences that move audiences</h1>
-    </header>
-    <div class="space-y-6 text-base text-slate-700 dark:text-slate-300">
-      <p>
-        Skyroute Enterprise is a hybrid studio blending film craft, experiential design, and technical innovation. We produce immersive videos, projection installations, and live media experiences for clients seeking to inspire, educate, and delight.
-      </p>
-      <p>
-        Our team spans directors, technologists, and composers who collaborate with brands and institutions to craft narratives that feel both intimate and spectacular. From volumetric capture to real-time rendering, we combine proven workflows with emerging techniques to keep the focus on story.
-      </p>
-      <p>
-        When you work with us, expect strategic discovery, iterative prototyping, and a delivery pipeline ready for broadcast or on-site deployment. Our projects ship with robust analytics, accessibility considerations, and infrastructure tuned for Cloudflare's edge network.
+<BaseLayout
+  title="About"
+  description="Get to know the creator behind Skyroute Enterprise—the personal studio that powers the YouTube channel and immersive website experience."
+  ogImage="/videos/og-placeholder.svg"
+>
+  <section class="mx-auto max-w-5xl px-6 py-20">
+    <div class="space-y-6 text-white">
+      <span data-pill>Behind the lens</span>
+      <h1 class="text-4xl font-bold leading-tight sm:text-5xl">A personal studio built to document ambitious ideas</h1>
+      <p class="text-base text-slate-300">
+        Skyroute Enterprise is both a portfolio and a live journal. Every production is filmed, edited, and shared in sync across the website
+        and the YouTube channel so the audience can follow the craft in real time.
       </p>
     </div>
-    <!-- Snapshot of capabilities and collaborators -->
-    <div class="grid gap-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:grid-cols-3">
-      <div>
-        <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Studios</h2>
-        <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">San Francisco • Taipei • Remote-first worldwide</p>
+
+    <div class="mt-12 grid gap-8 lg:grid-cols-3">
+      <div data-surface class="space-y-4 p-8">
+        <h2 class="text-xl font-semibold text-white">What drives the work</h2>
+        <p class="text-sm text-slate-300">
+          Story-led technology. Each episode explores how immersive media, lighting, and sound design can trigger emotion. The personal site keeps extended notes while YouTube captures the momentum.
+        </p>
       </div>
-      <div>
-        <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Expertise</h2>
-        <ul class="mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-          <li>Immersive film direction</li>
-          <li>Projection mapping &amp; interactive installations</li>
-          <li>Spatial audio and sound design</li>
+      <div data-surface class="space-y-4 p-8">
+        <h2 class="text-xl font-semibold text-white">Signature aesthetics</h2>
+        <p class="text-sm text-slate-300">
+          Neon gradients, glassy surfaces, and generous negative space. The goal is cohesion—whether it is a video frame or a page layout, the same palette guides the experience.
+        </p>
+      </div>
+      <div data-surface class="space-y-4 p-8">
+        <h2 class="text-xl font-semibold text-white">How content ships</h2>
+        <p class="text-sm text-slate-300">
+          Each project receives a long-form article, an annotated gallery, and a YouTube release. Members receive bonus LUT packs, color grading walkthroughs, and behind-the-scenes instrumentals.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-16 grid gap-10 lg:grid-cols-[1.2fr,1fr] lg:items-start">
+      <div class="space-y-6 text-white">
+        <h2 class="text-3xl font-semibold">Timeline</h2>
+        <ul class="space-y-6 text-sm text-slate-300">
+          <li>
+            <p class="text-white">2021 — Channel launch</p>
+            <p>The YouTube channel debuts with build logs that mirror the same bold typography and gradients as the personal homepage.</p>
+          </li>
+          <li>
+            <p class="text-white">2022 — Projection residencies</p>
+            <p>Immersive installations begin touring festivals. Each stop earns its own microsite section with interactive timelines.</p>
+          </li>
+          <li>
+            <p class="text-white">2023 — Live grading sessions</p>
+            <p>Weekly livestreams and watch parties bring the community into the grading bay, matching the website’s glassmorphism UI.</p>
+          </li>
+          <li>
+            <p class="text-white">2024 — Unified brand refresh</p>
+            <p>The redesign you are browsing—tying YouTube, newsletter, and website together with a single neon noir identity.</p>
+          </li>
         </ul>
       </div>
-      <div>
-        <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Partners</h2>
-        <ul class="mt-2 space-y-1 text-sm text-slate-600 dark:text-slate-400">
-          <li>Aerospace &amp; mobility innovators</li>
-          <li>Museums &amp; cultural festivals</li>
-          <li>Frontier technology startups</li>
+      <div data-surface class="space-y-5 p-8 text-slate-300">
+        <h2 class="text-2xl font-semibold text-white">Toolkit & collaborators</h2>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-start gap-3"><span class="mt-1 text-[#ff9fb0]">▹</span> Cinema cameras, FPV rigs, and volumetric capture pipelines.</li>
+          <li class="flex items-start gap-3"><span class="mt-1 text-[#ff9fb0]">▹</span> Custom TouchDesigner patches for projection mapping.</li>
+          <li class="flex items-start gap-3"><span class="mt-1 text-[#ff9fb0]">▹</span> Collaborations with musicians, choreographers, and lighting designers.</li>
+          <li class="flex items-start gap-3"><span class="mt-1 text-[#ff9fb0]">▹</span> Cloudflare Workers + Astro for rapid microsite launches.</li>
         </ul>
+        <a
+          href="mailto:hello@skyrouteenterprise.com"
+          class="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40"
+        >
+          <span aria-hidden="true">🤝</span>
+          Discuss a collaboration
+        </a>
       </div>
     </div>
   </section>
