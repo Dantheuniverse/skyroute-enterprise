@@ -30,3 +30,17 @@ rag_name = "rough-smoke-b49b"
 [vars]
 # 您專案的其他環境變數
 SITE_NAME = "Skyroute Enterprise Portfolio"
+[observability]
+enabled = false
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = true
+persist = true
+head_sampling_rate = 1
