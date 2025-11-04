@@ -1,20 +1,94 @@
-name = "skyboundstories"
-main = "dist/_worker.js/index.js"
-compatibility_date = "2024-09-23"
-compatibility_flags = ["nodejs_compat"]
+// Cloudflare Worker 整合範例：KV 儲存和 AI 搜尋 (AutoRAG)
 
-[site]
-# Astro will output static assets into this directory during `astro build`.
- bucket = "dist"
+// 假設 Env 介面（或 TypeScript 類型）包含 KV 和 AI_RAG 繫結：
+// interface Env {
+//   COMMENTS_KV: KVNamespace; // 您的 KV 繫結
+//   RAG_AI: AISearch;         // 您的 AI Search 繫結 (AutoRAG)
+// }
 
-[build]
-command = "npm run build"
+export default {
+    /**
+     * @param {Request} request
+     * @param {Env} env - 包含所有繫結的環境對象
+     * @param {ExecutionContext} ctx
+     */
+    async fetch(request, env, ctx) {
+        const url = new URL(request.url);
+        const path = url.pathname;
 
-[[kv_namespaces]]
-binding = "COMMENTS_KV"
-id = "00000000000000000000000000000000" # replace with your production KV namespace id
-preview_id = "11111111111111111111111111111111" # optional: preview namespace for local dev
+        // --- 路由 1: KV 命名空間操作範例 ---
+        if (path.startsWith('/kv')) {
+            // 由於這是 Pages Worker，KV 繫結名稱來自 wrangler.toml，我們使用 COMMENTS_KV
+            const kv = env.COMMENTS_KV;
 
-[vars]
-# Example of configuring analytics or other environment variables.
-SITE_NAME = "Skyroute Enterprise Portfolio"
+            // 1. 寫入一個 Key-Value Pair
+            await kv.put('example_key', '這是來自 Skyroute Enterprise 的 KV 儲存資料');
+
+            // 2. 讀取該 Key-Value Pair
+            const value = await kv.get('example_key');
+
+            // 3. 列出所有 Key
+            const allKeys = await kv.list();
+
+            // 4. 刪除該 Key (為避免每次都寫入，通常不會立即刪除，但保留範例)
+            // await kv.delete('example_key'); 
+
+            return new Response(
+                JSON.stringify({
+                    message: "KV 操作完成 (已寫入、讀取並列出)",
+                    retrieved_value: value,
+                    all_keys_in_namespace: allKeys.keys,
+                }, null, 2),
+                { 
+                    headers: { 'Content-Type': 'application/json' },
+                    status: 200
+                }
+            );
+        }
+
+        // --- 路由 2: AI 搜尋 (AutoRAG) 操作範例 ---
+        if (path.startsWith('/search')) {
+            // 獲取使用者提供的查詢
+            const userQuery = url.searchParams.get('q');
+            
+            if (!userQuery) {
+                return new Response("請提供一個查詢參數 (e.g., /search?q=您想問的問題...)", { status: 400 });
+            }
+
+            try {
+                // RAG_AI 是我們在 wrangler.toml 中為 rough-smoke-b49b 設定的繫結名稱
+                const ragResults = await env.RAG_AI.search({
+                    query: userQuery,
+                    limit: 3, // 限制檢索 3 個來源片段
+                });
+
+                const responseData = {
+                    query: userQuery,
+                    // AI 模型生成的總結答案
+                    answer: ragResults.answer, 
+                    // 檢索到的原始來源片段 (用於驗證答案的基礎)
+                    sources: ragResults.snippets.map(s => ({
+                        text: s.text,
+                        // 可選：包含來源的 metadata (例如檔案路徑或 URL)
+                        // metadata: s.metadata 
+                    })), 
+                };
+
+                return new Response(JSON.stringify(responseData, null, 2), {
+                    headers: { 'Content-Type': 'application/json' },
+                    status: 200
+                });
+
+            } catch (error) {
+                console.error("AI Search 呼叫失敗:", error);
+                return new Response(
+                    JSON.stringify({ error: `AI 搜尋處理失敗: ${error.message}` }),
+                    { headers: { 'Content-Type': 'application/json' }, status: 500 }
+                );
+            }
+        }
+
+        // --- 預設路由 ---
+        return new Response("歡迎來到 Skyroute Enterprise Worker。請訪問 /kv 進行 KV 測試 或 /search?q=... 進行 AI 搜尋測試。", { status: 200 });
+    }
+}
