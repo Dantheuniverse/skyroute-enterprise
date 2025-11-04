@@ -29,19 +29,20 @@ WORKDIR /var/app
 RUN apt update && apt upgrade -y && apt install -y curl
 
 RUN if [ "$TARGETVARIANT" = "v7" ]; then \
-        CLOUDFLARED_PKG="cloudflared-$TARGETOS-${TARGETARCH}hf.deb"; \
-    else \
-        CLOUDFLARED_PKG="cloudflared-$TARGETOS-$TARGETARCH.deb"; \
-    fi && \
-    curl -L --output cloudflared.deb "$CLOUDFLARED_BASE_URL/$CLOUDFLARED_VERSION/$CLOUDFLARED_PKG" && \
-    dpkg -i cloudflared.deb && \
-    rm cloudflared.deb
+        CLOUDFLARED_PKG="cloudflared-$TARGETOS-${TARGETARCH}hf.deb"; \
+    else \
+        CLOUDFLARED_PKG="cloudflared-$TARGETOS-$TARGETARCH.deb"; \
+    fi && \
+    curl -L --output cloudflared.deb "$CLOUDFLARED_BASE_URL/$CLOUDFLARED_VERSION/$CLOUDFLARED_PKG" && \
+    dpkg -i cloudflared.deb && \
+    rm cloudflared.deb
 
 VOLUME /config
 VOLUME /root/.cloudflared
 
-COPY app/backend /var/app/backend
-COPY app/frontend /var/app/frontend
+# 修复：移除了 'app/' 前缀。假设 'backend' 和 'frontend' 位于仓库的根目录。
+COPY backend /var/app/backend
+COPY frontend /var/app/frontend
 
 RUN cd /var/app/frontend && npm install && npm run build
 RUN cd /var/app/backend && npm install
