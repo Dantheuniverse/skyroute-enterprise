@@ -1,11 +1,12 @@
 # .github/workflows/github-pages.yml
 
-name: Deploy Astro to GitHub Pages
+name: Deploy Astro to GitHub Pages and Build Docker
 on:
   push:
     branches: ["main"]
 
 jobs:
+  # 1. JOB TO BUILD AND UPLOAD ASTRO ARTIFACT
   build:
     runs-on: ubuntu-latest
     steps:
@@ -24,15 +25,45 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # This should match your Astro output directory (usually 'dist')
-          path: ./dist
-  
+          path: ./dist # Ensure this is your Astro output directory
+
+  # 2. JOB TO BUILD AND PUSH DOCKER IMAGE
+  # NOTE: We assume you will define env.RELEASE_VERSION somewhere,
+  #       or this job will fail due to the empty variable.
+  docker: # <-- New Job added here
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Setup QEMU for multi-platform builds
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      # Setup Docker BuildX
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      # Login to Docker Hub/GitHub Container Registry (Mandatory for push)
+      # You need to add 'docker login' or use appropriate actions/metadata.
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          platforms: linux/amd64,linux/arm64,linux/armhf
+          context: .
+          # Tags must be correctly indented under 'with:' and properly formatted
+          tags: |
+            danieltheflukr/skyroute-enterprise:latest,
+            danieltheflukr/skyroute-enterprise:${{ env.RELEASE_VERSION }},
+            ghcr.io/danieltheflukr/skyroute-enterprise:latest,
+            ghcr.io/danieltheflukr/skyroute-enterprise:${{ env.RELEASE_VERSION }}
+
+  # 3. JOB TO DEPLOY ASTRO ARTIFACT
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: build # Depends only on the 'build' job finishing
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
