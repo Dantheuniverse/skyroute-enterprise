@@ -45,17 +45,33 @@
     main p {
       margin: 20px 0;
       font-size: 1.05em;
+    }
+
+    .stagger {
       opacity: 0;
       animation: fadeUp 1s forwards;
     }
 
-    main p:nth-child(1) { animation-delay: 0.5s; }
-    main p:nth-child(2) { animation-delay: 1s; }
-    main p:nth-child(3) { animation-delay: 1.5s; }
-    main p:nth-child(4) { animation-delay: 2s; }
-    main p:nth-child(5) { animation-delay: 2.5s; }
-    main p:nth-child(6) { animation-delay: 3s; }
-    main p:nth-child(7) { animation-delay: 3.5s; }
+    .delay-1 { animation-delay: 0.5s; }
+    .delay-2 { animation-delay: 0.9s; }
+    .delay-3 { animation-delay: 1.3s; }
+    .delay-4 { animation-delay: 1.7s; }
+    .delay-5 { animation-delay: 2.1s; }
+    .delay-6 { animation-delay: 2.5s; }
+    .delay-7 { animation-delay: 2.9s; }
+    .delay-8 { animation-delay: 3.3s; }
+    .delay-9 { animation-delay: 3.7s; }
+    .delay-10 { animation-delay: 4.1s; }
+    .delay-11 { animation-delay: 4.5s; }
+    .delay-12 { animation-delay: 4.9s; }
+    .delay-13 { animation-delay: 5.3s; }
+    .delay-14 { animation-delay: 5.7s; }
+    .delay-15 { animation-delay: 6.1s; }
+    .delay-16 { animation-delay: 6.5s; }
+    .delay-17 { animation-delay: 6.9s; }
+    .delay-18 { animation-delay: 7.3s; }
+    .delay-19 { animation-delay: 7.7s; }
+    .delay-20 { animation-delay: 8.1s; }
 
     .final-message {
       color: #d94b6b;
@@ -78,21 +94,33 @@
       font-style: italic;
     }
 
-    img {
+    .media {
+      display: block;
       width: 95%;
       max-width: 650px;
       margin: 25px auto;
       border-radius: 12px;
       box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
       transition: transform 0.6s ease, box-shadow 0.6s ease;
-      opacity: 0;
-      animation: fadeUp 1s forwards;
+    }
+
+    .media.stagger {
       filter: none;
     }
 
-    img:hover {
+    .media:hover {
       transform: scale(1.02);
       box-shadow: 0 8px 26px rgba(0, 0, 0, 0.2);
+    }
+
+    .video-wrapper {
+      overflow: hidden;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
     }
 
     /* 浮動愛心 */
@@ -173,27 +201,40 @@
       <h1>致我最愛的小偉</h1>
     </header>
     <main>
-      <p>小偉，謝謝你願意再給我們一次機會。</p>
+      <p class="stagger delay-1">小偉，謝謝你願意再給我們一次機會。</p>
 
-      <img src="https://i.postimg.cc/njp0QXBB/IMG-0811.jpg" alt="photo 1">
-      <p>我知道這次的開始，不只是回頭，而是重新選擇。</p>
+      <img class="media stagger delay-2" src="https://i.postimg.cc/njp0QXBB/IMG-0811.jpg" alt="我們牽著手一起遠眺的照片">
+      <p class="stagger delay-3">我知道這次的開始，不只是回頭，而是重新選擇。</p>
 
-      <img src="https://i.postimg.cc/7CgK63G7/IMG-0812.jpg" alt="photo 2">
-      <p>我也明白「重修舊好」不代表一切自動變好，<br>但我是真的願意一步一步修補，慢慢學著讓我們都更舒服。</p>
+      <img class="media stagger delay-4" src="https://i.postimg.cc/7CgK63G7/IMG-0812.jpg" alt="我們的微笑特寫">
+      <p class="stagger delay-5">我也明白「重修舊好」不代表一切自動變好，<br>但我是真的願意一步一步修補，慢慢學著讓我們都更舒服。</p>
 
-      <img src="https://i.postimg.cc/WFTXJdgM/IMG-0813.jpg" alt="photo 3">
-      <p>我不會讓過去的事情變成負擔，也不會再讓情緒先跑。</p>
+      <img class="media stagger delay-6" src="https://i.postimg.cc/WFTXJdgM/IMG-0813.jpg" alt="彼此擁抱的快門瞬間">
+      <p class="stagger delay-7">我不會讓過去的事情變成負擔，也不會再讓情緒先跑。</p>
 
-      <img src="https://i.postimg.cc/2VKcX8RP/IMG-0814.jpg" alt="photo 4">
-      <p>我希望從現在起，每一步都更懂得珍惜，<br>有你在的生活，我會用心守護。</p>
+      <img class="media stagger delay-8" src="https://i.postimg.cc/2VKcX8RP/IMG-0814.jpg" alt="我們並肩走在海邊">
+      <p class="stagger delay-9">我希望從現在起，每一步都更懂得珍惜，<br>有你在的生活，我會用心守護。</p>
 
-      <img src="https://i.postimg.cc/mzs6NXfQ/IMG-0815.jpg" alt="photo 5">
-      <p>我們都變了，也都長大了一點，<br>過去教會我們怎麼愛，也教會我們什麼該放下。</p>
+      <img class="media stagger delay-10" src="https://i.postimg.cc/mzs6NXfQ/IMG-0815.jpg" alt="夕陽下的剪影">
+      <p class="stagger delay-11">我們都變了，也都長大了一點，<br>過去教會我們怎麼愛，也教會我們什麼該放下。</p>
 
-      <img src="https://i.postimg.cc/QHCRV7x4/20251017-043255078-i-OS.avif" alt="photo 6">
-      <p class="final-message">這次，我想和你一起往前走，<br>不再回頭比較，只專注在「我們正在變好的這條路上」。</p>
+      <img class="media stagger delay-12" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=80" alt="我們在花叢間相視而笑">
+      <p class="stagger delay-13">想著未來的日子，我希望用更多的心意，<br>為我們記錄那些專屬於彼此的閃耀瞬間。</p>
 
-      <img src="https://i.postimg.cc/XXQRVL3Z/IMG-0798.jpg" alt="photo 7">
+      <img class="media stagger delay-14" src="https://images.unsplash.com/photo-1530023367847-a683933f4175?auto=format&fit=crop&w=1400&q=80" alt="一起在城市街頭大笑">
+      <p class="stagger delay-15">就算是平凡的日常，我也願意和你一點一滴堆疊，<br>讓生活充滿我們才懂的溫度與默契。</p>
+
+      <div class="media video-wrapper stagger delay-16">
+        <video controls loop playsinline poster="https://images.unsplash.com/photo-1474473214124-03c45f7f1d70?auto=format&fit=crop&w=1400&q=80">
+          <source src="https://cdn.coverr.co/videos/coverr-a-couple-enjoys-the-sunset-0541/1080p.mp4" type="video/mp4">
+          您的瀏覽器不支援影片播放。
+        </video>
+      </div>
+      <p class="stagger delay-17">每一次看著我們一起追著夕陽的影片，我就更確定，<br>未來不論有多少未知，我都想牽著你往前走。</p>
+
+      <img class="media stagger delay-18" src="https://i.postimg.cc/QHCRV7x4/20251017-043255078-i-OS.avif" alt="清晨的我們在窗邊留影">
+      <img class="media stagger delay-19" src="https://i.postimg.cc/XXQRVL3Z/IMG-0798.jpg" alt="我們在咖啡廳的合照">
+      <p class="final-message stagger delay-20">這次，我想和你一起往前走，<br>不再回頭比較，只專注在「我們正在變好的這條路上」。</p>
     </main>
     <footer>
       <p>永遠愛你的：志豪</p>

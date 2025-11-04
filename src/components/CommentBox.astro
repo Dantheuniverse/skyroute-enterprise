@@ -5,7 +5,7 @@ export interface Props {
 
 const { postId } = Astro.props;
 ---
-<section class="mt-16 space-y-6" data-comment-box>
+<section class="mt-16 space-y-6" data-comment-box data-post-id={postId}>
   <div class="space-y-3 text-white">
     <h2 class="text-2xl font-semibold">Share your thoughts</h2>
     <p class="text-sm text-slate-300">
@@ -50,106 +50,115 @@ const { postId } = Astro.props;
 </section>
 
 <script type="module" is:inline>
-  const postId = ${JSON.stringify(postId)};
-  const form = document.getElementById(`comment-form-${postId}`);
-  const list = document.getElementById(`comment-list-${postId}`);
-  const status = document.getElementById(`comment-status-${postId}`);
+  const container = document.currentScript?.closest('[data-comment-box]');
+  const postId = container?.dataset.postId ?? '';
+  if (!postId) {
+    console.warn('CommentBox missing postId dataset attribute.');
+  }
 
-  const templates = {
-    empty: `<li class="text-sm text-slate-400">Be the first to respond.</li>`
-  };
+  const form = postId ? document.getElementById(`comment-form-${postId}`) : null;
+  const list = postId ? document.getElementById(`comment-list-${postId}`) : null;
+  const status = postId ? document.getElementById(`comment-status-${postId}`) : null;
 
-  const escapeHTML = (value) => {
-    const stringValue = typeof value === 'string' ? value : String(value ?? '');
-    return stringValue
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  };
-
-  const renderComments = (comments) => {
-    if (!Array.isArray(comments) || comments.length === 0) {
-      list.innerHTML = templates.empty;
-      return;
-    }
-
-    list.innerHTML = comments
-      .map((comment) => `
-        <li class="rounded-3xl border border-white/10 bg-white/5 p-5 text-sm text-slate-200 backdrop-blur">
-          <div class="flex items-center justify-between">
-            <span class="font-semibold text-white">${escapeHTML(comment.author ?? 'Anonymous')}</span>
-            <time class="text-xs uppercase tracking-[0.3em] text-white/60" datetime="${comment.createdAt}">
-              ${new Date(comment.createdAt).toLocaleString()}
-            </time>
-          </div>
-          <p class="mt-3 whitespace-pre-wrap leading-relaxed text-slate-300">${escapeHTML(comment.content)}</p>
-        </li>
-      `)
-      .join('');
-  };
-
-  const setStatus = (message, tone = 'info') => {
-    if (!status) return;
-    status.textContent = message;
-    status.classList.remove('hidden', 'text-red-400', 'text-emerald-400', 'text-slate-300');
-    const toneClass = tone === 'error' ? 'text-red-400' : tone === 'success' ? 'text-emerald-400' : 'text-slate-300';
-    status.classList.add(toneClass);
-  };
-
-  const loadComments = async () => {
-    try {
-      const response = await fetch(`/api/comments?postId=${encodeURIComponent(postId)}`);
-      if (!response.ok) {
-        throw new Error('Failed to load comments');
-      }
-      const body = await response.json();
-      renderComments(body.comments ?? []);
-      if (status) {
-        status.textContent = '';
-        status.classList.add('hidden');
-      }
-    } catch (error) {
-      console.error(error);
-      setStatus('Unable to load comments at the moment. Please try again later.', 'error');
-    }
-  };
-
-  form?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const formData = new FormData(form);
-    const payload = {
-      postId,
-      author: formData.get('author'),
-      content: formData.get('content')
+  if (!postId || !form || !list) {
+    console.warn('CommentBox could not initialize because required elements are missing.');
+  } else {
+    const templates = {
+      empty: `<li class="text-sm text-slate-400">Be the first to respond.</li>`
     };
 
-    try {
-      setStatus('Sending your comment...', 'info');
-      const response = await fetch('/api/comments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
+    const escapeHTML = (value) => {
+      const stringValue = typeof value === 'string' ? value : String(value ?? '');
+      return stringValue
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    };
 
-      const body = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        const message = typeof body.error === 'string' ? body.error : 'Request failed';
-        throw new Error(message);
+    const renderComments = (comments) => {
+      if (!Array.isArray(comments) || comments.length === 0) {
+        list.innerHTML = templates.empty;
+        return;
       }
 
-      form.reset();
-      setStatus('Thanks! Your comment is live.', 'success');
-      await loadComments();
-    } catch (error) {
-      console.error(error);
-      setStatus(error instanceof Error ? error.message : 'We could not submit your comment. Please retry.', 'error');
-    }
-  });
+      list.innerHTML = comments
+        .map((comment) => `
+          <li class="rounded-3xl border border-white/10 bg-white/5 p-5 text-sm text-slate-200 backdrop-blur">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold text-white">${escapeHTML(comment.author ?? 'Anonymous')}</span>
+              <time class="text-xs uppercase tracking-[0.3em] text-white/60" datetime="${comment.createdAt}">
+                ${new Date(comment.createdAt).toLocaleString()}
+              </time>
+            </div>
+            <p class="mt-3 whitespace-pre-wrap leading-relaxed text-slate-300">${escapeHTML(comment.content)}</p>
+          </li>
+        `)
+        .join('');
+    };
 
-  loadComments();
+    const setStatus = (message, tone = 'info') => {
+      if (!status) return;
+      status.textContent = message;
+      status.classList.remove('hidden', 'text-red-400', 'text-emerald-400', 'text-slate-300');
+      const toneClass = tone === 'error' ? 'text-red-400' : tone === 'success' ? 'text-emerald-400' : 'text-slate-300';
+      status.classList.add(toneClass);
+    };
+
+    const loadComments = async () => {
+      try {
+        const response = await fetch(`/api/comments?postId=${encodeURIComponent(postId)}`);
+        if (!response.ok) {
+          throw new Error('Failed to load comments');
+        }
+        const body = await response.json();
+        renderComments(body.comments ?? []);
+        if (status) {
+          status.textContent = '';
+          status.classList.add('hidden');
+        }
+      } catch (error) {
+        console.error(error);
+        setStatus('Unable to load comments at the moment. Please try again later.', 'error');
+      }
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const payload = {
+        postId,
+        author: formData.get('author'),
+        content: formData.get('content')
+      };
+
+      try {
+        setStatus('Sending your comment...', 'info');
+        const response = await fetch('/api/comments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const body = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          const message = typeof body.error === 'string' ? body.error : 'Request failed';
+          throw new Error(message);
+        }
+
+        form.reset();
+        setStatus('Thanks! Your comment is live.', 'success');
+        await loadComments();
+      } catch (error) {
+        console.error(error);
+        setStatus(error instanceof Error ? error.message : 'We could not submit your comment. Please retry.', 'error');
+      }
+    });
+
+    loadComments();
+  }
 </script>
