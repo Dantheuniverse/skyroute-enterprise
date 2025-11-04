@@ -4,12 +4,47 @@
 
 :root {
   color-scheme: light dark;
+  --brand-primary: 255 76 96; /* Vibrant coral pulled from channel visuals */
+  --brand-secondary: 106 91 255; /* Electric indigo accent */
+  --brand-surface: 13 17 23;
+  --brand-muted: 148 163 184;
 }
 
 body {
-  @apply bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased;
+  @apply antialiased bg-[#090b12] text-slate-100;
+  background-image: radial-gradient(circle at top left, rgba(255, 76, 96, 0.25), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(106, 91, 255, 0.25), transparent 45%);
+  background-attachment: fixed;
 }
 
 a {
-  @apply text-blue-600 dark:text-sky-400 hover:underline;
+  @apply font-semibold text-[#ff4c60] no-underline transition hover:text-[#ff7487];
+}
+
+[data-surface] {
+  @apply rounded-3xl border border-white/10 bg-white/5 backdrop-blur;
+}
+
+[data-text-muted] {
+  @apply text-slate-400;
+}
+
+[ data-gradient-button ] {
+  @apply relative inline-flex items - center justify - center rounded - full px-6 py-3 text - sm font - semibold tracking - wide text - white shadow - lg shadow - [ rgb(var( -- br and -primary )) / 0 .
+}
+
+[ data-gradient-button ]:: after {
+  內容： '' ;
+  @apply absolute inset-0 rounded - full opacity-0 transition;
+  背景： 線性漸變（120度， rgba（var （--brand-primary ），0.8），rgba（var （--brand-secondary ），0.8））；   
+  混合模式：螢幕；
+}
+
+[ data-gradient-button ] : hover:: after ,
+[ data-gradient-button ] : focus-visible :: after {
+  @apply opacity-100;
+}
+
+[data-pill] {
+  @apply inline-flex items-center rounded-full border border-white/10 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-white/70;
 }

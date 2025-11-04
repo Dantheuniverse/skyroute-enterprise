@@ -3,55 +3,154 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import VideoCard from '@components/VideoCard.astro';
 import { workpieces } from '@lib/works';
 
-const featured = workpieces.slice(0, 3);
+const featured = workpieces;
 ---
-<BaseLayout title="Immersive Video Portfolio" description="A curated selection of immersive films, installations, and projection stories crafted by Skyroute Enterprise." ogImage="/videos/og-placeholder.svg">
-  <!-- Hero block introducing the studio -->
-  <section class="relative isolate overflow-hidden bg-slate-900 py-24 text-white">
-    <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_#38bdf8,_transparent_60%)] opacity-50"></div>
-    <div class="mx-auto flex max-w-5xl flex-col gap-8 px-6 text-center">
-      <p class="text-sm uppercase tracking-[0.3em] text-sky-200">Skyroute Enterprise</p>
-      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">Immersive video stories for the new frontier</h1>
-      <p class="mx-auto max-w-2xl text-base text-slate-200">
-        We craft cinematic experiences for visionary brands, blending volumetric capture, projection mapping, and narrative design into unforgettable media journeys.
-      </p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="#portfolio" class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-sky-100">
-          Explore portfolio
-        </a>
-        <a href="/about" class="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:border-white">
-          Meet the team
-        </a>
+<BaseLayout
+  title="Skyroute Enterprise"
+  description="Skyroute Enterprise is the personal playground for immersive storytelling—documented on YouTube with build logs, cinematic breakdowns, and behind-the-scenes experiments."
+  ogImage="/videos/og-placeholder.svg"
+>
+  <section class="relative isolate overflow-hidden">
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(255,76,96,0.35),_transparent_55%)]"></div>
+    <div class="mx-auto flex max-w-6xl flex-col gap-12 px-6 pb-24 pt-20 lg:flex-row lg:items-center">
+      <div class="flex-1 space-y-6 text-white">
+        <div class="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.4em] text-white/70">
+          <span aria-hidden="true">✹</span> Creator studio & channel
+        </div>
+        <h1 class="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+          Immersive storytelling, engineered live on YouTube
+        </h1>
+        <p class="max-w-2xl text-base text-slate-300">
+          From projection-mapped stages to cinematic short films, Skyroute Enterprise chronicles the entire build process on the
+          <strong class="text-white">Skyroute Enterprise YouTube channel</strong>. Dive into process notes, breakdowns, and vlogs that mirror the aesthetic of the personal website.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a
+            href="https://www.youtube.com/channel/UCirc3JMTevbTPhYZYhmvltQ"
+            target="_blank"
+            rel="noreferrer"
+            data-gradient-button
+            class="bg-gradient-to-r from-[#ff4c60] via-[#ff6f8c] to-[#6a5bff]"
+          >
+            Subscribe on YouTube
+          </a>
+          <a href="#featured-work" class="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40">
+            <span aria-hidden="true">↓</span>
+            Explore signature pieces
+          </a>
+        </div>
+      </div>
+      <div class="flex-1">
+        <div data-surface class="relative overflow-hidden p-6">
+          <div class="absolute inset-0 bg-gradient-to-br from-[#ff4c60]/30 via-transparent to-[#6a5bff]/40 blur-3xl"></div>
+          <div class="relative aspect-video overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40">
+            <iframe
+              src="https://www.youtube.com/embed?listType=playlist&list=UUirc3JMTevbTPhYZYhmvltQ"
+              title="Skyroute Enterprise uploads"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              class="h-full w-full"
+            ></iframe>
+          </div>
+          <div class="relative mt-6 space-y-2 text-sm text-slate-300">
+            <p class="font-semibold text-white">Latest uploads playlist</p>
+            <p data-text-muted>
+              The personal site and channel share the same visual identity—high-contrast gradients, neon typography, and cinematic motion. The embed above mirrors that vibe for instant familiarity.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Responsive grid showcasing highlighted workpieces -->
-  <section id="portfolio" class="mx-auto max-w-6xl px-6 py-20">
-    <header class="flex flex-col gap-4 text-center">
-      <p class="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Featured Works</p>
-      <h2 class="text-3xl font-semibold text-slate-900 dark:text-slate-100">Cinematic experiences we are proud of</h2>
-      <p class="mx-auto max-w-2xl text-base text-slate-600 dark:text-slate-400">
-        Each workpiece pairs strategic storytelling with technical artistry. Explore the projects below to see how we translate complex ideas into immersive media.
+  <section id="featured-work" class="mx-auto max-w-6xl px-6 pb-24">
+    <header class="flex flex-col gap-3 text-white">
+      <span data-pill>Signature Projects</span>
+      <h2 class="text-3xl font-semibold sm:text-4xl">Case studies that shaped the channel</h2>
+      <p class="max-w-2xl text-base text-slate-300">
+        These productions have dedicated deep-dive videos on the personal site and YouTube—each reflecting the same gradients, typography, and motion cues.
       </p>
     </header>
-    <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-12 grid gap-8 lg:grid-cols-3">
       {featured.map((work) => (
         <VideoCard {...work} />
       ))}
     </div>
   </section>
 
-  <!-- Contact call-to-action encouraging bookings -->
-  <section class="bg-slate-100 py-20 dark:bg-slate-900/60">
-    <div class="mx-auto flex max-w-5xl flex-col gap-8 px-6 text-center">
-      <h2 class="text-3xl font-semibold text-slate-900 dark:text-slate-100">Ready to bring your story to life?</h2>
-      <p class="mx-auto max-w-2xl text-base text-slate-600 dark:text-slate-400">
-        From pitch to post-production, we partner with clients to design experiences that resonate across physical and digital worlds. Contact us to start planning your next launch.
-      </p>
-      <a href="mailto:hello@skyrouteenterprise.com" class="mx-auto inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-sky-500">
-        Book a discovery call
-      </a>
+  <section class="mx-auto max-w-6xl px-6 pb-24">
+    <div data-surface class="grid gap-10 p-10 lg:grid-cols-[1.3fr,1fr] lg:items-center">
+      <div class="space-y-6 text-white">
+        <span data-pill>Creative focus</span>
+        <h2 class="text-3xl font-semibold sm:text-4xl">Design language lifted directly from the personal website</h2>
+        <p class="text-base text-slate-300">
+          The relaunch keeps the neon-on-midnight palette, wide letterspacing, and glassmorphism featured on the personal domain. Every page shares the same rhythm—hero gradients, layered panels, and crisp sans-serif typography.
+        </p>
+        <ul class="space-y-4 text-sm text-slate-300">
+          <li class="flex items-start gap-3">
+            <span aria-hidden="true" class="mt-1 text-[#ff9fb0]">▹</span>
+            Long-form documentaries with interactive playback overlays.
+          </li>
+          <li class="flex items-start gap-3">
+            <span aria-hidden="true" class="mt-1 text-[#ff9fb0]">▹</span>
+            Projection mapping walkthroughs recorded in studio lighting that matches the brand gradient.
+          </li>
+          <li class="flex items-start gap-3">
+            <span aria-hidden="true" class="mt-1 text-[#ff9fb0]">▹</span>
+            Live sessions streaming builds, color grading, and instrumentation.
+          </li>
+        </ul>
+      </div>
+      <div class="relative">
+        <div class="absolute -inset-6 -z-10 rounded-3xl bg-gradient-to-br from-[#ff4c60]/30 via-transparent to-[#6a5bff]/50 blur-2xl"></div>
+        <div class="space-y-6 rounded-3xl border border-white/10 bg-black/40 p-8 shadow-xl">
+          <h3 class="text-2xl font-semibold text-white">Follow the journey</h3>
+          <p class="text-sm text-slate-300">
+            Weekly newsletters pair with each upload to give extra context—gear lists, LUT breakdowns, and production budgets. Everything points back to the same design system, so the audience never loses the thread.
+          </p>
+          <a
+            href="mailto:hello@skyrouteenterprise.com"
+            class="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40"
+          >
+            <span aria-hidden="true">✉</span>
+            Request collaboration deck
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 pb-24">
+    <div class="grid gap-8 lg:grid-cols-3">
+      <div class="space-y-4 text-white">
+        <span data-pill>What to expect</span>
+        <h2 class="text-3xl font-semibold">A unified platform</h2>
+        <p class="text-sm text-slate-300">
+          Whether you land here from the personal domain or from YouTube, the experience stays consistent—same palette, same voice, same mix of cinematic storytelling and technical craft.
+        </p>
+      </div>
+      <div data-surface class="space-y-3 p-6 text-slate-200">
+        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">Website</p>
+        <h3 class="text-xl font-semibold text-white">Curated case studies</h3>
+        <p class="text-sm text-slate-300">
+          Deep dives with annotated stills, behind-the-scenes galleries, and production notes.
+        </p>
+      </div>
+      <div data-surface class="space-y-3 p-6 text-slate-200">
+        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">YouTube</p>
+        <h3 class="text-xl font-semibold text-white">Real-time builds</h3>
+        <p class="text-sm text-slate-300">
+          Uploads feature vlog energy, live Q&A, and interactive premiere chat for every big drop.
+        </p>
+      </div>
+      <div data-surface class="space-y-3 p-6 text-slate-200 lg:col-start-2">
+        <p class="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">Community</p>
+        <h3 class="text-xl font-semibold text-white">Members-only extras</h3>
+        <p class="text-sm text-slate-300">
+          Supporters receive LUT packs, project files, and early-stage concept art that tie back to the same gradient-driven look.
+        </p>
+      </div>
     </div>
   </section>
 </BaseLayout>
