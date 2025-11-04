@@ -67,10 +67,10 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/armhf
           context: .
           # 修复 2 和 3：标签由换行符分隔，版本标签是条件性的。
+          # 修复 4：移除 tags 块中的注释，避免被解析为无效标签。
           tags: |
             danieltheflukr/skyroute-enterprise:latest
             ghcr.io/danieltheflukr/skyroute-enterprise:latest
-            # 仅在变量不为空时包含版本标签
             ${{ env.RELEASE_VERSION != '' && format('danieltheflukr/skyroute-enterprise:{0}', env.RELEASE_VERSION) || '' }}
             ${{ env.RELEASE_VERSION != '' && format('ghcr.io/danieltheflukr/skyroute-enterprise:{0}', env.RELEASE_VERSION) || '' }}
 
