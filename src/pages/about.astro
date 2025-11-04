@@ -1,80 +1,177 @@
----
-import BaseLayout from '@layouts/BaseLayout.astro';
----
-<BaseLayout
-  title="About"
-  description="Get to know the creator behind Skyroute Enterprise—the personal studio that powers the YouTube channel and immersive website experience."
-  ogImage="/videos/og-placeholder.svg"
->
-  <section class="mx-auto max-w-5xl px-6 py-20">
-    <div class="space-y-6 text-white">
-      <span data-pill>Behind the lens</span>
-      <h1 class="text-4xl font-bold leading-tight sm:text-5xl">A personal studio built to document ambitious ideas</h1>
-      <p class="text-base text-slate-300">
-        Skyroute Enterprise is both a portfolio and a live journal. Every production is filmed, edited, and shared in sync across the website
-        and the YouTube channel so the audience can follow the craft in real time.
-      </p>
-    </div>
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniel's SkyAdvantures 作品集</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Long+Cang&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0e0e1a;
+      background-image:
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+        radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.15) 1px, transparent 30px),
+        radial-gradient(rgba(255,255,255,.5), rgba(255,255,255,.1) 2px, transparent 20px),
+        radial-gradient(rgba(255,255,255,.2), rgba(255,255,255,.05) 1px, transparent 10px);
+      background-size:
+        500px 500px,
+        300px 300px,
+        200px 200px,
+        100px 100px;
+      animation: move-stars 150s linear infinite;
+    }
+    @keyframes move-stars {
+      from { background-position:0 0,50px 50px,250px 250px,150px 150px; }
+      to { background-position:500px 500px,350px 350px,450px 450px,250px 250px; }
+    }
+    .drone-body { animation: float-up 8s ease-in-out infinite; }
+    .drone-controller { animation: float-down 8s ease-in-out infinite; animation-delay:1s; }
+    @keyframes float-up {0%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-20px) rotate(3deg);}100%{transform:translateY(0) rotate(-3deg);} }
+    @keyframes float-down {0%{transform:translateY(0) rotate(3deg);}50%{transform:translateY(20px) rotate(-3deg);}100%{transform:translateY(0) rotate(3deg);} }
+    @media (max-width:768px){.drone-bg-images{display:none}}
+  </style>
+</head>
 
-    <div class="mt-12 grid gap-8 lg:grid-cols-3">
-      <div data-surface class="space-y-4 p-8">
-        <h2 class="text-xl font-semibold text-white">What drives the work</h2>
-        <p class="text-sm text-slate-300">
-          Story-led technology. Each episode explores how immersive media, lighting, and sound design can trigger emotion. The personal site keeps extended notes while YouTube captures the momentum.
-        </p>
-      </div>
-      <div data-surface class="space-y-4 p-8">
-        <h2 class="text-xl font-semibold text-white">Signature aesthetics</h2>
-        <p class="text-sm text-slate-300">
-          Neon gradients, glassy surfaces, and generous negative space. The goal is cohesion—whether it is a video frame or a page layout, the same palette guides the experience.
-        </p>
-      </div>
-      <div data-surface class="space-y-4 p-8">
-        <h2 class="text-xl font-semibold text-white">How content ships</h2>
-        <p class="text-sm text-slate-300">
-          Each project receives a long-form article, an annotated gallery, and a YouTube release. Members receive bonus LUT packs, color grading walkthroughs, and behind-the-scenes instrumentals.
-        </p>
-      </div>
-    </div>
+<body class="dark bg-slate-100 text-slate-800 antialiased">
+<div id="app" class="min-h-screen flex flex-col">
 
-    <div class="mt-16 grid gap-10 lg:grid-cols-[1.2fr,1fr] lg:items-start">
-      <div class="space-y-6 text-white">
-        <h2 class="text-3xl font-semibold">Timeline</h2>
-        <ul class="space-y-6 text-sm text-slate-300">
-          <li>
-            <p class="text-white">2021 — Channel launch</p>
-            <p>The YouTube channel debuts with build logs that mirror the same bold typography and gradients as the personal homepage.</p>
-          </li>
-          <li>
-            <p class="text-white">2022 — Projection residencies</p>
-            <p>Immersive installations begin touring festivals. Each stop earns its own microsite section with interactive timelines.</p>
-          </li>
-          <li>
-            <p class="text-white">2023 — Live grading sessions</p>
-            <p>Weekly livestreams and watch parties bring the community into the grading bay, matching the website’s glassmorphism UI.</p>
-          </li>
-          <li>
-            <p class="text-white">2024 — Unified brand refresh</p>
-            <p>The redesign you are browsing—tying YouTube, newsletter, and website together with a single neon noir identity.</p>
-          </li>
-        </ul>
+  <header class="border-b border-slate-200 dark:border-slate-800">
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-blue-700 dark:text-blue-400">Daniel's SkyAdvantures</h1>
+    </nav>
+  </header>
+
+  <main class="flex-grow">
+
+    <section id="landing-view" class="h-screen min-h-[700px] flex flex-col justify-center items-center text-center p-6 relative overflow-hidden">
+      <div class="drone-bg-images absolute inset-0 z-0">
+
+        <img src="https://i.postimg.cc/QHCRV7x4/20251017-043255078-i-OS.avif"
+             alt="Potensic Atom 2 Drone Body"
+             class="drone-body absolute top-[15%] left-[5%] md:left-[15%] w-1/3 max-w-[250px] lg:max-w-sm rounded-lg shadow-2xl opacity-80">
+
+        <img src="https://i.postimg.cc/XXQRVL3Z/IMG-0798.jpg"
+             alt="Potensic Atom 2 Controller"
+             class="drone-controller absolute bottom-[15%] right-[5%] md:right-[15%] w-1/4 max-w-[200px] lg:max-w-xs rounded-lg shadow-2xl opacity-80">
+
+        <img src="https://i.postimg.cc/Nj5954Yc/drone-battery-hub.jpg"
+             alt="Potensic Atom 2 Battery Charging Hub"
+             class="drone-body absolute top-[60%] left-[5%] w-1/5 max-w-[150px] lg:max-w-xs rounded-lg shadow-2xl opacity-70"
+             style="animation-delay: 2s; animation-duration: 7s;">
+
+        <img src="https://i.postimg.cc/3RxBqP3b/propeller-set.jpg"
+             alt="Replacement Propeller Set"
+             class="drone-controller absolute top-[10%] right-[10%] w-1/6 max-w-[100px] lg:max-w-[150px] rounded-lg shadow-2xl opacity-75"
+             style="animation-delay: 3s; animation-duration: 9s;">
       </div>
-      <div data-surface class="space-y-5 p-8 text-slate-300">
-        <h2 class="text-2xl font-semibold text-white">Toolkit & collaborators</h2>
-        <ul class="space-y-3 text-sm">
-          <li class="flex items-start gap-3"><span class="mt-1 text-[#ff9fb0]">▹</span> Cinema cameras, FPV rigs, and volumetric capture pipelines.</li>
-          <li class="flex items-start gap-3"><span class="mt-1 text-[#ff9fb0]">▹</span> Custom TouchDesigner patches for projection mapping.</li>
-          <li class="flex items-start gap-3"><span class="mt-1 text-[#ff9fb0]">▹</span> Collaborations with musicians, choreographers, and lighting designers.</li>
-          <li class="flex items-start gap-3"><span class="mt-1 text-[#ff9fb0]">▹</span> Cloudflare Workers + Astro for rapid microsite launches.</li>
-        </ul>
-        <a
-          href="mailto:hello@skyrouteenterprise.com"
-          class="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40"
-        >
-          <span aria-hidden="true">🤝</span>
-          Discuss a collaboration
+
+      <div class="relative z-10 container mx-auto">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-4 text-white" style="text-shadow:2px 2px 8px rgba(0,0,0,0.7);">Daniel's SkyAdvantures</h1>
+        <p class="text-xl md:text-2xl text-slate-300 mb-8 max-w-2xl mx-auto">透過 Potensic Atom 2 的鏡頭探索世界</p>
+        <a href="#gallery-view" class="inline-block bg-blue-700 dark:bg-blue-400 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-800 dark:hover:bg-blue-500 transition-all duration-300 transform hover:scale-105 shadow-lg">
+          探索作品集
         </a>
       </div>
+    </section>
+
+    <div id="gallery-view" class="container mx-auto px-6 py-8 md:py-12">
+      <div class="text-center mb-8">
+        <h2 class="font-bold text-4xl mb-4">攝影日誌</h2>
+        <p class="text-slate-400 dark:text-slate-300">每一次起飛，都是一次重新看見世界的方式。</p>
+      </div>
+
+      <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div class="video-card rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+          <img src="https://img.youtube.com/vi/8Y8v-Ke__UQ/hqdefault.jpg" alt="城市夜幕光軌" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">城市夜幕光軌</h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm">在台北市高空俯瞰車流與都市燈海，夜色中車輛的尾燈化為光軌，如流星滑過城市的靜夜。</p>
+            <div class="mt-4 aspect-w-16 aspect-h-9">
+              <iframe class="w-full h-full rounded-lg"
+                      src="https://www.youtube.com/embed/8Y8v-Ke__UQ"
+                      title="城市夜幕光軌" frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+          <img src="https://img.youtube.com/vi/ZBcUvJxt3n8/hqdefault.jpg" alt="陽明山日間風光" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">陽明山日間風光</h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm">翱翔於陽明山上空，捕捉雲霧在山嶺間流動、陽光穿透林梢的瞬間，感受大自然的脈動與廣闊。</p>
+            <div class="mt-4 aspect-w-16 aspect-h-9">
+              <iframe class="w-full h-full rounded-lg"
+                      src="https://www.youtube.com/embed/ZBcUvJxt3n8"
+                      title="陽明山日間風光" frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+          <img src="https://img.youtube.com/vi/rccn0Y0qryc/hqdefault.jpg" alt="基隆港夜景" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">基隆港夜景</h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm">夜幕下的基隆港，船舶燈火與城市光影交織，從空中視角展現港口與海面的倒影如鏡。</p>
+            <div class="mt-4 aspect-w-16 aspect-h-9">
+              <iframe class="w-full h-full rounded-lg"
+                      src="https://www.youtube.com/embed/rccn0Y0qryc"
+                      title="基隆港夜景" frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+          <img src="https://img.youtube.com/vi/DseaZgo8JAc/hqdefault.jpg" alt="東北角海岸日出" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">東北角海岸日出</h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm">清晨飛行於東北角海岸線，第一道曙光從海平面升起，金色光束灑落在岩岸與海浪之上。</p>
+            <div class="mt-4 aspect-w-16 aspect-h-9">
+              <iframe class="w-full h-full rounded-lg"
+                      src="https://www.youtube.com/embed/DseaZgo8JAc"
+                      title="東北角海岸日出" frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card rounded-lg shadow-md overflow-hidden transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+          <img src="https://img.youtube.com/vi/35XeMkVmABc/hqdefault.jpg" alt="信義區夜間縮時" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">信義區夜間縮時</h3>
+            <p class="text-slate-600 dark:text-slate-300 text-sm">在台北信義區高處，以縮時攝影記錄車流、霓虹與人流交錯的城市節奏，展現不夜城的蓬勃生命。</p>
+            <div class="mt-4 aspect-w-16 aspect-h-9">
+              <iframe class="w-full h-full rounded-lg"
+                      src="https://www.youtube.com/embed/35XeMkVmABc"
+                      title="信義區夜間縮時" frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </section>
-</BaseLayout>
+
+  </main>
+
+  <footer class="border-t border-slate-200 dark:border-slate-700">
+    <div class="container mx-auto px-6 py-4 text-center text-slate-500 dark:text-slate-400">
+      <p>&copy; 2024 Daniel's SkyAdvantures. 版權所有.</p>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
