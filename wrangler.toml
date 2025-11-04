@@ -1,98 +1,32 @@
-// Cloudflare Worker Integration Example: KV Storage and AI Search (AutoRAG)
+name = "skyroute-enterprise"
+main = "dist/_worker.js/index.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
 
-// Assuming the Env interface (or TypeScript type) includes KV and AI_RAG bindings:
-// interface Env {
-//   COMMENTS_KV: KVNamespace; // Your KV binding
-//   RAG_AI: AISearch;         // Your AI Search binding (AutoRAG)
-// }
+[site]
+# Astro will output static assets into this directory during `astro build`.
+bucket = "dist"
 
-export default {
-    /**
-     * @param {Request} request
-     * @param {Env} env - The environment object containing all bindings
-     * @param {ExecutionContext} ctx
-     */
-    async fetch(request, env, ctx) {
-        const url = new URL(request.url);
-        const path = url.pathname;
+[build]
+command = "npm run build"
 
-        // --- Route 1: KV Namespace Operations Example ---
-        if (path.startsWith('/kv')) {
-            // The KV binding name comes from wrangler.toml; we use COMMENTS_KV
-            const kv = env.COMMENTS_KV;
+# =======================================================
+# 1. KV 繫結: 匹配程式碼中的 'env.COMMENTS_KV'
+# =======================================================
+[[kv_namespaces]]
+binding = "__skyboundstories-workers_sites_assets"
+# WARNING: PLEASE REPLACE the following IDs with your actual KV Namespace IDs
+id = "6960dd0679b5438686c94552e6593669" 
+preview_id = "11111111111111111111111111111111"
 
-            // 1. Write a Key-Value Pair
-            // KV storage is used for quick access to unstructured data like comments, settings, or counters
-            await kv.put('example_key', 'KV Storage data from Skyroute Enterprise');
+# =======================================================
+# 2. AI 搜尋繫結: 匹配程式碼中的 'env.RAG_AI'
+# =======================================================
+[[ai_search]]
+binding = "ai-search-tight-forest-e417"
+# 這是您在 Cloudflare 控制台中的 AI Search (AutoRAG) 實例名稱
+rag_name = "rough-smoke-b49b"
 
-            // 2. Read the Key-Value Pair
-            const value = await kv.get('example_key');
-
-            // 3. List all Keys
-            // Note: kv.list() returns an object containing a .keys array
-            const allKeys = await kv.list();
-
-            // 4. Delete the Key (Omitted to avoid deletion on every write, but kept as example)
-            // await kv.delete('example_key'); 
-
-            return new Response(
-                JSON.stringify({
-                    message: "KV operations complete (written, read, and listed)",
-                    retrieved_value: value,
-                    all_keys_in_namespace: allKeys.keys,
-                }, null, 2),
-                { 
-                    headers: { 'Content-Type': 'application/json' },
-                    status: 200
-                }
-            );
-        }
-
-        // --- Route 2: AI Search (AutoRAG) Operations Example ---
-        if (path.startsWith('/search')) {
-            // Get the user-provided query
-            const userQuery = url.searchParams.get('q');
-            
-            if (!userQuery) {
-                return new Response("Please provide a query parameter (e.g., /search?q=your question...)", { status: 400 });
-            }
-
-            try {
-                // RAG_AI is the binding name we set for rough-smoke-b49b in wrangler.toml
-                // The .search() method handles retrieval, answer generation, and source citation
-                const ragResults = await env.RAG_AI.search({
-                    query: userQuery,
-                    limit: 3, // Limit retrieval to 3 source snippets
-                });
-
-                const responseData = {
-                    query: userQuery,
-                    // AI model generated summary answer
-                    answer: ragResults.answer, 
-                    // Retrieved source snippets, used to ground the answer
-                    sources: ragResults.snippets.map(s => ({
-                        text: s.text,
-                        // Optional: metadata may contain filename, URL, or other identifying info
-                        // metadata: s.metadata 
-                    })), 
-                };
-
-                return new Response(JSON.stringify(responseData, null, 2), {
-                    headers: { 'Content-Type': 'application/json' },
-                    status: 200
-                });
-
-            } catch (error) {
-                // In a real deployment, you may need more granular error handling
-                console.error("AI Search call failed:", error);
-                return new Response(
-                    JSON.stringify({ error: `AI Search failed: ${error instanceof Error ? error.message : 'Unknown error'}` }),
-                    { headers: { 'Content-Type': 'application/json' }, status: 500 }
-                );
-            }
-        }
-
-        // --- Default Route ---
-        return new Response("Welcome to the Skyroute Enterprise Worker. Visit /kv for KV test or /search?q=... for AI Search test.", { status: 200 });
-    }
-}
+[vars]
+# 您專案的其他環境變數
+SITE_NAME = "Skyroute Enterprise Portfolio"
