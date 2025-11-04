@@ -16,10 +16,23 @@
       font-family: 'Noto Serif TC', serif;
       line-height: 1.8;
       letter-spacing: 0.5px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      overflow-x: hidden;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    section {
+      padding: 60px 20px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 1.5s forwards;
+    }
+
+    h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5em;
+      color: #e55c7a;
+      margin-bottom: 30px;
+      animation: floatText 3s ease-in-out infinite alternate;
     }
 
     .container {
@@ -29,6 +42,7 @@
       padding: 50px 40px;
       max-width: 780px;
       text-align: center;
+      margin: 80px auto;
       animation: fadeIn 1.8s ease;
       position: relative;
       overflow: hidden;
@@ -39,63 +53,16 @@
       font-size: 3em;
       color: #e55c7a;
       margin-bottom: 0.4em;
-      animation: floatText 3s ease-in-out infinite alternate;
     }
 
     main p {
       margin: 20px 0;
       font-size: 1.05em;
-    }
-
-    .stagger {
       opacity: 0;
       animation: fadeUp 1s forwards;
     }
 
-    .delay-1 { animation-delay: 0.5s; }
-    .delay-2 { animation-delay: 0.9s; }
-    .delay-3 { animation-delay: 1.3s; }
-    .delay-4 { animation-delay: 1.7s; }
-    .delay-5 { animation-delay: 2.1s; }
-    .delay-6 { animation-delay: 2.5s; }
-    .delay-7 { animation-delay: 2.9s; }
-    .delay-8 { animation-delay: 3.3s; }
-    .delay-9 { animation-delay: 3.7s; }
-    .delay-10 { animation-delay: 4.1s; }
-    .delay-11 { animation-delay: 4.5s; }
-    .delay-12 { animation-delay: 4.9s; }
-    .delay-13 { animation-delay: 5.3s; }
-    .delay-14 { animation-delay: 5.7s; }
-    .delay-15 { animation-delay: 6.1s; }
-    .delay-16 { animation-delay: 6.5s; }
-    .delay-17 { animation-delay: 6.9s; }
-    .delay-18 { animation-delay: 7.3s; }
-    .delay-19 { animation-delay: 7.7s; }
-    .delay-20 { animation-delay: 8.1s; }
-
-    .final-message {
-      color: #d94b6b;
-      font-weight: 600;
-      font-size: 1.2em;
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.95em;
-      color: #6e5c5c;
-    }
-
-    footer p:first-child {
-      margin-bottom: 6px;
-    }
-
-    footer .date {
-      color: #b89a9a;
-      font-style: italic;
-    }
-
-    .media {
-      display: block;
+    main img {
       width: 95%;
       max-width: 650px;
       margin: 25px auto;
@@ -104,137 +71,145 @@
       transition: transform 0.6s ease, box-shadow 0.6s ease;
     }
 
-    .media.stagger {
-      filter: none;
-    }
-
-    .media:hover {
+    main img:hover {
       transform: scale(1.02);
       box-shadow: 0 8px 26px rgba(0, 0, 0, 0.2);
     }
 
-    .video-wrapper {
+    /* 回憶畫廊 */
+    #gallery {
+      background: #fff6f8;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      justify-items: center;
+      padding: 0 20px;
+    }
+    .gallery-grid img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      transition: transform .4s ease, box-shadow .4s ease;
+    }
+    .gallery-grid img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255,182,193,0.5);
+    }
+
+    /* 我們的故事 */
+    #timeline {
+      background: #fff2f4;
+    }
+    .timeline {
+      max-width: 600px;
+      margin: 0 auto;
+      border-left: 3px solid #e55c7a;
+      padding-left: 20px;
+      text-align: left;
+    }
+    .event {
+      margin: 30px 0;
+    }
+    .event h3 {
+      color: #e55c7a;
+      margin-bottom: 5px;
+      font-size: 1.3em;
+    }
+    .event p {
+      margin: 0;
+      color: #5a4b4b;
+    }
+
+    /* 愛的瞬間 */
+    #video {
+      background: #fff9fb;
+      position: relative;
       overflow: hidden;
     }
-
-    .video-wrapper video {
-      width: 100%;
-      display: block;
-      border-radius: 12px;
+    #video iframe {
+      width: 0;
+      height: 0;
+      border: none;
     }
-
-    /* 浮動愛心 */
-    .heart {
+    #video::before {
+      content: "";
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: #f48fb1;
-      transform: rotate(45deg);
-      animation: floatHeart 6s infinite ease-in-out;
-      opacity: 0.8;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(255,255,255,0.2);
+      z-index: 1;
     }
 
-    .heart::before,
-    .heart::after {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: #f48fb1;
-      border-radius: 50%;
+    /* 結尾 */
+    #promise {
+      background: #fff6f8;
+      color: #d94b6b;
+      font-size: 1.3em;
+      font-weight: 600;
+      text-align: center;
+      padding: 60px 20px;
     }
 
-    .heart::before { top: -10px; left: 0; }
-    .heart::after { top: 0; left: -10px; }
-
-    .heart:nth-child(1) { left: 10%; animation-delay: 0s; }
-    .heart:nth-child(2) { left: 40%; animation-delay: 2s; }
-    .heart:nth-child(3) { left: 70%; animation-delay: 4s; }
+    footer {
+      margin-top: 40px;
+      font-size: 0.95em;
+      color: #6e5c5c;
+    }
+    footer .date {
+      color: #b89a9a;
+      font-style: italic;
+    }
 
     /* 動畫 */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    @keyframes floatHeart {
-      0% { transform: translateY(0) rotate(45deg); opacity: 0.8; }
-      50% { transform: translateY(-40vh) rotate(45deg); opacity: 0.5; }
-      100% { transform: translateY(-80vh) rotate(45deg); opacity: 0; }
-    }
-
     @keyframes floatText {
       from { transform: translateY(0px); }
       to { transform: translateY(-8px); }
     }
 
-    /* 音樂播放器樣式（隱藏控制介面） */
-    audio {
+    /* 音樂 iframe 隱藏但播放 */
+    .youtube-audio {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      opacity: 0.6;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      outline: none;
-      transition: opacity 0.3s ease;
-    }
-
-    audio:hover {
-      opacity: 1;
+      top: -9999px;
+      left: -9999px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="heart"></div>
-    <div class="heart"></div>
-    <div class="heart"></div>
 
+  <!-- 背景音樂 (YouTube 自動播放、循環) -->
+  <div class="youtube-audio">
+    <iframe src="https://www.youtube.com/embed/QvtcwlThqKA?autoplay=1&loop=1&playlist=QvtcwlThqKA&controls=0&showinfo=0&mute=0" allow="autoplay"></iframe>
+  </div>
+
+  <div class="container">
     <header>
       <h1>致我最愛的小偉</h1>
     </header>
     <main>
-      <p class="stagger delay-1">小偉，謝謝你願意再給我們一次機會。</p>
-
-      <img class="media stagger delay-2" src="https://i.postimg.cc/njp0QXBB/IMG-0811.jpg" alt="我們牽著手一起遠眺的照片">
-      <p class="stagger delay-3">我知道這次的開始，不只是回頭，而是重新選擇。</p>
-
-      <img class="media stagger delay-4" src="https://i.postimg.cc/7CgK63G7/IMG-0812.jpg" alt="我們的微笑特寫">
-      <p class="stagger delay-5">我也明白「重修舊好」不代表一切自動變好，<br>但我是真的願意一步一步修補，慢慢學著讓我們都更舒服。</p>
-
-      <img class="media stagger delay-6" src="https://i.postimg.cc/WFTXJdgM/IMG-0813.jpg" alt="彼此擁抱的快門瞬間">
-      <p class="stagger delay-7">我不會讓過去的事情變成負擔，也不會再讓情緒先跑。</p>
-
-      <img class="media stagger delay-8" src="https://i.postimg.cc/2VKcX8RP/IMG-0814.jpg" alt="我們並肩走在海邊">
-      <p class="stagger delay-9">我希望從現在起，每一步都更懂得珍惜，<br>有你在的生活，我會用心守護。</p>
-
-      <img class="media stagger delay-10" src="https://i.postimg.cc/mzs6NXfQ/IMG-0815.jpg" alt="夕陽下的剪影">
-      <p class="stagger delay-11">我們都變了，也都長大了一點，<br>過去教會我們怎麼愛，也教會我們什麼該放下。</p>
-
-      <img class="media stagger delay-12" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=80" alt="我們在花叢間相視而笑">
-      <p class="stagger delay-13">想著未來的日子，我希望用更多的心意，<br>為我們記錄那些專屬於彼此的閃耀瞬間。</p>
-
-      <img class="media stagger delay-14" src="https://images.unsplash.com/photo-1530023367847-a683933f4175?auto=format&fit=crop&w=1400&q=80" alt="一起在城市街頭大笑">
-      <p class="stagger delay-15">就算是平凡的日常，我也願意和你一點一滴堆疊，<br>讓生活充滿我們才懂的溫度與默契。</p>
-
-      <div class="media video-wrapper stagger delay-16">
-        <video controls loop playsinline poster="https://images.unsplash.com/photo-1474473214124-03c45f7f1d70?auto=format&fit=crop&w=1400&q=80">
-          <source src="https://cdn.coverr.co/videos/coverr-a-couple-enjoys-the-sunset-0541/1080p.mp4" type="video/mp4">
-          您的瀏覽器不支援影片播放。
-        </video>
-      </div>
-      <p class="stagger delay-17">每一次看著我們一起追著夕陽的影片，我就更確定，<br>未來不論有多少未知，我都想牽著你往前走。</p>
-
-      <img class="media stagger delay-18" src="https://i.postimg.cc/QHCRV7x4/20251017-043255078-i-OS.avif" alt="清晨的我們在窗邊留影">
-      <img class="media stagger delay-19" src="https://i.postimg.cc/XXQRVL3Z/IMG-0798.jpg" alt="我們在咖啡廳的合照">
-      <p class="final-message stagger delay-20">這次，我想和你一起往前走，<br>不再回頭比較，只專注在「我們正在變好的這條路上」。</p>
+      <p>小偉，謝謝你願意再給我們一次機會。</p>
+      <img src="https://i.postimg.cc/njp0QXBB/IMG-0811.jpg" alt="photo 1">
+      <p>我知道這次的開始，不只是回頭，而是重新選擇。</p>
+      <img src="https://i.postimg.cc/7CgK63G7/IMG-0812.jpg" alt="photo 2">
+      <p>我也明白「重修舊好」不代表一切自動變好，<br>但我是真的願意一步一步修補，慢慢學著讓我們都更舒服。</p>
+      <img src="https://i.postimg.cc/WFTXJdgM/IMG-0813.jpg" alt="photo 3">
+      <p>我不會讓過去的事情變成負擔，也不會再讓情緒先跑。</p>
+      <img src="https://i.postimg.cc/2VKcX8RP/IMG-0814.jpg" alt="photo 4">
+      <p>我希望從現在起，每一步都更懂得珍惜，<br>有你在的生活，我會用心守護。</p>
+      <img src="https://i.postimg.cc/mzs6NXfQ/IMG-0815.jpg" alt="photo 5">
+      <p>我們都變了，也都長大了一點，<br>過去教會我們怎麼愛，也教會我們什麼該放下。</p>
+      <img src="https://i.postimg.cc/QHCRV7x4/20251017-043255078-i-OS.avif" alt="photo 6">
+      <p class="final-message">這次，我想和你一起往前走，<br>不再回頭比較，只專注在「我們正在變好的這條路上」。</p>
+      <img src="https://i.postimg.cc/XXQRVL3Z/IMG-0798.jpg" alt="photo 7">
     </main>
     <footer>
       <p>永遠愛你的：志豪</p>
@@ -242,10 +217,52 @@
     </footer>
   </div>
 
-  <!-- 🎶 自動播放音樂（柔情鋼琴版） -->
-  <audio autoplay loop controls>
-    <source src="https://cdn.pixabay.com/audio/2022/10/27/audio_1c2cf8f90f.mp3" type="audio/mpeg">
-    您的瀏覽器不支援音樂播放。
-  </audio>
+  <!-- 回憶畫廊 -->
+  <section id="gallery">
+    <h2>回憶畫廊</h2>
+    <div class="gallery-grid">
+      <img src="https://i.postimg.cc/njp0QXBB/IMG-0811.jpg">
+      <img src="https://i.postimg.cc/7CgK63G7/IMG-0812.jpg">
+      <img src="https://i.postimg.cc/WFTXJdgM/IMG-0813.jpg">
+      <img src="https://i.postimg.cc/2VKcX8RP/IMG-0814.jpg">
+      <img src="https://i.postimg.cc/mzs6NXfQ/IMG-0815.jpg">
+      <img src="https://i.postimg.cc/XXQRVL3Z/IMG-0798.jpg">
+    </div>
+  </section>
+
+  <!-- 我們的故事 -->
+  <section id="timeline">
+    <h2>我們的故事</h2>
+    <div class="timeline">
+      <div class="event">
+        <h3>初次相遇</h3>
+        <p>那天的微笑，我永遠記得。</p>
+      </div>
+      <div class="event">
+        <h3>第一次旅行</h3>
+        <p>在海邊牽手的那一刻，我確定是你。</p>
+      </div>
+      <div class="event">
+        <h3>再次相愛</h3>
+        <p>謝謝你選擇回來，讓我們重新開始。</p>
+      </div>
+      <div class="event">
+        <h3>現在與未來</h3>
+        <p>無論風雨與晴空，我都願意陪你一起走。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 愛的瞬間 -->
+  <section id="video">
+    <h2>愛的瞬間</h2>
+    <p>每一個瞬間，都有我們的影子。</p>
+  </section>
+
+  <!-- 結尾 -->
+  <section id="promise">
+    <blockquote>「願我們的愛，永遠停留在最溫柔的那一刻。」</blockquote>
+  </section>
+
 </body>
 </html>
