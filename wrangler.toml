@@ -1,41 +1,43 @@
-// Cloudflare Worker 整合範例：KV 儲存和 AI 搜尋 (AutoRAG)
+// Cloudflare Worker Integration Example: KV Storage and AI Search (AutoRAG)
 
-// 假設 Env 介面（或 TypeScript 類型）包含 KV 和 AI_RAG 繫結：
+// Assuming the Env interface (or TypeScript type) includes KV and AI_RAG bindings:
 // interface Env {
-//   COMMENTS_KV: KVNamespace; // 您的 KV 繫結
-//   RAG_AI: AISearch;         // 您的 AI Search 繫結 (AutoRAG)
+//   COMMENTS_KV: KVNamespace; // Your KV binding
+//   RAG_AI: AISearch;         // Your AI Search binding (AutoRAG)
 // }
 
 export default {
     /**
      * @param {Request} request
-     * @param {Env} env - 包含所有繫結的環境對象
+     * @param {Env} env - The environment object containing all bindings
      * @param {ExecutionContext} ctx
      */
     async fetch(request, env, ctx) {
         const url = new URL(request.url);
         const path = url.pathname;
 
-        // --- 路由 1: KV 命名空間操作範例 ---
+        // --- Route 1: KV Namespace Operations Example ---
         if (path.startsWith('/kv')) {
-            // 由於這是 Pages Worker，KV 繫結名稱來自 wrangler.toml，我們使用 COMMENTS_KV
+            // The KV binding name comes from wrangler.toml; we use COMMENTS_KV
             const kv = env.COMMENTS_KV;
 
-            // 1. 寫入一個 Key-Value Pair
-            await kv.put('example_key', '這是來自 Skyroute Enterprise 的 KV 儲存資料');
+            // 1. Write a Key-Value Pair
+            // KV storage is used for quick access to unstructured data like comments, settings, or counters
+            await kv.put('example_key', 'KV Storage data from Skyroute Enterprise');
 
-            // 2. 讀取該 Key-Value Pair
+            // 2. Read the Key-Value Pair
             const value = await kv.get('example_key');
 
-            // 3. 列出所有 Key
+            // 3. List all Keys
+            // Note: kv.list() returns an object containing a .keys array
             const allKeys = await kv.list();
 
-            // 4. 刪除該 Key (為避免每次都寫入，通常不會立即刪除，但保留範例)
+            // 4. Delete the Key (Omitted to avoid deletion on every write, but kept as example)
             // await kv.delete('example_key'); 
 
             return new Response(
                 JSON.stringify({
-                    message: "KV 操作完成 (已寫入、讀取並列出)",
+                    message: "KV operations complete (written, read, and listed)",
                     retrieved_value: value,
                     all_keys_in_namespace: allKeys.keys,
                 }, null, 2),
@@ -46,30 +48,31 @@ export default {
             );
         }
 
-        // --- 路由 2: AI 搜尋 (AutoRAG) 操作範例 ---
+        // --- Route 2: AI Search (AutoRAG) Operations Example ---
         if (path.startsWith('/search')) {
-            // 獲取使用者提供的查詢
+            // Get the user-provided query
             const userQuery = url.searchParams.get('q');
             
             if (!userQuery) {
-                return new Response("請提供一個查詢參數 (e.g., /search?q=您想問的問題...)", { status: 400 });
+                return new Response("Please provide a query parameter (e.g., /search?q=your question...)", { status: 400 });
             }
 
             try {
-                // RAG_AI 是我們在 wrangler.toml 中為 rough-smoke-b49b 設定的繫結名稱
+                // RAG_AI is the binding name we set for rough-smoke-b49b in wrangler.toml
+                // The .search() method handles retrieval, answer generation, and source citation
                 const ragResults = await env.RAG_AI.search({
                     query: userQuery,
-                    limit: 3, // 限制檢索 3 個來源片段
+                    limit: 3, // Limit retrieval to 3 source snippets
                 });
 
                 const responseData = {
                     query: userQuery,
-                    // AI 模型生成的總結答案
+                    // AI model generated summary answer
                     answer: ragResults.answer, 
-                    // 檢索到的原始來源片段 (用於驗證答案的基礎)
+                    // Retrieved source snippets, used to ground the answer
                     sources: ragResults.snippets.map(s => ({
                         text: s.text,
-                        // 可選：包含來源的 metadata (例如檔案路徑或 URL)
+                        // Optional: metadata may contain filename, URL, or other identifying info
                         // metadata: s.metadata 
                     })), 
                 };
@@ -80,15 +83,16 @@ export default {
                 });
 
             } catch (error) {
-                console.error("AI Search 呼叫失敗:", error);
+                // In a real deployment, you may need more granular error handling
+                console.error("AI Search call failed:", error);
                 return new Response(
-                    JSON.stringify({ error: `AI 搜尋處理失敗: ${error.message}` }),
+                    JSON.stringify({ error: `AI Search failed: ${error instanceof Error ? error.message : 'Unknown error'}` }),
                     { headers: { 'Content-Type': 'application/json' }, status: 500 }
                 );
             }
         }
 
-        // --- 預設路由 ---
-        return new Response("歡迎來到 Skyroute Enterprise Worker。請訪問 /kv 進行 KV 測試 或 /search?q=... 進行 AI 搜尋測試。", { status: 200 });
+        // --- Default Route ---
+        return new Response("Welcome to the Skyroute Enterprise Worker. Visit /kv for KV test or /search?q=... for AI Search test.", { status: 200 });
     }
 }
