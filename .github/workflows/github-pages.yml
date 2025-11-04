@@ -1,12 +1,18 @@
-# .github/workflows/github-pages.yml
-
 name: Deploy Astro to GitHub Pages and Build Docker
+
 on:
   push:
     branches: ["main"]
 
+# 修复 1：添加 OIDC (id-token: write) 和推送到 GitHub Container Registry (packages: write) 所需的权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  packages: write
+
 jobs:
-  # 1. JOB TO BUILD AND UPLOAD ASTRO ARTIFACT
+  # 1. 用于构建和上传 Astro Artifact 的作业
   build:
     runs-on: ubuntu-latest
     steps:
@@ -25,45 +31,56 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist # Ensure this is your Astro output directory
+          path: ./dist # 确保这是您的 Astro 输出目录
 
-  # 2. JOB TO BUILD AND PUSH DOCKER IMAGE
-  # NOTE: We assume you will define env.RELEASE_VERSION somewhere,
-  #       or this job will fail due to the empty variable.
-  docker: # <-- New Job added here
+  # 2. 用于构建和推送 Docker 镜像的作业
+  docker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Setup QEMU for multi-platform builds
+      # 设置 QEMU 以进行多平台构建
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-      # Setup Docker BuildX
+      # 设置 Docker BuildX
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      # Login to Docker Hub/GitHub Container Registry (Mandatory for push)
-      # You need to add 'docker login' or use appropriate actions/metadata.
-      
+        
+      # 您需要登录到注册中心才能推送
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Log in to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           push: true
           platforms: linux/amd64,linux/arm64,linux/armhf
           context: .
-          # Tags must be correctly indented under 'with:' and properly formatted
+          # 修复 2 和 3：标签由换行符分隔，版本标签是条件性的。
           tags: |
-            danieltheflukr/skyroute-enterprise:latest,
-            danieltheflukr/skyroute-enterprise:${{ env.RELEASE_VERSION }},
-            ghcr.io/danieltheflukr/skyroute-enterprise:latest,
-            ghcr.io/danieltheflukr/skyroute-enterprise:${{ env.RELEASE_VERSION }}
+            danieltheflukr/skyroute-enterprise:latest
+            ghcr.io/danieltheflukr/skyroute-enterprise:latest
+            # 仅在变量不为空时包含版本标签
+            ${{ env.RELEASE_VERSION != '' && format('danieltheflukr/skyroute-enterprise:{0}', env.RELEASE_VERSION) || '' }}
+            ${{ env.RELEASE_VERSION != '' && format('ghcr.io/danieltheflukr/skyroute-enterprise:{0}', env.RELEASE_VERSION) || '' }}
 
-  # 3. JOB TO DEPLOY ASTRO ARTIFACT
+  # 3. 用于部署 Astro Artifact 的作业
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build # Depends only on the 'build' job finishing
+    needs: build # 仅依赖 'build' 作业完成
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
