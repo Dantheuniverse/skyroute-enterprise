@@ -29,19 +29,22 @@ a {
   @apply text-slate-400;
 }
 
-[ data-gradient-button ] {
-  @apply relative inline-flex items - center justify - center rounded - full px-6 py-3 text - sm font - semibold tracking - wide text - white shadow - lg shadow - [ rgb(var( -- br and -primary )) / 0 .
+/* FIX: The original rule was broken and unclosed. 
+        Classes are combined and the block is now closed. */
+[data-gradient-button] {
+  @apply relative inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold tracking-wide text-white shadow-lg shadow-[rgb(var(--brand-primary))/0.5];
 }
 
-[ data-gradient-button ]:: after {
-  內容： '' ;
-  @apply absolute inset-0 rounded - full opacity-0 transition;
-  背景： 線性漸變（120度， rgba（var （--brand-primary ），0.8），rgba（var （--brand-secondary ），0.8））；   
-  混合模式：螢幕；
+/* FIX: Replaced mixed Chinese/English properties with standard CSS properties. */
+[data-gradient-button]::after {
+  content: ''; /* Corrected from 內容： '' ; */
+  @apply absolute inset-0 rounded-full opacity-0 transition;
+  background: linear-gradient(120deg, rgba(var(--brand-primary), 0.8), rgba(var(--brand-secondary), 0.8)); /* Corrected from 背景： ... */
+  mix-blend-mode: screen; /* Corrected from 混合模式：螢幕； */
 }
 
-[ data-gradient-button ] : hover:: after ,
-[ data-gradient-button ] : focus-visible :: after {
+[data-gradient-button]:hover::after,
+[data-gradient-button]:focus-visible::after {
   @apply opacity-100;
 }
 
