@@ -33,7 +33,7 @@ RUN if [ "$TARGETVARIANT" = "v7" ]; then \
         CLOUDFLARED_PKG="cloudflared-$TARGETOS-${TARGETARCH}hf.deb"; \
     else \
         CLOUDFLARED_PKG="cloudflared-$TARGETOS-$TARGETARCH.deb"; \
-    fi && \
+    fi; \  <--- 關鍵修正：將 '&&' 改為 ';'
     curl -L --output cloudflared.deb "$CLOUDFLARED_BASE_URL/$CLOUDFLARED_VERSION/$CLOUDFLARED_PKG" && \
     dpkg -i cloudflared.deb && \
     rm cloudflared.deb
@@ -41,19 +41,9 @@ RUN if [ "$TARGETVARIANT" = "v7" ]; then \
 VOLUME /config
 VOLUME /root/.cloudflared
 
-# ===================================================
-# ⛔ 已移除的程式碼：這是導致錯誤的原因
-# 這些行會導致 Docker 在倉庫根目錄尋找不存在的資料夾。
-# COPY backend /var/app/backend
-# COPY frontend /var/app/frontend
-# RUN cd /var/app/frontend && npm install && npm run build
-# RUN cd /var/app/backend && npm install
-# ENTRYPOINT node /var/app/backend/app.js
-# ===================================================
+# 原本錯誤的 Node.js 應用程式相關指令已移除
 
 # 替換為 Cloudflared 服務的正確啟動指令
-# (這裡假設您想使用 cloudflared 作為啟動點)
 ENTRYPOINT ["cloudflared"]
-CMD ["--help"] 
-# 💡 提示：您需要根據您的 cloudflared 服務需求，將 CMD 替換為實際的啟動參數，
-# 例如：CMD ["tunnel", "run", "YOUR_TUNNEL_NAME"] 或其他 Web UI 啟動參數。
+# 💡 請確認您的 CMD 參數，以啟動 Web UI 或 Tunnel 服務
+CMD ["--help"]
