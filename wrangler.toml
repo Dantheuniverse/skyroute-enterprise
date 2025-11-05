@@ -20,14 +20,6 @@ binding = "__skyboundstories-workers_sites_assets"
 id = "6960dd0679b5438686c94552e6593669" 
 preview_id = "11111111111111111111111111111111"
 
-# =======================================================
-# 2. AI 搜尋繫結: 匹配程式碼中的 'env.RAG_AI'
-# =======================================================
-[[ai_search]]
-binding = "ai-search-tight-forest-e417"
-# 這是您在 Cloudflare 控制台中的 AI Search (AutoRAG) 實例名稱
-rag_name = "rough-smoke-b49b"
-
 [vars]
 # 您專案的其他環境變數
 SITE_NAME = "Skyroute Enterprise Portfolio"
