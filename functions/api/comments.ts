@@ -2,28 +2,67 @@
 // Comments are stored in the `COMMENTS_KV` namespace defined in wrangler.toml.
 import type { KVNamespace, PagesFunction } from '@cloudflare/workers-types';
 
+/**
+ * Represents the payload for a new comment submission.
+ */
 type CommentPayload = {
+  /** The ID of the post the comment belongs to. */
   postId: string;
+  /** The author of the comment (optional). */
   author?: string;
+  /** The content of the comment. */
   content: string;
 };
 
+/**
+ * Represents a comment as it is stored in the KV namespace.
+ */
 type StoredComment = {
+  /** A unique identifier for the comment. */
   id: string;
+  /** The ID of the post the comment belongs to. */
   postId: string;
+  /** The author of the comment. */
   author: string;
+  /** The content of the comment. */
   content: string;
+  /** The date the comment was created, in ISO 8601 format. */
   createdAt: string;
 };
 
+/**
+ * Defines the environment variables and bindings available to the function.
+ */
 interface Env {
+  /** The KV namespace for storing comments. */
   COMMENTS_KV: KVNamespace;
 }
 
+/**
+ * The time-to-live for a comment in the KV namespace, in seconds.
+ */
 const COMMENT_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
+
+/**
+ * Builds the prefix for a comment in the KV namespace.
+ * @param postId The ID of the post.
+ * @returns The prefix for the comment.
+ */
 const buildPrefix = (postId: string) => `comments:${postId}:`;
+
+/**
+ * Builds the legacy key for a comment in the KV namespace.
+ * @param postId The ID of the post.
+ * @returns The legacy key for the comment.
+ */
 const buildLegacyKey = (postId: string) => `comments:${postId}`;
 
+/**
+ * Reads all comments for a given post from the KV namespace.
+ * @param env The environment variables and bindings.
+ * @param postId The ID of the post to read comments for.
+ * @returns A promise that resolves to an array of comments.
+ */
 const readComments = async (env: Env, postId: string): Promise<StoredComment[]> => {
   const prefix = buildPrefix(postId);
   const list = await env.COMMENTS_KV.list({ prefix, limit: 1000 });
@@ -49,6 +88,12 @@ const readComments = async (env: Env, postId: string): Promise<StoredComment[]> 
   return [];
 };
 
+/**
+ * Creates a JSON response.
+ * @param data The data to send in the response.
+ * @param init The response init options.
+ * @returns A JSON response.
+ */
 const jsonResponse = (data: unknown, init?: ResponseInit) =>
   new Response(JSON.stringify(data, null, 2), {
     headers: {
@@ -58,6 +103,12 @@ const jsonResponse = (data: unknown, init?: ResponseInit) =>
     ...init
   });
 
+/**
+ * Handles GET requests to the /api/comments endpoint.
+ * @param request The request object.
+ * @param env The environment variables and bindings.
+ * @returns A promise that resolves to a JSON response.
+ */
 export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   const url = new URL(request.url);
   const postId = url.searchParams.get('postId');
@@ -71,6 +122,12 @@ export const onRequestGet: PagesFunction<Env> = async ({ request, env }) => {
   return jsonResponse({ postId, comments });
 };
 
+/**
+ * Handles POST requests to the /api/comments endpoint.
+ * @param request The request object.
+ * @param env The environment variables and bindings.
+ * @returns A promise that resolves to a JSON response.
+ */
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   let payload: CommentPayload;
 

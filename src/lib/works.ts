@@ -1,17 +1,32 @@
-// Demo dataset representing the work showcased on the portfolio.
+/**
+ * Represents a single piece of work in the portfolio.
+ */
 export interface WorkPiece {
+  /** A unique identifier for the work, used in URLs. */
   slug: string;
+  /** The title of the work. */
   title: string;
+  /** A short summary of the work. */
   summary: string;
+  /** A more detailed description of the work. */
   description: string;
+  /** The URL of the video showcasing the work. */
   videoUrl: string;
+  /** The URL of the thumbnail image for the work. */
   thumbnail: string;
+  /** The duration of the video in MM:SS format. */
   duration: string;
+  /** An array of tags associated with the work. */
   tags: string[];
+  /** The client for whom the work was created (optional). */
   client?: string;
+  /** The date the work was published, in ISO 8601 format. */
   publishedAt: string;
 }
 
+/**
+ * A collection of all the work pieces in the portfolio.
+ */
 export const workpieces: WorkPiece[] = [
   {
     slug: 'sky-temple',
@@ -54,4 +69,9 @@ export const workpieces: WorkPiece[] = [
   }
 ];
 
+/**
+ * Retrieves a work piece by its slug.
+ * @param slug The slug of the work piece to retrieve.
+ * @returns The work piece with the matching slug, or `undefined` if not found.
+ */
 export const getWorkBySlug = (slug: string) => workpieces.find((work) => work.slug === slug);

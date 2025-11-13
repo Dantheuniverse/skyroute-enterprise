@@ -1,10 +1,19 @@
 ---
+/**
+ * The properties for the VideoCard component.
+ */
 export interface Props {
+  /** The slug of the video. */
   slug: string;
+  /** The title of the video. */
   title: string;
+  /** A short summary of the video. */
   summary: string;
+  /** The URL of the thumbnail image for the video. */
   thumbnail: string;
+  /** The duration of the video in MM:SS format (optional). */
   duration?: string;
+  /** An array of tags associated with the video (optional). */
   tags?: string[];
 }
 
