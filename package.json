@@ -19,7 +19,6 @@
     "@cloudflare/workers-types": "^4.20240405.0",
     "@tailwindcss/typography": "^0.5.19",
     "autoprefixer": "^10.4.17",
-    "jsdom": "^27.0.1",
     "postcss": "^8.4.31",
     "stylelint": "^16.25.0",
     "stylelint-config-standard": "^39.0.1",
