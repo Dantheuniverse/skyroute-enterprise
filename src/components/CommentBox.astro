@@ -1,5 +1,9 @@
 ---
+/**
+ * The properties for the CommentBox component.
+ */
 export interface Props {
+  /** The ID of the post to display comments for. */
   postId: string;
 }
 
@@ -50,16 +54,19 @@ const { postId } = Astro.props;
 </section>
 
 <script type="module" is:inline>
+  // Get the container element and post ID.
   const container = document.currentScript?.closest('[data-comment-box]');
   const postId = container?.dataset.postId ?? '';
   if (!postId) {
     console.warn('CommentBox missing postId dataset attribute.');
   }
 
+  // Get the form, list, and status elements.
   const form = postId ? document.getElementById(`comment-form-${postId}`) : null;
   const list = postId ? document.getElementById(`comment-list-${postId}`) : null;
   const status = postId ? document.getElementById(`comment-status-${postId}`) : null;
 
+  // If any of the required elements are missing, do not initialize the component.
   if (!postId || !form || !list) {
     console.warn('CommentBox could not initialize because required elements are missing.');
   } else {
@@ -67,6 +74,11 @@ const { postId } = Astro.props;
       empty: `<li class="text-sm text-slate-400">Be the first to respond.</li>`
     };
 
+    /**
+     * Escapes HTML characters in a string.
+     * @param {string} value The string to escape.
+     * @returns {string} The escaped string.
+     */
     const escapeHTML = (value) => {
       const stringValue = typeof value === 'string' ? value : String(value ?? '');
       return stringValue
@@ -77,6 +89,10 @@ const { postId } = Astro.props;
         .replace(/'/g, '&#039;');
     };
 
+    /**
+     * Renders the comments in the comment list.
+     * @param {Array} comments The comments to render.
+     */
     const renderComments = (comments) => {
       if (!Array.isArray(comments) || comments.length === 0) {
         list.innerHTML = templates.empty;
@@ -98,6 +114,11 @@ const { postId } = Astro.props;
         .join('');
     };
 
+    /**
+     * Sets the status message.
+     * @param {string} message The message to display.
+     * @param {'info' | 'error' | 'success'} tone The tone of the message.
+     */
     const setStatus = (message, tone = 'info') => {
       if (!status) return;
       status.textContent = message;
@@ -106,6 +127,9 @@ const { postId } = Astro.props;
       status.classList.add(toneClass);
     };
 
+    /**
+     * Loads the comments from the API.
+     */
     const loadComments = async () => {
       try {
         const response = await fetch(`/api/comments?postId=${encodeURIComponent(postId)}`);
@@ -124,6 +148,7 @@ const { postId } = Astro.props;
       }
     };
 
+    // Add a submit event listener to the form.
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       const formData = new FormData(form);
@@ -159,6 +184,7 @@ const { postId } = Astro.props;
       }
     });
 
+    // Load the comments when the component is initialized.
     loadComments();
   }
 </script>
