@@ -84,8 +84,8 @@ jobs:
           context: . # 建置上下文為倉庫根目錄
           # Dockerfile 已修正，移除了對不存在的 'frontend' 和 'backend' 的依賴
           tags: |
-            danieltheflukr/skyroute-enterprise:latest
-            ghcr.io/danieltheflukr/skyroute-enterprise:latest
+            danieltheflukr/skyroute-enterprise
+            ghcr.io/danieltheflukr/skyroute-enterprise
             ${{ env.RELEASE_VERSION != '' && format('danieltheflukr/skyroute-enterprise:{0}', env.RELEASE_VERSION) || '' }}
             ${{ env.RELEASE_VERSION != '' && format('ghcr.io/danieltheflukr/skyroute-enterprise:{0}', env.RELEASE_VERSION) || '' }}
             
