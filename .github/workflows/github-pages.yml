@@ -84,10 +84,10 @@ jobs:
           context: . # 建置上下文為倉庫根目錄
           # Dockerfile 已修正，移除了對不存在的 'frontend' 和 'backend' 的依賴
           tags: |
-            Dantheuniverse/skyroute-enterprise
-            ghcr.io/Dantheuniverse/skyroute-enterprise
-            ${{ env.RELEASE_VERSION != '' && format('Dantheuniverse/skyroute-enterprise:{0}', env.RELEASE_VERSION) || '' }}
-            ${{ env.RELEASE_VERSION != '' && format('ghcr.io/Dantheuniverse/skyroute-enterprise:{0}', env.RELEASE_VERSION) || '' }}
+            dantheuniverse/skyroute-enterprise
+            ghcr.io/dantheuniverse/skyroute-enterprise
+            ${{ env.RELEASE_VERSION != '' && format('dantheuniverse/skyroute-enterprise:{0}', env.RELEASE_VERSION) || '' }}
+            ${{ env.RELEASE_VERSION != '' && format('ghcr.io/dantheuniverse/skyroute-enterprise:{0}', env.RELEASE_VERSION) || '' }}
             
   # 3. 用于部署 Astro Artifact 的作业
   deploy:
