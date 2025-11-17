@@ -1,6 +1,6 @@
 # Adding images from Google Drive
 
-If you want to keep your Skyroute Enterprise repo in sync with pictures stored in Google Drive, follow these steps. This flow keeps files organized under `public/images` so they are served statically by Astro.
+If you need to add images from Google Drive to your Skyroute Enterprise repo, follow these steps. This guide explains how to organize files under `public/images` so they are served statically by Astro.
 
 ## 1. Prepare a local sync folder
 - Create a folder on your machine dedicated to the project images (for example, `skyroute-images`).
@@ -37,10 +37,10 @@ Choose one of the following options to copy files from Drive into your local syn
    ```bash
    git status
    ```
-2. Add the new images and commit:
+2. Add the new images and commit (use a descriptive message):
    ```bash
    git add public/images
-   git commit -m "Add site images"
+   git commit -m "feat: Add product images"
    git push
    ```
 3. Open a pull request if needed.
