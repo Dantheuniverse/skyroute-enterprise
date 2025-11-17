@@ -54,6 +54,7 @@ The project is organized into the following directories:
 *   `astro.config.mjs`: The Astro configuration file.
 *   `functions/api/comments.ts`: The Cloudflare Pages function that powers the comment widget.
 *   `public/videos/`: Static assets and portfolio videos.
+*   `public/images/`: Static images served by the site (see the image transfer guide below).
 *   `src/`: The source code for the website, including pages, components, layouts, and styles.
 *   `wrangler.toml`: The Wrangler configuration file for the Cloudflare Pages function.
 *   `Dockerfile`: An optional container for the Cloudflared Web UI.
@@ -65,6 +66,10 @@ The project is organized into the following directories:
 The website is deployed to [Cloudflare Pages](https://pages.cloudflare.com/). The deployment is handled automatically by [GitHub Actions](https://github.com/features/actions). When a change is pushed to the `main` branch, a GitHub Actions workflow is triggered that builds the website and deploys it to Cloudflare Pages.
 
 For more information on the deployment process, see the [Skyroute Enterprise Deployment Guide](docs/deployment-guide.md).
+
+## Managing images from Google Drive
+
+If you need to move pictures from Google Drive into the site, follow the step-by-step [image transfer guide](docs/image-transfer-guide.md). The guide covers pulling files from Drive, placing them into `public/images`, and committing them to the repository.
 
 ## Contributing
 
