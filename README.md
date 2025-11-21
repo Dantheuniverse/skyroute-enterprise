@@ -65,6 +65,15 @@ The project is organized into the following directories:
 
 The website is deployed to [Cloudflare Pages](https://pages.cloudflare.com/). The deployment is handled automatically by [GitHub Actions](https://github.com/features/actions). When a change is pushed to the `main` branch, a GitHub Actions workflow is triggered that builds the website and deploys it to Cloudflare Pages.
 
+### Custom domain setup (e.g., `drone.danieltheflukr.com`)
+
+Custom domains for this site are controlled by two pieces:
+
+1. A `CNAME` file checked into the repository root. It must contain the desired host name (for the drone page, `drone.danieltheflukr.com`). GitHub Pages reads this during deployment.
+2. A DNS `CNAME` record pointing the custom host (e.g., `drone`) to `dantheuniverse.github.io`. Without the DNS record, the site will continue to 404 even if the workflow succeeds.
+
+The GitHub Pages workflow (`.github/workflows/github-pages.yml`) also pins the `cname` input to `drone.danieltheflukr.com` so the Pages environment stays aligned with the repository’s `CNAME` file. Update both spots and the DNS record if you need to move to a different subdomain.
+
 For more information on the deployment process, see the [Skyroute Enterprise Deployment Guide](docs/deployment-guide.md).
 
 ## Managing images from Google Drive
