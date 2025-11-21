@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   Docker:
@@ -18,22 +17,9 @@ jobs:
         
       - name: 設定 QEMU (用於多平台建置)
         uses: docker/setup-qemu-action@v3
-        
+
       - name: 設定 Docker Buildx
         uses: docker/setup-buildx-action@v3
-        
-      - name: 登入 Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          
-      - name: 登入 GitHub 容器註冊表
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
           
       - name: 從 Dockerfile 擷取版本，或回退到提交的 SHA 值
         id: docker_tag_generator
@@ -47,17 +33,18 @@ jobs:
       - name: 調試 Docker 標籤
         run: echo "Docker 標籤變數為：${{ env.DOCKER_TAG }}"
         
-      - name: 建置並推送 Docker 映像
+      - name: 建置 Docker 映像（不推送）
         uses: docker/build-push-action@v5
         with:
           context: .
           platforms: linux/amd64,linux/arm64,linux/armhf
-          push: true
+          push: false
+          load: true
           tags: |
             danieltheflukr/skyroute-enterprise:${{ env.DOCKER_TAG }}
             danieltheflukr/skyroute-enterprise:latest
             ghcr.io/danieltheflukr/skyroute-enterprise:${{ env.DOCKER_TAG }}
             ghcr.io/danieltheflukr/skyroute-enterprise:latest
-            
-      - name: 通知建置成功
-        run: echo "✅ SkyRoute-Enterprise Docker 映像建置與推送成功！"
+
+      - name: 通知建置結果
+        run: echo "✅ SkyRoute-Enterprise Docker 映像建置完成（未推送）"
