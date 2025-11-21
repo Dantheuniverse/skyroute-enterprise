@@ -37,8 +37,6 @@ const videos = [
   { id: 'tf0kiuotJlc', title: 'Night cruise · Neon reflections' },
   { id: 'ZQ6BkpC9VOo', title: 'Mountain wind · Trust the rig' }
 ];
-
-const fallbackImage = '/drone-fallback.svg';
 ---
 <BaseLayout
   title="Drone Missions"
@@ -70,7 +68,6 @@ const fallbackImage = '/drone-fallback.svg';
             alt="Danieltheflukr preparing FPV drone in Taipei"
             class="h-full w-full object-cover transition duration-500 hover:scale-105"
             loading="lazy"
-            onerror={`this.onerror=null;this.src='${fallbackImage}'`}
           />
           <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
           <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-sm text-white/80">
@@ -94,13 +91,7 @@ const fallbackImage = '/drone-fallback.svg';
       <div class="grid flex-1 grid-cols-1 gap-6 md:grid-cols-2">
         {pilots.map((pilot) => (
           <article data-surface class="flex flex-col overflow-hidden">
-            <img
-              src={pilot.image}
-              alt={`${pilot.name} portrait`}
-              class="h-56 w-full object-cover"
-              loading="lazy"
-              onerror={`this.onerror=null;this.src='${fallbackImage}'`}
-            />
+            <img src={pilot.image} alt={`${pilot.name} portrait`} class="h-56 w-full object-cover" loading="lazy" />
             <div class="space-y-2 p-5">
               <p class="text-xs font-semibold uppercase tracking-[0.3em] text-[#ffb347]">{pilot.role}</p>
               <h3 class="text-xl font-semibold text-white">{pilot.name}</h3>
@@ -132,7 +123,6 @@ const fallbackImage = '/drone-fallback.svg';
               alt={`Taipei panorama ${index + 1}`}
               class="h-full w-full object-cover transition duration-500 hover:scale-105"
               loading="lazy"
-              onerror={`this.onerror=null;this.src='${fallbackImage}'`}
             />
           </div>
         ))}
@@ -157,7 +147,6 @@ const fallbackImage = '/drone-fallback.svg';
             alt={`Selected drone capture ${index + 1}`}
             class="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105"
             loading="lazy"
-            onerror={`this.onerror=null;this.src='${fallbackImage}'`}
           />
         </figure>
       ))}
