@@ -1,7 +1,13 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import CommentBox from '@components/CommentBox.astro';
-import { getWorkBySlug } from '@lib/works';
+import { getWorkBySlug, workpieces } from '@lib/works';
+
+export function getStaticPaths() {
+  return workpieces.map((work) => ({
+    params: { slug: work.slug }
+  }));
+}
 
 const { slug } = Astro.params;
 const work = slug ? getWorkBySlug(slug) : undefined;
