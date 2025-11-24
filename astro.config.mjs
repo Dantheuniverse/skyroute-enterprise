@@ -1,14 +1,13 @@
 import { defineConfig } from 'astro/config';
-import cloudflare from '@astrojs/cloudflare';
 import tailwind from '@astrojs/tailwind';
 import { fileURLToPath } from 'node:url';
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
-  adapter: cloudflare({
-    mode: 'directory'
-  }),
+  // GitHub Pages only serves static assets. Switching to static output ensures
+  // every route (including /drone) is emitted as HTML instead of relying on a
+  // Cloudflare Worker runtime that Pages cannot run.
+  output: 'static',
   integrations: [tailwind({
     config: {
       applyBaseStyles: false
