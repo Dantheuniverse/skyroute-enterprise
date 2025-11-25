@@ -7,13 +7,13 @@ A Cloudflare Worker API for the SkyRoute project.
 - `GET /health` — health check endpoint returning `{ "status": "ok" }`.
 
 ## Local development
-1. Install Wrangler globally if you have npm available:
+1. Install dependencies from the repository root (the workspace installs the worker's dev dependencies, including Wrangler):
    ```bash
-   npm install -g wrangler
+   npm install
    ```
 2. Run the worker locally:
    ```bash
-   wrangler dev
+   npm run dev --workspace worker
    ```
 
 Configure additional settings in `wrangler.toml` as needed.

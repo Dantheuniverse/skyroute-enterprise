@@ -59,11 +59,12 @@ If you prefer to work inside the `astro/` directory:
    npm run build
    ```
 
+You can override the canonical site URL used by Astro builds by setting the `SITE_URL` environment variable.
+
 ## Cloudflare Worker API
-The worker resides in `worker/` and exposes a basic root response plus a `/health` endpoint. To run it locally:
+The worker resides in `worker/` and exposes a basic root response plus a `/health` endpoint. To run it locally (after `npm install` in the repository root installs the workspace dependencies):
 ```bash
-cd worker
-wrangler dev
+npm run dev --workspace worker
 ```
 
 ## Deployment

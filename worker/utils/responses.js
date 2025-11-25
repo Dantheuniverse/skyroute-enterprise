@@ -1,7 +1,7 @@
 const defaultHeaders = { 'content-type': 'application/json; charset=utf-8' };
 
 export function jsonResponse(body, init = {}) {
-  return new Response(JSON.stringify(body, null, 2), {
+  return new Response(JSON.stringify(body), {
     headers: { ...defaultHeaders, ...init.headers },
     status: init.status || 200
   });
