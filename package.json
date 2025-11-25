@@ -1,0 +1,11 @@
+{
+  "name": "skyroute-enterprise",
+  "private": true,
+  "workspaces": [
+    "astro"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace astro",
+    "dev": "npm run dev --workspace astro"
+  }
+}

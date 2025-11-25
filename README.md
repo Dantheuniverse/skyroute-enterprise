@@ -29,6 +29,22 @@ skyroute-enterprise/
 ```
 
 ## Astro frontend
+### Using the top-level workspace (recommended)
+Install dependencies and run scripts from the repository root. The root `package.json` is configured as a workspace that targets the `astro/` project, so build systems that call `npm run build` at the repo root will automatically build the Astro site.
+
+```bash
+# install workspace dependencies
+npm install
+
+# start the development server
+npm run dev
+
+# build for production
+npm run build
+```
+
+### Running directly inside `astro/`
+If you prefer to work inside the `astro/` directory:
 1. Install dependencies:
    ```bash
    cd astro
