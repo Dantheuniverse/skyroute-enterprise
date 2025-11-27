@@ -1,0 +1,13 @@
+{
+  "name": "skyroute-worker",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --config ../wrangler.toml",
+    "deploy": "wrangler deploy --config ../wrangler.toml"
+  },
+  "devDependencies": {
+    "wrangler": "^3.81.0"
+  }
+}

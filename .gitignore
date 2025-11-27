@@ -1,9 +1,17 @@
-app/frontend/node_modules
-app/frontend/package-lock.json
-app/backend/node_modules
-app/backend/package-lock.json
-app/frontend/.vscode
-app/frontend/dist
-dev/config
-dev/.cloudflared
-.idea
+node_modules
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Astro output
+.astro
+dist
+
+# Environment files
+.env
+.env.*
+
+# Editor files
+.DS_Store
+.idea/
+.vscode/
