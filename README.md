@@ -17,8 +17,9 @@ skyroute-enterprise/
 │   ├── index.js
 │   ├── router.js
 │   ├── utils/
-│   ├── wrangler.toml
 │   └── README.md
+│
+├── wrangler.toml               # Worker deployment config (root-level)
 │
 ├── .github/
 │   └── workflows/
@@ -62,9 +63,14 @@ If you prefer to work inside the `astro/` directory:
 You can override the canonical site URL used by Astro builds by setting the `SITE_URL` environment variable.
 
 ## Cloudflare Worker API
-The worker resides in `worker/` and exposes a basic root response plus a `/health` endpoint. To run it locally (after `npm install` in the repository root installs the workspace dependencies):
+The worker resides in `worker/` and exposes a basic root response plus a `/health` endpoint. The root-level `wrangler.toml` config points to `worker/index.js` for deployments. To run it locally (after `npm install` in the repository root installs the workspace dependencies):
 ```bash
 npm run dev --workspace worker
+```
+
+To deploy the worker with the shared config from the repository root:
+```bash
+npm run deploy:worker
 ```
 
 ## Deployment
