@@ -7,3 +7,10 @@ command = "npm install"
 
 [build.upload]
 format = "modules"
+
+[observability]
+[observability.logs]
+enabled = false
+head_sampling_rate = 1
+invocation_logs = true
+persist = true
