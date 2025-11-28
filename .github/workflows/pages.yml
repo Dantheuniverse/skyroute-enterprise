@@ -15,14 +15,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
           node-version: 20
 
       - run: npm install
+
       - run: npm run build
 
-      - name: Upload build
+      - name: Upload build output
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
@@ -32,9 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: drone.mingleedan.org
-
     steps:
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
