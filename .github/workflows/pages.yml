@@ -33,7 +33,7 @@ jobs:
     environment:
       name: github-pages
       url: drone.mingleedan.org
-{{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy
         id: deployment
