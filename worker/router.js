@@ -6,7 +6,7 @@ export async function handleRequest(request, env) {
   if (request.method === 'GET' && url.pathname === '/') {
     const environment = env?.ENVIRONMENT || 'production';
     
-    // 使用已同步图片的完整 HTML 内容 (修复了变量定义)
+    // 完整的 HTML 内容，包含同步图片链接、修复的 YouTube 部分和 Tailwind CDN
     const newLandingPageHTML = `<!DOCTYPE html>
 <html lang="en" class="min-h-full">
 <head>
@@ -18,13 +18,12 @@ export async function handleRequest(request, env) {
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 确保页面是暗色背景 */
+        /* 基础样式和自定义属性 */
         body {
             background-color: #1a1a1a;
             color: white;
         }
 
-        /* 为 data-surface 添加一些自定义样式（Tailwind CDN 无法自动识别自定义属性） */
         [data-surface] {
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -105,7 +104,7 @@ export async function handleRequest(request, env) {
                         </div> 
                     </article>
                     <article data-surface="" class="flex flex-col overflow-hidden"> 
-                        <img src="https://drone.danieltheflukr.com/PTSC_0067.JPG" alt="Jackie portrait" class="h-56 w-full object-cover" loading="lazy"> 
+                        <img src="https://drone.danieltheflukr.com/PTSC_0266.JPG" alt="Jackie portrait" class="h-56 w-full object-cover" loading="lazy"> 
                         <div class="space-y-2 p-5"> 
                             <p class="text-xs font-semibold uppercase tracking-[0.3em] text-[#ffb347]">Sub pilot</p> 
                             <h3 class="text-xl font-semibold text-white">Jackie</h3> 
@@ -170,8 +169,56 @@ export async function handleRequest(request, env) {
                 </figure> 
             </div> 
         </section> 
-        <section id="videos" class="border-t border-white/5 bg-gradient-to-b from-black/30 via-black/40 to-black/60 py-16"> 
-        </section> 
+        <section id="videos" class="border-t border-white/5 bg-gradient-to-b from-black/30 via-black/40 to-black/60 py-16">
+            <div class="mx-auto max-w-6xl px-6">
+                <div class="flex flex-col gap-3">
+                    <p class="text-xs font-semibold uppercase tracking-[0.35em] text-white/60">YouTube upload</p>
+                    <h2 class="text-3xl font-semibold text-white">Flight logs in motion</h2>
+                    <p class="max-w-3xl text-slate-300">
+                        Four runs from the Danieltheflukr lab—each edited to keep the prop wash low and the momentum high. Plug in and ride the
+                        line with us.
+                    </p>
+                </div>
+                <div class="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2">
+                    <article data-surface="" class="overflow-hidden">
+                        <div class="aspect-video w-full overflow-hidden">
+                            <iframe src="https://www.youtube.com/embed/QvtcwlThqKA" title="Taipei dusk run · One take energy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="h-full w-full" loading="lazy"></iframe>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-white">Taipei dusk run · One take energy</h3>
+                            <p class="text-sm text-slate-400">Captured and graded by Danieltheflukr · FPV story drops.</p>
+                        </div>
+                    </article>
+                    <article data-surface="" class="overflow-hidden">
+                        <div class="aspect-video w-full overflow-hidden">
+                            <iframe src="https://www.youtube.com/embed/YnG5uPjQIJA" title="Forest line · Tight gaps and chase" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="h-full w-full" loading="lazy"></iframe>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-white">Forest line · Tight gaps and chase</h3>
+                            <p class="text-sm text-slate-400">Captured and graded by Danieltheflukr · FPV story drops.</p>
+                        </div>
+                    </article>
+                    <article data-surface="" class="overflow-hidden">
+                        <div class="aspect-video w-full overflow-hidden">
+                            <iframe src="https://www.youtube.com/embed/tf0kiuotJlc" title="Night cruise · Neon reflections" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="h-full w-full" loading="lazy"></iframe>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-white">Night cruise · Neon reflections</h3>
+                            <p class="text-sm text-slate-400">Captured and graded by Danieltheflukr · FPV story drops.</p>
+                        </div>
+                    </article>
+                    <article data-surface="" class="overflow-hidden">
+                        <div class="aspect-video w-full overflow-hidden">
+                            <iframe src="https://www.youtube.com/embed/ZQ6BkpC9VOo" title="Mountain wind · Trust the rig" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="h-full w-full" loading="lazy"></iframe>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-white">Mountain wind · Trust the rig</h3>
+                            <p class="text-sm text-slate-400">Captured and graded by Danieltheflukr · FPV story drops.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
         <section class="mx-auto max-w-6xl px-6 py-14"> 
             <div data-surface="" class="flex flex-col items-start gap-4 px-8 py-10 md:flex-row md:items-center md:justify-between"> 
                 <div> 
@@ -192,6 +239,23 @@ export async function handleRequest(request, env) {
         </section>  
     </main> 
     <footer class="border-t border-white/10 bg-black/40 py-10 text-sm text-slate-300"> 
+        <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 lg:flex-row lg:items-center lg:justify-between"> 
+            <div class="space-y-2"> 
+                <p class="text-base font-semibold text-white">Skyroute Enterprise</p> 
+                <p class="max-w-xl text-sm text-slate-400">
+                    A cinematic playground documenting builds, experiments, and immersive stories. Subscribe on YouTube to follow the journey
+                    in real time.
+                </p> 
+            </div> 
+            <div class="flex flex-wrap gap-4 text-sm text-slate-300"> 
+                <a href="mailto:hello@skyrouteenterprise.com" class="hover:text-white">hello@skyrouteenterprise.com</a> 
+                <a href="https://www.youtube.com/channel/UCirc3JMTevbTPhYZYhmvltQ" class="hover:text-white" target="_blank" rel="noreferrer">YouTube</a> 
+                <a href="https://www.instagram.com/skyrouteenterprise" class="hover:text-white" target="_blank" rel="noreferrer">Instagram</a> 
+            </div> 
+        </div> 
+        <div class="mx-auto mt-6 max-w-6xl px-6 text-xs uppercase tracking-[0.3em] text-white/40">
+            © 2025 Skyroute Enterprise. Built with Astro.
+        </div> 
     </footer> 
 </body>
 </html>`;
