@@ -1,8 +1,9 @@
 {
   "name": "skyroute-ui",
   "scripts": {
+    "prebuild": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npm run prebuild && astro build",
     "preview": "astro preview"
   },
   "dependencies": {
