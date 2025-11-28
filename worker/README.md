@@ -3,7 +3,7 @@
 A Cloudflare Worker API for the SkyRoute project.
 
 ## Endpoints
-- `GET /` — basic project metadata.
+- `GET /` — redirects to the deployed frontend when `FRONTEND_URL` (or `PAGES_URL`) is set; otherwise returns basic project metadata.
 - `GET /health` — health check endpoint returning `{ "status": "ok" }`.
 
 ## Local development

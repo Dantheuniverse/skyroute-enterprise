@@ -44,6 +44,8 @@ npm run dev
 npm run build
 ```
 
+Build artifacts are emitted to `astro/dist`; the GitHub Pages workflow uploads that directory when deploying.
+
 ### Running directly inside `astro/`
 If you prefer to work inside the `astro/` directory:
 1. Install dependencies:
@@ -72,6 +74,8 @@ To deploy the worker with the shared config from the repository root:
 ```bash
 npm run deploy:worker
 ```
+
+If you want the worker root route (`/`) to show the Astro site instead of the JSON metadata, set an environment variable `FRONTEND_URL` (or `PAGES_URL`) to the deployed site URL in your Wrangler environment. When configured, the worker will issue a 302 redirect for `GET /` to that URL.
 
 ## Deployment
 GitHub Actions in `.github/workflows/pages.yml` builds the Astro site and deploys it to GitHub Pages on pushes to `main`.

@@ -20,6 +20,8 @@ jobs:
         with:
           node-version: 20
 
+      - run: rm -rf astro/dist
+
       - run: npm install
 
       - run: npm run build
@@ -27,7 +29,7 @@ jobs:
       - name: Upload build output
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./astro/dist
 
   deploy:
     needs: build
