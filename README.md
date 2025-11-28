@@ -44,6 +44,8 @@ npm run dev
 npm run build
 ```
 
+Build artifacts are emitted to `astro/dist`; the GitHub Pages workflow uploads that directory when deploying.
+
 ### Running directly inside `astro/`
 If you prefer to work inside the `astro/` directory:
 1. Install dependencies:
