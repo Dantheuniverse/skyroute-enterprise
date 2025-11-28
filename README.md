@@ -46,6 +46,8 @@ npm run build
 
 Build artifacts are emitted to `astro/dist`; the GitHub Pages workflow uploads that directory when deploying.
 
+The static site is bound to the custom domain `pilot.mingleedan.org` via the `astro/public/CNAME` file.
+
 ### Running directly inside `astro/`
 If you prefer to work inside the `astro/` directory:
 1. Install dependencies:

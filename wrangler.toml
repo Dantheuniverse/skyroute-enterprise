@@ -2,6 +2,9 @@ name = "skyroute-enterprise"
 main = "worker/index.js"
 compatibility_date = "2024-01-01"
 
+[vars]
+FRONTEND_URL = "https://pilot.mingleedan.org"
+
 [build]
 command = "npm install"
 

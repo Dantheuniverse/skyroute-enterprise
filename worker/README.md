@@ -9,7 +9,7 @@ A Cloudflare Worker API for the SkyRoute project.
 ## Local development
 The worker uses the root-level `wrangler.toml` (at `../wrangler.toml`).
 
-1. Install dependencies from the repository root (the workspace installs the worker's dev dependencies, including Wrangler):
+1. Install dependencies from the repository root (the workspace installs the worker's dev dependencies, including Wrangler). The worker is preconfigured to redirect `/` to `https://pilot.mingleedan.org` via `FRONTEND_URL` in `wrangler.toml`:
    ```bash
    npm install
    ```
