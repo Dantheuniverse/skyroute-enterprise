@@ -1,0 +1,16 @@
+{
+  "name": "skyroute-enterprise",
+  "main": "src/index.js",
+  "workers_dev": true,
+  "preview_urls": true,
+  "compatibility_date": "2024-01-01",
+  "routes": [
+    {
+      "pattern": "*.mingleedan.org",
+      "zone_name": "mingleedan.org"
+    }
+  ],
+  "vars": {
+    "FRONTEND_URL": "https://pilot.mingleedan.org"
+  }
+}
