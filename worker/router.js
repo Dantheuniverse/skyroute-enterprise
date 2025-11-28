@@ -5,323 +5,194 @@ export async function handleRequest(request, env) {
 
   if (request.method === 'GET' && url.pathname === '/') {
     const environment = env?.ENVIRONMENT || 'production';
-    
-    const newLandingPageHTML = `<!doctype html>
-<html lang="en">
+    
+    // 使用已同步图片的完整 HTML 内容 (修复了变量定义)
+    const newLandingPageHTML = `<!DOCTYPE html>
+<html lang="en" class="min-h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flying Taipei with Danieltheflukr | Skyroute Enterprise Drone Lab</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Drone Missions | Skyroute Enterprise</title>
+    <meta name="description" content="Danieltheflukr FPV flights, pilots, panoramas, and cinematic pulls from the Taipei skyline.">
+    <link rel="icon" type="image/svg+xml" href="https://skyroute-enterprise.pages.dev/favicon.svg">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <style>
-        /* 基础暗色背景，确保 Tailwind 的暗色主题正确工作 */
+        /* 确保页面是暗色背景 */
         body {
-            background-color: #1a1a1a; /* Dark background */
+            background-color: #1a1a1a;
             color: white;
         }
 
         /* 为 data-surface 添加一些自定义样式（Tailwind CDN 无法自动识别自定义属性） */
         [data-surface] {
-            /* 模拟 Tailwind's 'bg-white/5 border border-white/10 rounded-3xl' */
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1.5rem; 
         }
     </style>
-</head>
-<body>
-<main class="min-h-screen">
-  <section class="relative min-h-[700px] flex items-center">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 -z-10"></div>
-
-    <div class="absolute inset-0 -z-10">
-      <img
-        src="https://drone.danieltheflukr.com/PTSC_0014.JPG"
-        alt="Taipei drone panorama by Danieltheflukr"
-        class="w-full h-full object-cover opacity-70"
-      />
-    </div>
-
-    <div class="container mx-auto px-6 py-20 lg:py-24 relative z-10">
-      <div class="flex flex-col lg:flex-row items-start lg:items-center gap-10">
-        <div class="lg:w-7/12 space-y-6">
-          <span data-pill>Skyroute Enterprise · Drone Lab</span>
-
-          <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight">
-            Flying Taipei<br />
-            with <span class="text-[#ffb347]">Danieltheflukr</span>
-          </h1>
-
-          <p class="text-lg text-slate-300 max-w-2xl leading-relaxed">
-            Cinematic FPV routes, fearless dives, and skyline stories over Taipei.  
-            Every mission balances clean lines, safe airspace, and a bit of
-            controlled chaos from the lab.
-          </p>
-
-          <div class="flex flex-wrap gap-3 text-sm text-slate-300">
-            <span class="inline-flex items-center rounded-full border border-white/20 px-3 py-1">
-              FPV · Cinewhoop · Long-range
-            </span>
-            <span class="inline-flex items-center rounded-full border border-white/20 px-3 py-1">
-              Taipei City · Rivers · Mountains · Coast
-            </span>
-            <span class="inline-flex items-center rounded-full border border-white/20 px-3 py-1">
-              Personal brand · Story-driven flights
-            </span>
-          </div>
-
-          <div class="flex flex-wrap gap-4 mt-4">
-            <a
-              href="mailto:hello@skyrouteenterprise.com"
-              data-gradient-button
-              class="bg-gradient-to-r from-[#ff4c60]/70 via-[#ff6f8c] to-[#ffb347]/50"
-            >
-              Book a flight mission
-            </a>
-
-            <a
-              href="https://www.youtube.com"
-              target="_blank"
-              rel="noreferrer"
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 text-sm text-white/80 hover:border-white/40 hover:bg-white/10 transition"
-            >
-              ▶ Watch on YouTube
-            </a>
-          </div>
-
-          <p class="text-sm text-slate-400 mt-2">
-            Drone hub: <span class="font-semibold">drone.danieltheflukr.com</span>
-          </p>
-        </div>
-
-        <div class="lg:w-5/12 flex flex-col gap-4">
-          <div
-            data-surface
-            class="overflow-hidden shadow-2xl shadow-[#ff4c60]/40 hover:-translate-y-1 hover:shadow-xl transition-all"
-          >
-            <div class="relative aspect-[4/5]">
-              <img
-                src="https://drone.danieltheflukr.com/PTSC_0215.JPG"
-                alt="Danieltheflukr with drone"
-                class="w-full h-full object-cover"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-              <div class="absolute bottom-4 left-4 right-4">
-                <p class="text-xs uppercase tracking-[0.25em] text-white/60 mb-1">
-                  Lead pilot
-                </p>
-                <h2 class="text-2xl font-bold">Daniel the Flukr</h2>
-                <p class="text-sm text-white/70 mt-1">
-                  Designing routes, calling the shots, and pulling the trigger
-                  when it’s time to dive the skyline.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div
-  data-surface
-  class="overflow-hidden shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all flex gap-4 p-4 items-center"
->
-  <div class="w-24 h-24 rounded-3xl overflow-hidden flex-shrink-0">
-    <img
-      src="https://drone.danieltheflukr.com/20251111_222650000_iOS.jpg"
-      alt="Jackie portrait"
-      class="w-full h-full object-cover"
-    />
-  </div>
-  <div class="space-y-1">
-    <p class="text-xs uppercase tracking-[0.25em] text-white/60">
-      Sub pilot · Safety
-    </p>
-    <h3 class="text-xl font-semibold">Jackie</h3>
-    <p class="text-sm text-slate-300">
-      Securing space, double-checking failsafes, and keeping each
-      sortie locked on the mission.
-    </p>
-  </div>
-</div>
-
-          </div>
-
-          <div
-            data-surface
-            class="overflow-hidden shadow-md hover:-translate-y-1 hover:shadow-xl transition-all flex gap-4 p-4 items-center"
-          >
-            <div class="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0">
-              <img
-                src="https://love.danieltheflukr.com/Im6AkCSzRliLlgUCAWsauQ.jpg"
-                alt="Rabbit and bag"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <div class="space-y-1">
-              <p class="text-xs uppercase tracking-[0.25em] text-white/60">
-                Ground charm
-              </p>
-              <p class="text-sm text-slate-300">
-                A small reminder that every crazy flight still lands back in
-                real life, with bags, rabbits, and people we care about.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-16 md:py-20">
-    <div class="container mx-auto px-6">
-      <div class="flex flex-col lg:flex-row lg:items-center gap-10">
-        <div class="lg:w-5/12 space-y-4">
-          <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-            Panorama sweeps over Taipei
-          </h2>
-          <p class="text-slate-300 leading-relaxed">
-            Wide pulls over the river, grid, and bridges. Each pass is timed
-            with the light and the track—so the city breathes while the drone
-            keeps moving.
-          </p>
-          <p class="text-sm text-slate-400">
-            Ideal for intros, city reveals, and sequences where you want Taipei
-            to feel alive but not overwhelming the story.
-          </p>
-        </div>
-
-        <div class="lg:w-7/12 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="relative overflow-hidden rounded-3xl border border-white/10">
-            <img
-              src="https://drone.danieltheflukr.com/PTSC_0014.JPG"
-              alt="Taipei panorama 1"
-              class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          </div>
-          <div class="relative overflow-hidden rounded-3xl border border-white/10">
-            <img
-              src="https://drone.danieltheflukr.com/PTSC_0015.JPG"
-              alt="Taipei panorama 2"
-              class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-16 md:py-20 border-t border-white/10">
-    <div class="container mx-auto px-6">
-      <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-10">
-        <div class="max-w-2xl space-y-3">
-          <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-            Still frames that feel like movement
-          </h2>
-          <p class="text-slate-300 leading-relaxed">
-            Frames pulled from sorties around Taipei—chosen for depth, texture,
-            and the feeling that the drone is still moving even when the
-            shutter stops.
-          </p>
-        </div>
-        <div class="text-sm text-slate-400 max-w-sm">
-          <p>
-            Use these as thumbnails, key art, or mood boards for future
-            missions. Each shot keeps enough negative space for titles and
-            overlays.
-          </p>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div data-surface class="overflow-hidden group">
-          <img
-            src="https://drone.danieltheflukr.com/PTSC_0212.JPG"
-            alt="Drone capture 0212"
-            class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        </div>
-        <div data-surface class="overflow-hidden group">
-          <img
-            src="https://drone.danieltheflukr.com/PTSC_0030.JPG"
-            alt="Drone capture 0030"
-            class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        </div>
-        <div data-surface class="overflow-hidden group">
-          <img
-            src="https://drone.danieltheflukr.com/PTSC_0242.JPG"
-            alt="Drone capture 0242"
-            class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        </div>
-        <div data-surface class="overflow-hidden group">
-          <img
-            src="https://drone.danieltheflukr.com/PTSC_0254.JPG"
-            alt="Drone capture 0254"
-            class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        </div>
-        <div data-surface class="overflow-hidden group">
-          <img
-            src="https://drone.danieltheflukr.com/PTSC_0255.JPG"
-            alt="Drone capture 0255"
-            class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        </div>
-        <div data-surface class="overflow-hidden group">
-          <img
-            src="https://drone.danieltheflukr.com/PTSC_0239.JPG"
-            alt="Drone capture 0239"
-            class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-16 md:py-20 border-t border-white/10">
-    <div class="container mx-auto px-6">
-      <div
-        data-surface
-        class="relative overflow-hidden p-8 md:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8"
-      >
-        <div class="absolute -left-24 bottom-0 w-64 h-64 bg-gradient-to-tr from-[#ff4c60]/70 to-[#6a5bff]/60 blur-[120px] opacity-80 -z-10"></div>
-        <div class="absolute -right-24 top-0 w-64 h-64 bg-gradient-to-br from-[#6a5bff]/50 to-[#ffb347]/50 blur-[120px] opacity-80 -z-10"></div>
-
-        <div class="space-y-3 max-w-xl">
-          <p class="text-xs uppercase tracking-[0.3em] text-white/60">
-            Next flight · Booking
-          </p>
-          <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
-            Need aerial coverage or FPV storytelling?
-          </h2>
-          <p class="text-slate-300">
-            Send the location, vibe, and deadline. We’ll chart a route, prep the
-            batteries, and keep the Danieltheflukr brand energy on every
-            deliverable—from raw flight packs to finished edits.
-          </p>
-        </div>
-
-        <div class="space-y-3">
-          <a
-            href="daniel.dai@g2-travel.com"
-            data-gradient-button
-            class="bg-gradient-to-r from-[#ff4c60] via-[#ff6f8c] to-[#ffb347]/50"
-          >
-            Email the crew
-          </a>
-          <p class="text-xs text-slate-400">
-            Or ping via social · YouTube / Instagram · Add subject
-            <span class="font-semibold text-slate-200">
-              [FPV mission · Taipei]
-            </span>
-            for faster routing.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
+</head> 
+<body class="flex min-h-screen flex-col"> 
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-[#090b12]/80 backdrop-blur-xl"> 
+        <div class="mx-auto flex w-full max-w-6xl flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between"> 
+            <div class="flex items-center gap-3 text-white"> 
+                <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#ff4c60] to-[#6a5bff] text-lg font-bold shadow-lg shadow-[#ff4c60]/40">SE</span> 
+                <div> 
+                    <a href="https://skyroute-enterprise.pages.dev/" class="text-lg font-semibold tracking-tight text-white">Skyroute Enterprise</a> 
+                    <p class="text-xs uppercase tracking-[0.35em] text-white/60">Personal creative lab</p> 
+                </div> 
+            </div> 
+            <nav class="flex flex-wrap items-center gap-3 text-sm font-medium text-white/70"> 
+                <a href="https://skyroute-enterprise.pages.dev/" class="rounded-full px-4 py-2 transition hover:bg-white/10 hover:text-white">Home</a> 
+                <a href="https://skyroute-enterprise.pages.dev/about" class="rounded-full px-4 py-2 transition hover:bg-white/10 hover:text-white">About</a> 
+                <a href="https://skyroute-enterprise.pages.dev/blog" class="rounded-full px-4 py-2 transition hover:bg-white/10 hover:text-white">Notes</a> 
+                <a href="https://skyroute-enterprise.pages.dev/work/sky-temple" class="rounded-full px-4 py-2 transition hover:bg-white/10 hover:text-white">Selected work</a> 
+                <a href="https://www.youtube.com/channel/UCirc3JMTevbTPhYZYhmvltQ" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 font-semibold text-white transition hover:bg-white/20"> 
+                    <span aria-hidden="true">▶</span>
+                    Watch on YouTube
+                </a> 
+            </nav> 
+        </div> 
+    </header> 
+    <main class="flex-1">  
+        <section class="relative overflow-hidden border-b border-white/5 bg-gradient-to-b from-black/60 via-black/30 to-black/20"> 
+            <div class="absolute inset-0 -z-10 opacity-30"> 
+                <div class="absolute -left-24 top-10 h-72 w-72 rounded-full bg-gradient-to-br from-[#ff4c60]/70 to-[#6a5bff]/60 blur-[120px]"></div> 
+                <div class="absolute bottom-0 right-10 h-64 w-64 rounded-full bg-gradient-to-br from-[#6a5bff]/50 to-[#ffb347]/50 blur-[120px]"></div> 
+            </div> 
+            <div class="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-16 lg:flex-row lg:items-center lg:py-24"> 
+                <div class="space-y-6 lg:w-7/12"> 
+                    <span data-pill="">drone.danieltheflukr.com</span> 
+                    <h1 class="text-4xl font-bold leading-tight sm:text-5xl">Flying Taipei with Danieltheflukr</h1> 
+                    <p class="text-lg text-slate-300">
+                        Cinematic FPV routes, fearless dives, and the crew behind the sticks. Every clip is framed to keep the skyline breathing,
+                        and every mission is a story we tell with propellers instead of pens.
+                    </p> 
+                    <div class="flex flex-wrap gap-3 text-sm text-white/70"> 
+                        <span class="rounded-full border border-white/20 px-3 py-1">FPV · Cinewhoop · Long range</span> 
+                        <span class="rounded-full border border-white/20 px-3 py-1">Taipei City · Mountains · Coast</span> 
+                        <span class="rounded-full border border-white/20 px-3 py-1">Danieltheflukr Personal Brand</span> 
+                    </div> 
+                </div> 
+                <div class="lg:w-5/12"> 
+                    <div data-surface="" class="relative overflow-hidden"> 
+                        <img src="https://drone.danieltheflukr.com/PTSC_0215.JPG" alt="Danieltheflukr preparing FPV drone in Taipei" class="h-full w-full object-cover transition duration-500 hover:scale-105" loading="lazy"> 
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div> 
+                        <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-sm text-white/80"> 
+                            <span class="font-semibold">Lead pilot: Daniel</span> 
+                            <span class="rounded-full bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.25em]">Ready</span> 
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+        </section> 
+        <section class="mx-auto max-w-6xl px-6 py-14"> 
+            <div class="flex flex-col gap-10 lg:flex-row lg:items-start"> 
+                <div class="lg:w-4/12"> 
+                    <h2 class="text-2xl font-semibold text-white">Pilots on deck</h2> 
+                    <p class="mt-3 text-slate-300">
+                        The duo steering every sortie. Daniel frames the lines and executes the dives. Jackie secures the perimeter, spots
+                        obstacles, and keeps the crew synced.
+                    </p> 
+                </div> 
+                <div class="grid flex-1 grid-cols-1 gap-6 md:grid-cols-2"> 
+                    <article data-surface="" class="flex flex-col overflow-hidden"> 
+                        <img src="https://drone.danieltheflukr.com/PTSC_0215.JPG" alt="Daniel the Flukr portrait" class="h-56 w-full object-cover" loading="lazy"> 
+                        <div class="space-y-2 p-5"> 
+                            <p class="text-xs font-semibold uppercase tracking-[0.3em] text-[#ffb347]">Lead pilot · me /drone</p> 
+                            <h3 class="text-xl font-semibold text-white">Daniel the Flukr</h3> 
+                            <p class="text-sm text-slate-300">Designing routes, calling shots, and pulling the trigger when it is time to dive into the skyline.</p> 
+                        </div> 
+                    </article>
+                    <article data-surface="" class="flex flex-col overflow-hidden"> 
+                        <img src="https://drone.danieltheflukr.com/PTSC_0067.JPG" alt="Jackie portrait" class="h-56 w-full object-cover" loading="lazy"> 
+                        <div class="space-y-2 p-5"> 
+                            <p class="text-xs font-semibold uppercase tracking-[0.3em] text-[#ffb347]">Sub pilot</p> 
+                            <h3 class="text-xl font-semibold text-white">Jackie</h3> 
+                            <p class="text-sm text-slate-300">Coordinating airspace details, safety checks, and recovery while keeping the team locked on the mission.</p> 
+                        </div> 
+                    </article> 
+                </div> 
+            </div> 
+        </section> 
+        <section class="border-t border-white/5 bg-white/5 py-14"> 
+            <div class="mx-auto max-w-6xl px-6"> 
+                <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"> 
+                    <div> 
+                        <p class="text-xs font-semibold uppercase tracking-[0.35em] text-white/60">Below the panorama of Taipei</p> 
+                        <h2 class="text-3xl font-semibold text-white">Panorama sweeps</h2> 
+                        <p class="mt-2 max-w-2xl text-slate-300">
+                            Wide pulls over the river and city grid. Each pass mirrors the rhythm we want the audience to feel when the music hits.
+                        </p> 
+                    </div> 
+                    <a href="https://skyroute-enterprise.pages.dev/#videos" class="text-sm text-[#ffb347] underline-offset-4 hover:text-white">Jump to flight logs</a> 
+                </div> 
+                <div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2"> 
+                    <div data-surface="" class="overflow-hidden"> 
+                        <img src="https://drone.danieltheflukr.com/PTSC_0014.JPG" alt="Taipei panorama 1" class="h-full w-full object-cover transition duration-500 hover:scale-105" loading="lazy"> 
+                    </div>
+                    <div data-surface="" class="overflow-hidden"> 
+                        <img src="https://drone.danieltheflukr.com/PTSC_0015.JPG" alt="Taipei panorama 2" class="h-full w-full object-cover transition duration-500 hover:scale-105" loading="lazy"> 
+                    </div> 
+                </div> 
+            </div> 
+        </section> 
+        <section class="mx-auto max-w-6xl px-6 py-14"> 
+            <div class="flex flex-col gap-3"> 
+                <p class="text-xs font-semibold uppercase tracking-[0.35em] text-white/60">Selected drone pictures</p> 
+                <h2 class="text-3xl font-semibold text-white">Still frames that feel like movement</h2> 
+                <p class="max-w-3xl text-slate-300">
+                    Frames pulled from sorties around Taipei—each chosen for texture, depth, and the sense that the drone is still moving
+                    even when the shutter freezes the moment.
+                </p> 
+            </div> 
+            <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"> 
+                <figure data-surface="" class="group overflow-hidden"> 
+                    <img src="https://drone.danieltheflukr.com/PTSC_0212.JPG" alt="Selected drone capture 1" class="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy"> 
+                </figure>
+                <figure data-surface="" class="group overflow-hidden"> 
+                    <img src="https://drone.danieltheflukr.com/PTSC_0030.JPG" alt="Selected drone capture 2" class="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy"> 
+                </figure>
+                <figure data-surface="" class="group overflow-hidden"> 
+                    <img src="https://drone.danieltheflukr.com/PTSC_0242.JPG" alt="Selected drone capture 3" class="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy"> 
+                </figure>
+                <figure data-surface="" class="group overflow-hidden"> 
+                    <img src="https://drone.danieltheflukr.com/PTSC_0254.JPG" alt="Selected drone capture 4" class="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy"> 
+                </figure>
+                <figure data-surface="" class="group overflow-hidden"> 
+                    <img src="https://drone.danieltheflukr.com/PTSC_0255.JPG" alt="Selected drone capture 5" class="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy"> 
+                </figure>
+                <figure data-surface="" class="group overflow-hidden"> 
+                    <img src="https://drone.danieltheflukr.com/PTSC_0239.JPG" alt="Selected drone capture 6" class="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy"> 
+                </figure>
+                <figure data-surface="" class="group overflow-hidden"> 
+                    <img src="https://drone.danieltheflukr.com/PTSC_0269.JPG" alt="Selected drone capture 7" class="aspect-[4/5] w-full object-cover transition duration-500 group-hover:scale-105" loading="lazy"> 
+                </figure> 
+            </div> 
+        </section> 
+        <section id="videos" class="border-t border-white/5 bg-gradient-to-b from-black/30 via-black/40 to-black/60 py-16"> 
+        </section> 
+        <section class="mx-auto max-w-6xl px-6 py-14"> 
+            <div data-surface="" class="flex flex-col items-start gap-4 px-8 py-10 md:flex-row md:items-center md:justify-between"> 
+                <div> 
+                    <p class="text-xs font-semibold uppercase tracking-[0.35em] text-white/60">Next flight</p> 
+                    <h3 class="text-2xl font-semibold text-white">Need aerial coverage or FPV storytelling?</h3> 
+                    <p class="mt-2 max-w-2xl text-slate-300">
+                        Drop a line with the location, vibe, and deadline. We will chart a route, prep the batteries, and keep the Danieltheflukr
+                        brand energy on every deliverable.
+                    </p> 
+                </div> 
+                <div class="flex flex-wrap gap-3"> 
+                    <a data-gradient-button="" href="mailto:hello@skyrouteenterprise.com">Email the crew</a> 
+                    <a class="rounded-full border border-white/30 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/60" href="https://www.youtube.com/channel/UCirc3JMTevbTPhYZYhmvltQ" target="_blank" rel="noreferrer">
+                        Watch more on YouTube
+                    </a> 
+                </div> 
+            </div> 
+        </section>  
+    </main> 
+    <footer class="border-t border-white/10 bg-black/40 py-10 text-sm text-slate-300"> 
+    </footer> 
 </body>
 </html>`;
 
