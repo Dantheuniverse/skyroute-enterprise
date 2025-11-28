@@ -1,6 +1,7 @@
 {
   "name": "skyroute-ui",
   "scripts": {
+    "prebuild": "rm -rf dist",
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview"
