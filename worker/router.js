@@ -8,7 +8,18 @@ export async function handleRequest(request, env) {
     if (frontendUrl) {
       try {
         const destination = new URL(frontendUrl);
-        return Response.redirect(destination.toString(), 302);
+        if (destination.origin !== url.origin) {
+          return Response.redirect(destination.toString(), 302);
+        }
+
+        // Avoid redirect loops when the worker is bound to the same hostname
+        // as the configured frontend. Returning metadata keeps the worker
+        // reachable without sending the browser in circles.
+        return jsonResponse({
+          message: 'SkyRoute Worker API',
+          note: 'Frontend URL matches worker host; redirect skipped to avoid loop',
+          environment: env?.ENVIRONMENT || 'production',
+        });
       } catch (error) {
         return jsonResponse({ error: 'Invalid frontend URL provided', detail: String(error) }, { status: 500 });
       }
