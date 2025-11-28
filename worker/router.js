@@ -1,73 +1,33 @@
 import { htmlResponse, jsonResponse, notFoundResponse } from './utils/responses.js';
 
-// ** IMPORTANT: The actual CSS/JS dependencies (like Tailwind) for this HTML must be
-//    included in the <head> of the HTML itself for the page to render correctly.
-//    If they are external, make sure the links are valid!
-
 export async function handleRequest(request, env) {
   const url = new URL(request.url);
 
   if (request.method === 'GET' && url.pathname === '/') {
     const environment = env?.ENVIRONMENT || 'production';
     
-    // NOTE: The environment variable (${environment}) from the Worker is no longer 
-    // explicitly used in the main body, but the route is dedicated to the new page.
-
-    // *** START OF YOUR NEW LANDING PAGE HTML ***
     const newLandingPageHTML = `<!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flying Taipei with Danieltheflukr | Skyroute Enterprise Drone Lab</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <style>
-        /* Define missing styles if not using a CDN, e.g., styles for data-pill, data-surface, data-gradient-button */
-        :root {
-            --color-primary: #ffb347;
-            --color-secondary: #ff4c60;
-            --color-surface: rgba(255, 255, 255, 0.05);
-        }
-
+        /* 基础暗色背景，确保 Tailwind 的暗色主题正确工作 */
         body {
             background-color: #1a1a1a; /* Dark background */
             color: white;
         }
 
-        /* Replicating key Tailwind effects for a clean look */
+        /* 为 data-surface 添加一些自定义样式（Tailwind CDN 无法自动识别自定义属性） */
         [data-surface] {
-            background-color: var(--color-surface);
+            /* 模拟 Tailwind's 'bg-white/5 border border-white/10 rounded-3xl' */
+            background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem; /* rounded-3xl equivalent */
-        }
-        
-        [data-pill] {
-            display: inline-flex;
-            align-items: center;
-            border-radius: 9999px; /* rounded-full */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 0.25rem 0.75rem;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--color-primary);
-        }
-
-        [data-gradient-button] {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px; /* rounded-full */
-            font-weight: 600;
-            text-align: center;
-            color: white;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        
-        [data-gradient-button]:hover {
-            opacity: 0.9;
-            box-shadow: 0 4px 15px rgba(255, 76, 96, 0.5); /* Shadow for hover effect */
+            border-radius: 1.5rem; 
         }
     </style>
 </head>
@@ -364,8 +324,6 @@ export async function handleRequest(request, env) {
 </main>
 </body>
 </html>`;
-    // *** END OF YOUR NEW LANDING PAGE HTML ***
-
 
     return htmlResponse(newLandingPageHTML);
   }
