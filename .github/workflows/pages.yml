@@ -20,6 +20,8 @@ jobs:
         with:
           node-version: 20
 
+      - run: rm -rf astro/dist
+
       - run: npm install
 
       - run: npm run build
