@@ -33,8 +33,9 @@ export async function handleRequest(request, env) {
               <p>Any other routes will return a JSON 404 to keep API responses predictable.</p>
             </body>
           </html>`);
-      } catch {
-        // Ignore invalid frontend URLs and fall through to metadata response
+        catch (e) {
+        console.error('Invalid frontend URL for redirect: ' + frontendUrl, e);
+      }
       }
     }
 
