@@ -1,13 +1,33 @@
 import { htmlResponse, jsonResponse, notFoundResponse } from './utils/responses.js';
 
 export async function handleRequest(request, env) {
-  const url = new URL(request.url);
+  const url = new URL(request.url);
 
-  if (request.method === 'GET' && url.pathname === '/') {
-    const environment = env?.ENVIRONMENT || 'production';
-    
+  if (request.method === 'GET' && url.pathname === '/') {
+    if (env?.ASSETS) {
+      const assetResponse = await env.ASSETS.fetch(request);
+      if (assetResponse.ok) {
+        return assetResponse;
+      }
+    }
+
+    const environment = env?.ENVIRONMENT || 'production';
+    const rawFrontendUrl = env?.FRONTEND_URL || env?.PAGES_URL;
+
+    let frontendLink = null;
+
+    if (rawFrontendUrl) {
+      try {
+        // Normalize against the incoming request URL to allow relative values
+        const destination = new URL(rawFrontendUrl, url);
+        frontendLink = destination.toString();
+      } catch {
+        // Ignore invalid frontend URLs and fall through to landing page
+      }
+    }
+    
     // 完整的 HTML 内容，包含同步图片链接、修复的 YouTube 部分和 Tailwind CDN
-    const newLandingPageHTML = `<!DOCTYPE html>
+    const newLandingPageHTML = `<!DOCTYPE html>
 <html lang="en" class="min-h-full">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -18,7 +38,7 @@ export async function handleRequest(request, env) {
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 基础样式和自定义属性 */
+        /* 基础 式和自定义属性 */
         body {
             background-color: #1a1a1a;
             color: white;
@@ -27,7 +47,27 @@ export async function handleRequest(request, env) {
         [data-surface] {
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem; 
+            border-radius: 1.5rem;
+        }
+
+        [data-gradient-button] {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.4rem;
+            border-radius: 9999px;
+            background: linear-gradient(120deg, #ff4c60, #ffb347, #6a5bff);
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(255, 76, 96, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        [data-gradient-button]:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 15px 40px rgba(255, 76, 96, 0.35);
         }
     </style>
 </head> 
@@ -53,7 +93,7 @@ export async function handleRequest(request, env) {
             </nav> 
         </div> 
     </header> 
-    <main class="flex-1">  
+    <main class="flex-1">  
         <section class="relative overflow-hidden border-b border-white/5 bg-gradient-to-b from-black/60 via-black/30 to-black/20"> 
             <div class="absolute inset-0 -z-10 opacity-30"> 
                 <div class="absolute -left-24 top-10 h-72 w-72 rounded-full bg-gradient-to-br from-[#ff4c60]/70 to-[#6a5bff]/60 blur-[120px]"></div> 
@@ -67,12 +107,15 @@ export async function handleRequest(request, env) {
                         Cinematic FPV routes, fearless dives, and the crew behind the sticks. Every clip is framed to keep the skyline breathing,
                         and every mission is a story we tell with propellers instead of pens.
                     </p> 
-                    <div class="flex flex-wrap gap-3 text-sm text-white/70"> 
-                        <span class="rounded-full border border-white/20 px-3 py-1">FPV · Cinewhoop · Long range</span> 
-                        <span class="rounded-full border border-white/20 px-3 py-1">Taipei City · Mountains · Coast</span> 
-                        <span class="rounded-full border border-white/20 px-3 py-1">Danieltheflukr Personal Brand</span> 
-                    </div> 
-                </div> 
+                    <div class="flex flex-wrap gap-3 text-sm text-white/70">
+                        <span class="rounded-full border border-white/20 px-3 py-1">FPV · Cinewhoop · Long range</span>
+                        <span class="rounded-full border border-white/20 px-3 py-1">Taipei City · Mountains · Coast</span>
+                        <span class="rounded-full border border-white/20 px-3 py-1">Danieltheflukr Personal Brand</span>
+                    </div>
+                    ${frontendLink ? `<div class="pt-4">
+                        <a data-gradient-button href="${frontendLink}">Open the live frontend</a>
+                    </div>` : ''}
+                </div>
                 <div class="lg:w-5/12"> 
                     <div data-surface="" class="relative overflow-hidden"> 
                         <img src="https://drone.danieltheflukr.com/PTSC_0215.JPG" alt="Danieltheflukr preparing FPV drone in Taipei" class="h-full w-full object-cover transition duration-500 hover:scale-105" loading="lazy"> 
@@ -236,7 +279,7 @@ export async function handleRequest(request, env) {
                     </a> 
                 </div> 
             </div> 
-        </section>  
+        </section>  
     </main> 
     <footer class="border-t border-white/10 bg-black/40 py-10 text-sm text-slate-300"> 
         <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 lg:flex-row lg:items-center lg:justify-between"> 
@@ -260,12 +303,12 @@ export async function handleRequest(request, env) {
 </body>
 </html>`;
 
-    return htmlResponse(newLandingPageHTML);
-  }
+    return htmlResponse(newLandingPageHTML);
+  }
 
-  if (request.method === 'GET' && url.pathname === '/health') {
-    return jsonResponse({ status: 'ok' });
-  }
+  if (request.method === 'GET' && url.pathname === '/health') {
+    return jsonResponse({ status: 'ok' });
+  }
 
-  return notFoundResponse();
+  return notFoundResponse();
 }
