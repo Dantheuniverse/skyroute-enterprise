@@ -33,7 +33,7 @@ export async function handleRequest(request, env) {
               <p>Any other routes will return a JSON 404 to keep API responses predictable.</p>
             </body>
           </html>`);
-        catch (e) {
+      } catch (e) {
         console.error('Invalid frontend URL for redirect: ' + frontendUrl, e);
       }
       }
