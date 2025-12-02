@@ -1,12 +1,15 @@
 {
   "name": "skyroute-ui",
   "scripts": {
-    "prebuild": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "prebuild": "rimraf dist",
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "rm -rf dist && astro build",
     "preview": "astro preview"
   },
   "dependencies": {
     "astro": "4.11.0"
+  },
+  "devDependencies": {
+    "rimraf": "^6.1.2"
   }
 }
