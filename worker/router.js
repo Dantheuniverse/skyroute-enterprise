@@ -2,7 +2,6 @@ import { htmlResponse, jsonResponse, notFoundResponse } from './utils/responses.
 
 export async function handleRequest(request, env) {
   const url = new URL(request.url);
-  const frontendUrl = env?.FRONTEND_URL || env?.PAGES_URL;
 
   if (request.method === 'GET' && url.pathname === '/') {
     const environment = env?.ENVIRONMENT || 'production';
