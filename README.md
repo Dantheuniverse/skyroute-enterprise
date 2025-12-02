@@ -50,6 +50,8 @@ If you prefer to work inside the `astro/` directory:
    ```bash
    cd astro
    npm install
+## Deployment
+GitHub Actions in `.github/workflows/pages.yml` builds the Astro site and deploys it to GitHub Pages on pushes to `main`.
    ```
 2. Start the development server:
    ```bash
