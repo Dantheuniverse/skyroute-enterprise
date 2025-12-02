@@ -2,11 +2,12 @@
   "name": "skyroute-enterprise-worker",
   "version": "1.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "wrangler dev --config ../wrangler.toml",
-    "deploy": "wrangler deploy --config ../wrangler.toml"
-  },
+  "private": true,
   "devDependencies": {
-    "wrangler": "^3.81.0"
+    "wrangler": "^3.56.0"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
   }
 }
