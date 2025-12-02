@@ -1,13 +1,26 @@
 import { htmlResponse, jsonResponse, notFoundResponse } from './utils/responses.js';
 
 export async function handleRequest(request, env) {
-  const url = new URL(request.url);
+  const url = new URL(request.url);
 
-  if (request.method === 'GET' && url.pathname === '/') {
-    const environment = env?.ENVIRONMENT || 'production';
-    
+  if (request.method === 'GET' && url.pathname === '/') {
+    const environment = env?.ENVIRONMENT || 'production';
+    const frontendUrl = env?.FRONTEND_URL || env?.PAGES_URL;
+
+    if (frontendUrl) {
+      try {
+        const destination = new URL(frontendUrl);
+
+        if (destination.hostname !== url.hostname) {
+          return Response.redirect(destination.toString(), 302);
+        }
+      } catch {
+        // Ignore invalid frontend URLs and fall through to landing page
+      }
+    }
+    
     // 完整的 HTML 内容，包含同步图片链接、修复的 YouTube 部分和 Tailwind CDN
-    const newLandingPageHTML = `<!DOCTYPE html>
+    const newLandingPageHTML = `<!DOCTYPE html>
 <html lang="en" class="min-h-full">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -18,7 +31,7 @@ export async function handleRequest(request, env) {
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 基础样式和自定义属性 */
+        /* 基础 式和自定义属性 */
         body {
             background-color: #1a1a1a;
             color: white;
@@ -53,7 +66,7 @@ export async function handleRequest(request, env) {
             </nav> 
         </div> 
     </header> 
-    <main class="flex-1">  
+    <main class="flex-1">  
         <section class="relative overflow-hidden border-b border-white/5 bg-gradient-to-b from-black/60 via-black/30 to-black/20"> 
             <div class="absolute inset-0 -z-10 opacity-30"> 
                 <div class="absolute -left-24 top-10 h-72 w-72 rounded-full bg-gradient-to-br from-[#ff4c60]/70 to-[#6a5bff]/60 blur-[120px]"></div> 
@@ -236,7 +249,7 @@ export async function handleRequest(request, env) {
                     </a> 
                 </div> 
             </div> 
-        </section>  
+        </section>  
     </main> 
     <footer class="border-t border-white/10 bg-black/40 py-10 text-sm text-slate-300"> 
         <div class="mx-auto flex max-w-6xl flex-col gap-6 px-6 lg:flex-row lg:items-center lg:justify-between"> 
@@ -260,12 +273,12 @@ export async function handleRequest(request, env) {
 </body>
 </html>`;
 
-    return htmlResponse(newLandingPageHTML);
-  }
+    return htmlResponse(newLandingPageHTML);
+  }
 
-  if (request.method === 'GET' && url.pathname === '/health') {
-    return jsonResponse({ status: 'ok' });
-  }
+  if (request.method === 'GET' && url.pathname === '/health') {
+    return jsonResponse({ status: 'ok' });
+  }
 
-  return notFoundResponse();
+  return notFoundResponse();
 }
