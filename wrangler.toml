@@ -6,13 +6,10 @@ compatibility_date = "2024-01-01"
 FRONTEND_URL = "https://pilot.mingleedan.org"
 
 [build]
-command = "npm run build"
+command = "npm install"
 
 [build.upload]
 format = "modules"
-
-[assets]
-directory = "./astro/dist"
 
 [observability]
 [observability.logs]
