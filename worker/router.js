@@ -40,7 +40,27 @@ export async function handleRequest(request, env) {
         [data-surface] {
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1.5rem; 
+            border-radius: 1.5rem;
+        }
+
+        [data-gradient-button] {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.4rem;
+            border-radius: 9999px;
+            background: linear-gradient(120deg, #ff4c60, #ffb347, #6a5bff);
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(255, 76, 96, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        [data-gradient-button]:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 15px 40px rgba(255, 76, 96, 0.35);
         }
     </style>
 </head> 
@@ -80,12 +100,15 @@ export async function handleRequest(request, env) {
                         Cinematic FPV routes, fearless dives, and the crew behind the sticks. Every clip is framed to keep the skyline breathing,
                         and every mission is a story we tell with propellers instead of pens.
                     </p> 
-                    <div class="flex flex-wrap gap-3 text-sm text-white/70"> 
-                        <span class="rounded-full border border-white/20 px-3 py-1">FPV · Cinewhoop · Long range</span> 
-                        <span class="rounded-full border border-white/20 px-3 py-1">Taipei City · Mountains · Coast</span> 
-                        <span class="rounded-full border border-white/20 px-3 py-1">Danieltheflukr Personal Brand</span> 
-                    </div> 
-                </div> 
+                    <div class="flex flex-wrap gap-3 text-sm text-white/70">
+                        <span class="rounded-full border border-white/20 px-3 py-1">FPV · Cinewhoop · Long range</span>
+                        <span class="rounded-full border border-white/20 px-3 py-1">Taipei City · Mountains · Coast</span>
+                        <span class="rounded-full border border-white/20 px-3 py-1">Danieltheflukr Personal Brand</span>
+                    </div>
+                    ${frontendLink ? `<div class="pt-4">
+                        <a data-gradient-button href="${frontendLink}">Open the live frontend</a>
+                    </div>` : ''}
+                </div>
                 <div class="lg:w-5/12"> 
                     <div data-surface="" class="relative overflow-hidden"> 
                         <img src="https://drone.danieltheflukr.com/PTSC_0215.JPG" alt="Danieltheflukr preparing FPV drone in Taipei" class="h-full w-full object-cover transition duration-500 hover:scale-105" loading="lazy"> 
