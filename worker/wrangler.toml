@@ -1,0 +1,10 @@
+name = "skyroute-enterprise-worker"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# 後續你會加上需要的綁定，例如：
+# kv_namespaces = [{ binding = "TOKENS", id = "xxxx" }]
+# d1_databases = [{ binding = "SKYDB", database_name = "skydb", database_id = "xxxx" }]
+
+[observability]
+enabled = true

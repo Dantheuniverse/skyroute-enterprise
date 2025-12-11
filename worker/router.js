@@ -3,29 +3,17 @@ import { htmlResponse, jsonResponse, notFoundResponse } from './utils/responses.
 export async function handleRequest(request, env) {
   const url = new URL(request.url);
 
-  if (request.method === 'GET' && url.pathname === '/health') {
-    return jsonResponse({ status: 'ok' });
-  }
-
-  if (request.method === 'GET' && env?.ASSETS) {
-    const assetResponse = await env.ASSETS.fetch(request);
-    if (assetResponse.ok) {
-      return assetResponse;
-    }
-  }
-
   if (request.method === 'GET' && url.pathname === '/') {
-
     const environment = env?.ENVIRONMENT || 'production';
-    const rawFrontendUrl = env?.FRONTEND_URL || env?.PAGES_URL;
+    const frontendUrl = env?.FRONTEND_URL || env?.PAGES_URL;
 
-    let frontendLink = null;
-
-    if (rawFrontendUrl) {
+    if (frontendUrl) {
       try {
-        // Normalize against the incoming request URL to allow relative values
-        const destination = new URL(rawFrontendUrl, url);
-        frontendLink = destination.toString();
+        const destination = new URL(frontendUrl);
+
+        if (destination.hostname !== url.hostname) {
+          return Response.redirect(destination.toString(), 302);
+        }
       } catch {
         // Ignore invalid frontend URLs and fall through to landing page
       }
@@ -309,6 +297,10 @@ export async function handleRequest(request, env) {
 </html>`;
 
     return htmlResponse(newLandingPageHTML);
+  }
+
+  if (request.method === 'GET' && url.pathname === '/health') {
+    return jsonResponse({ status: 'ok' });
   }
 
   return notFoundResponse();
