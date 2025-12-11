@@ -7,7 +7,7 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "4.11.0"
+    "astro": "^4.16.19"
   },
   "devDependencies": {
     "rimraf": "^6.1.2"
