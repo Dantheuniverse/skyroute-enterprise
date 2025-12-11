@@ -4,23 +4,16 @@ export async function handleRequest(request, env) {
   const url = new URL(request.url);
 
   if (request.method === 'GET' && url.pathname === '/') {
-    if (env?.ASSETS) {
-      const assetResponse = await env.ASSETS.fetch(request);
-      if (assetResponse.ok) {
-        return assetResponse;
-      }
-    }
-
     const environment = env?.ENVIRONMENT || 'production';
-    const rawFrontendUrl = env?.FRONTEND_URL || env?.PAGES_URL;
+    const frontendUrl = env?.FRONTEND_URL || env?.PAGES_URL;
 
-    let frontendLink = null;
-
-    if (rawFrontendUrl) {
+    if (frontendUrl) {
       try {
-        // Normalize against the incoming request URL to allow relative values
-        const destination = new URL(rawFrontendUrl, url);
-        frontendLink = destination.toString();
+        const destination = new URL(frontendUrl);
+
+        if (destination.hostname !== url.hostname) {
+          return Response.redirect(destination.toString(), 302);
+        }
       } catch {
         // Ignore invalid frontend URLs and fall through to landing page
       }
